@@ -26,11 +26,13 @@
   </div>
 
   {#if scores}
-    <ul class="parts">
-      {#each scores.parts as part (part.name)}
-        <li><span>{part.name}</span> <b class="mono">{part.score.toFixed(1)}</b></li>
-      {/each}
-    </ul>
+    {#if scores.parts.length > 1}
+      <ul class="parts">
+        {#each scores.parts as part (part.name)}
+          <li><span>{part.name}</span> <b class="mono">{part.score.toFixed(1)}</b></li>
+        {/each}
+      </ul>
+    {/if}
   {:else}
     <p class="left">
       Pick a value for {left.length === 1

@@ -69,11 +69,12 @@
   .options {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    gap: var(--hairline);
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
+    border-top: var(--hairline) solid var(--line);
+    border-left: var(--hairline) solid var(--line);
 
     & .cell {
+      border-right: var(--hairline) solid var(--line);
+      border-bottom: var(--hairline) solid var(--line);
       display: grid;
       gap: 2px;
       padding: var(--space-2) var(--space-3);

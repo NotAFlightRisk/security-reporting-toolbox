@@ -20,7 +20,7 @@
 
 <fieldset class="picker">
   <legend class="label">{label}</legend>
-  <div class="cells">
+  <div class="segments">
     {#each options as option (option.id)}
       <label class="cell" class:on={value === option.id}>
         <input
@@ -50,14 +50,6 @@
     border: 0;
   }
 
-  .cells {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(7.5rem, 1fr));
-    gap: var(--hairline);
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
-  }
-
   .cell {
     display: flex;
     align-items: center;
@@ -69,6 +61,8 @@
     }
 
     &.on {
+      position: relative;
+      border-color: var(--accent);
       background: var(--accent);
       color: var(--accent-text);
       font-weight: 600;

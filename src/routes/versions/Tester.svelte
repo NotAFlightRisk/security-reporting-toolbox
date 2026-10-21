@@ -83,11 +83,11 @@
     justify-content: space-between;
     gap: var(--space-2);
     padding: var(--space-1) var(--space-2);
-    border-left: 3px solid var(--line-strong);
+    border: var(--hairline) solid var(--line);
     background: var(--surface-sunk);
 
     &.affected {
-      border-left-color: var(--bad);
+      border-color: var(--bad);
       background: var(--bad-soft);
     }
 

@@ -9,7 +9,7 @@
   import { cveIds } from '#lib/ids.ts';
   import type { Outcome } from '#lib/net/fetch.ts';
   import { param, setParams } from '#lib/query.svelte.ts';
-  import { filterKev, loadKev, type KevCatalogue } from '#lib/sources/kev.ts';
+  import { crossCheck, filterKev, loadKev, type KevCatalogue } from '#lib/sources/kev.ts';
   import { lookupNvd, type NvdCve } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
   import Entry from './Entry.svelte';
@@ -96,7 +96,7 @@
           {#if entry}
             <Entry {entry} />
           {:else}
-            {@const cross = nvd[cve]}
+            {@const cross = nvd[cve] && crossCheck(nvd[cve])}
             <article class="absent panel">
               <p>
                 <span class="verdict">Not in KEV</span>
@@ -109,14 +109,19 @@
                 </p>
               {:else if !cross}
                 <p class="dim">Double-checking with NVD for anything added since...</p>
-              {:else if cross.status === 'ok' && cross.data.kev}
+              {:else if cross.kind === 'listed'}
                 <p class="newer">
-                  But NVD says CISA added it on {formatDate(cross.data.kev.added)}, due
-                  {formatDate(cross.data.kev.due)}. That's newer than this copy of the catalogue, so
+                  But NVD says CISA added it on {formatDate(cross.kev.added)}, due
+                  {formatDate(cross.kev.due)}. That's newer than this copy of the catalogue, so
                   treat it as in KEV.
                 </p>
-              {:else if cross.status === 'ok' || cross.status === 'missing'}
+              {:else if cross.kind === 'agrees'}
                 <p class="dim">NVD agrees, it has no KEV date for it either.</p>
+              {:else if cross.kind === 'unknown'}
+                <p class="dim">
+                  NVD has no record of this CVE, so it couldn't confirm either way. If it's brand
+                  new, check back in a day.
+                </p>
               {:else}
                 <p class="dim">Couldn't double-check with NVD: it {cross.message}.</p>
               {/if}
@@ -128,34 +133,37 @@
     {:else}
       <Toolbar label="Filter the catalogue">
         <ToolGroup caption="Ransomware">
-          <button
-            type="button"
-            class="cell"
-            aria-pressed={ransomware}
-            onclick={() => filter({ ransomware: ransomware ? null : '1' })}
-          >
-            Known use only
-          </button>
-        </ToolGroup>
-        <ToolGroup caption="Added in the last">
-          {#each windows as window (window)}
+          <div class="segments">
             <button
               type="button"
               class="cell"
-              aria-pressed={days === window}
-              onclick={() => filter({ days: window ? String(window) : null })}
+              aria-pressed={ransomware}
+              onclick={() => filter({ ransomware: ransomware ? null : '1' })}
             >
-              {window ? `${window} days` : 'Any time'}
+              Known use only
             </button>
-          {/each}
+          </div>
         </ToolGroup>
-        <ToolGroup caption="Showing" grow>
-          <span class="tally" role="status">
-            {plural(matches.length, 'entry', 'entries')}{text ? ` matching "${text}"` : ''}, newest
-            first
-          </span>
+        <ToolGroup caption="Added in the last">
+          <div class="segments">
+            {#each windows as window (window)}
+              <button
+                type="button"
+                class="cell"
+                aria-pressed={days === window}
+                onclick={() => filter({ days: window ? String(window) : null })}
+              >
+                {window ? `${window} days` : 'Any time'}
+              </button>
+            {/each}
+          </div>
         </ToolGroup>
       </Toolbar>
+
+      <p class="tally" role="status">
+        {plural(matches.length, 'entry', 'entries')}{text ? ` matching "${text}"` : ''}, newest
+        first
+      </p>
 
       {#if shown.length}
         <div class="scroll">
@@ -271,7 +279,8 @@
     display: grid;
     gap: var(--space-1);
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid var(--good);
+    border: var(--hairline) solid var(--good);
+    background: var(--good-soft);
   }
 
   .verdict {
@@ -296,6 +305,7 @@
   }
 
   .tally {
+    color: var(--text-muted);
     font-size: var(--text-sm);
   }
 

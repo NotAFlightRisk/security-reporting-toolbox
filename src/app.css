@@ -53,6 +53,10 @@
   --page-width: 78rem;
   --measure: 68ch;
   --pad: clamp(1rem, 3vw, 2rem);
+
+  accent-color: var(--accent);
+  caret-color: var(--accent);
+  scrollbar-color: var(--line-strong) transparent;
 }
 
 :root[data-theme='light'] {
@@ -256,11 +260,32 @@ textarea {
   }
 
   &.hit {
-    box-shadow: inset 3px 0 0 var(--accent);
+    background: var(--accent-soft);
+    font-weight: 650;
   }
 
   &.dim {
     color: var(--text-faint);
+  }
+}
+
+/* joined toggle cells for toolbars, ruled by overlapping borders so wrapping never leaves a slab */
+.segments {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 var(--hairline) var(--hairline) 0;
+
+  & .cell {
+    width: auto;
+    margin: 0 calc(var(--hairline) * -1) calc(var(--hairline) * -1) 0;
+    border: var(--hairline) solid var(--line);
+    box-shadow: none;
+    white-space: nowrap;
+
+    &[aria-pressed='true'] {
+      position: relative;
+      border-color: var(--accent);
+    }
   }
 }
 

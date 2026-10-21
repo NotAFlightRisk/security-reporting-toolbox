@@ -90,7 +90,6 @@
       min-width: 0;
       min-height: 2.25rem;
       font-size: var(--text-base);
-      border-left-width: 3px;
     }
 
     & .button {

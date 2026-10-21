@@ -90,7 +90,7 @@
   <ol>
     {#each steps as step (step.tool)}
       {@const entry = tools.find((candidate) => candidate.path === step.tool)!}
-      <li><a href={entry.path}>{entry.title}</a> {step.text}</li>
+      <li><a href={entry.path}>{entry.title}</a> - {step.text}</li>
     {/each}
   </ol>
   <p>

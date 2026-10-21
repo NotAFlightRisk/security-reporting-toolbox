@@ -50,6 +50,7 @@
 <style>
   .scores {
     --column: 13rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column)), 1fr));
   }
 
   .score {

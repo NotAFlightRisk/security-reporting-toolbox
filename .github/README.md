@@ -25,7 +25,7 @@ Writing up a vulnerability means a dozen small side quests - which CWE, what's t
 | [CWE explorer](https://security-reporting-toolbox.peng.ly/cwe)          | Find the right weakness, with MITRE's mapping guidance, plus Top 25 and OWASP views     | MITRE CWE                 |
 | [CVE lookup](https://security-reporting-toolbox.peng.ly/cve)            | CVEs and GHSAs side by side from every source, with aliases cross-referenced            | CVE.org, NVD, GitHub, OSV |
 | [CVSS calculator](https://security-reporting-toolbox.peng.ly/cvss)      | Score 3.1 and 4.0, decode and check vectors, rough conversion between them              | FIRST                     |
-| [EPSS lookup](https://security-reporting-toolbox.peng.ly/epss)          | Exploit probability and percentile for up to hundreds of CVEs, with history             | FIRST EPSS                |
+| [EPSS lookup](https://security-reporting-toolbox.peng.ly/epss)          | Exploit probability and percentile for a whole list of CVEs, with history               | FIRST EPSS                |
 | [KEV checker](https://security-reporting-toolbox.peng.ly/kev)           | Is it known exploited? Plus search and filter the whole catalogue                       | CISA KEV                  |
 | [Versions builder](https://security-reporting-toolbox.peng.ly/versions) | Affected and patched version fields for GitHub advisories, tested against real releases | deps.dev, registries      |
 | [Package lookup](https://security-reporting-toolbox.peng.ly/package)    | Find a package across ecosystems, check its name, get versions and its PURL             | deps.dev, registries      |

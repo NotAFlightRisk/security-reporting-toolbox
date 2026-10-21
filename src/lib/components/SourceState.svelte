@@ -19,10 +19,16 @@
 {#if !outcome}
   <p class="state loading" role="status">Asking {source}...</p>
 {:else if outcome.status === 'missing'}
-  <p class="state missing" role="status">{source} {missing}.</p>
+  <p class="state missing" role="status">
+    <span><b class="tag">No record</b> {source} {missing}.</span>
+  </p>
 {:else if outcome.status === 'failed'}
   <p class="state failed" role="alert">
-    <span>{source} {outcome.message}. This says nothing about whether the record exists.</span>
+    <span>
+      <b class="tag">Unavailable</b>
+      {source}
+      {outcome.message}. This says nothing about whether the record exists.
+    </span>
     {#if retry}<button type="button" class="button" onclick={retry}>Try again</button>{/if}
   </p>
 {/if}
@@ -36,7 +42,6 @@
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
     border: var(--hairline) solid var(--line);
-    border-left-width: 3px;
     background: var(--surface);
     font-size: var(--text-sm);
   }
@@ -46,11 +51,29 @@
   }
 
   .missing {
-    border-left-color: var(--line-strong);
+    border-color: var(--line-strong);
   }
 
   .failed {
-    border-left-color: var(--warn);
+    border-color: var(--warn);
     background: var(--warn-soft);
+
+    & .tag {
+      border-color: var(--warn);
+      color: var(--warn);
+    }
+  }
+
+  /* the state in words, so it never rests on the border colour */
+  .tag {
+    margin-right: var(--space-1);
+    padding: 0 var(--space-1);
+    border: var(--hairline) solid var(--line-strong);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
   }
 </style>

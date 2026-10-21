@@ -1,6 +1,7 @@
-import { describe, expect, it } from 'vitest';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { ecosystem } from '#lib/ecosystems.ts';
 import {
+  details,
   fromDepsDev,
   fromHex,
   fromPub,
@@ -63,5 +64,38 @@ describe('repo links', () => {
     [undefined, undefined]
   ])('%s', (input, expected) => {
     expect(repoUrl(input)).toBe(expected);
+  });
+});
+
+describe('the latest-version details from deps.dev', () => {
+  const npm = ecosystem('npm')!;
+  const base = (name: string) => ({
+    ...fromDepsDev(npm, { packageKey: { name }, versions: [] }),
+    latest: '1.0.0'
+  });
+  const answer = (status: number, body: unknown = {}) =>
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response(JSON.stringify(body), { status }))
+    );
+
+  afterEach(() => vi.unstubAllGlobals());
+
+  it.each([
+    [429, 'rate limiting'],
+    [500, 'answered 500']
+  ])('says the licence and links are unknown when it answers %i', async (status, hint) => {
+    answer(status);
+    const { info, gap } = await details(npm, base(`failing-${status}`));
+    expect(gap).toContain(hint);
+    expect(gap).toContain('unknown');
+    expect(info.licenses).toBeUndefined();
+  });
+
+  it('keeps "declares none" apart from "unknown"', async () => {
+    answer(200, { licenses: [], links: [] });
+    const { info, gap } = await details(npm, base('no-licence'));
+    expect(gap).toBeUndefined();
+    expect(info.licenses).toEqual([]);
   });
 });

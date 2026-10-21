@@ -1,4 +1,5 @@
 // best guess for the rest, using GitHub's rule that letters after numbers mean pre-release
+import { compareNumbers } from '#lib/versions/order.ts';
 
 const stages: Record<string, number> = {
   dev: 0,
@@ -31,7 +32,7 @@ export function compareGeneric(a: string, b: string) {
     const [l, r] = [left[index], right[index]];
     if (l === r) continue;
     const [lNumber, rNumber] = [/^\d/.test(l ?? '0'), /^\d/.test(r ?? '0')];
-    if (lNumber && rNumber) return Math.sign(Number(l ?? 0) - Number(r ?? 0));
+    if (lNumber && rNumber) return compareNumbers(l ?? 0, r ?? 0);
     const diff = stage(l) - stage(r);
     if (diff) return Math.sign(diff);
     return (l ?? '') < (r ?? '') ? -1 : 1;

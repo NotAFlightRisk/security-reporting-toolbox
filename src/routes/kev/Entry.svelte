@@ -65,7 +65,7 @@
     display: grid;
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid var(--bad);
+    border: var(--hairline) solid var(--bad);
 
     & header {
       display: flex;

@@ -135,3 +135,16 @@ describe('version syntax per scheme', () => {
     expect(schemes[scheme].clean(input)).toBe(expected);
   });
 });
+
+describe('numbers past 2^53 still order exactly', () => {
+  it.each([
+    ['maven', '1.9007199254740992', '1.9007199254740993'],
+    ['rubygems', '1.9007199254740992', '1.9007199254740993'],
+    ['nuget', '1.0.0-9007199254740992', '1.0.0-9007199254740993'],
+    ['semver', '1.0.0-9007199254740992', '1.0.0-9007199254740993'],
+    ['generic', '1.9007199254740992', '1.9007199254740993']
+  ] as [SchemeId, string, string][])('%s: %s < %s', (scheme, a, b) => {
+    expect(sign(scheme, a, b)).toBe(-1);
+    expect(sign(scheme, b, a)).toBe(1);
+  });
+});

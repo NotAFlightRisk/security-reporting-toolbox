@@ -3,6 +3,7 @@ import semver from 'semver';
 import { compareGeneric, validGeneric } from '#lib/versions/generic.ts';
 import { compareMaven } from '#lib/versions/maven.ts';
 import { compareNuget, validNuget } from '#lib/versions/nuget.ts';
+import { comparePrerelease } from '#lib/versions/order.ts';
 import { compareGem, validGem } from '#lib/versions/rubygems.ts';
 
 export type SchemeId = 'semver' | 'go' | 'pep440' | 'maven' | 'rubygems' | 'nuget' | 'generic';
@@ -21,12 +22,19 @@ export interface Scheme {
 
 const stripV = (version: string) => version.trim().replace(/^v(?=\d)/i, '');
 
+// semver's own compare turns long numeric pre-release parts into floats, so those are ours
+function compareSemver(a: string, b: string) {
+  const [left, right] = [semver.parse(stripV(a))!, semver.parse(stripV(b))!];
+  const parts = (version: semver.SemVer) => version.prerelease.map(String);
+  return left.compareMain(right) || comparePrerelease(parts(left), parts(right));
+}
+
 const semverScheme: Scheme = {
   id: 'semver',
   name: 'SemVer 2.0',
   exact: true,
   clean: (version) => (semver.valid(stripV(version)) ? stripV(version) : null),
-  compare: (a, b) => semver.compare(stripV(a), stripV(b)),
+  compare: compareSemver,
   example: '1.4.2 or 2.0.0-rc.1'
 };
 

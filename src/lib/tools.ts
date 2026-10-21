@@ -60,7 +60,7 @@ export const tools: Tool[] = [
     lede: "Check how likely a CVE is to be exploited in the next 30 days, according to FIRST's daily EPSS model.",
     can: [
       'Probability and percentile',
-      'Up to 100 CVEs at once',
+      'A whole list at once',
       '30-day history',
       'How to read the numbers'
     ]
