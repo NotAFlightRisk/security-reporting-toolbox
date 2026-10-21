@@ -1,0 +1,37 @@
+name: 📚 CWE
+
+on:
+  schedule:
+    - cron: '17 6 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: 📚 Newer CWE release?
+    if: github.repository_owner == 'NotAFlightRisk'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - name: Compare with MITRE
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ours=$(jq -r .version src/lib/data/cwe.json)
+          curl -fsSL -o cwe.zip https://cwe.mitre.org/data/xml/cwec_latest.xml.zip
+          latest=$(unzip -Z1 cwe.zip | sed -n 's/^cwec_v\(.*\)\.xml$/\1/p')
+          [ -n "$latest" ] || { echo "❌ Couldn't read MITRE's version" >> "$GITHUB_STEP_SUMMARY"; exit 1; }
+          echo "Bundled $ours, MITRE has $latest" >> "$GITHUB_STEP_SUMMARY"
+          [ "$latest" = "$ours" ] && exit 0
+          title="CWE $latest is out"
+          if [ -z "$(gh issue list --state open --search "\"$title\" in:title" --json number --jq '.[].number')" ]; then
+            gh issue create --title "$title" --label dependencies \
+              --body "MITRE has published CWE $latest and we bundle $ours. Run \`npm run data:cwe\` and open a PR with the new \`src/lib/data/cwe.json\`."
+          fi

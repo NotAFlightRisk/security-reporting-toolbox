@@ -1,0 +1,31 @@
+{
+  "name": "http",
+  "latest": {
+    "version": "1.6.0",
+    "pubspec": {
+      "name": "http",
+      "version": "1.6.0",
+      "description": "A composable, multi-platform, Future-based API for HTTP requests.",
+      "repository": "https://github.com/dart-lang/http/tree/master/pkgs/http"
+    },
+    "published": "2025-11-10T18:27:56.434747Z"
+  },
+  "versions": [
+    {
+      "version": "1.5.0-beta",
+      "published": "2025-07-08T17:55:50.858454Z"
+    },
+    {
+      "version": "1.5.0-beta.2",
+      "published": "2025-07-15T23:37:56.942822Z"
+    },
+    {
+      "version": "1.5.0",
+      "published": "2025-08-07T22:35:23.863279Z"
+    },
+    {
+      "version": "1.6.0",
+      "published": "2025-11-10T18:27:56.434747Z"
+    }
+  ]
+}

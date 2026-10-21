@@ -1,0 +1,265 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Weakness_Catalog xmlns="http://cwe.mitre.org/cwe-7" xmlns:html="http://www.w3.org/1999/xhtml" Name="CWE" Version="4.20" Date="2026-04-30">
+  <Weaknesses>
+    <Weakness ID="1187" Name="DEPRECATED: Use of Uninitialized Resource" Abstraction="Base" Structure="Simple" Status="Deprecated">
+      <Description>This entry has been deprecated because it was a duplicate of CWE-908. All content has been transferred to CWE-908.</Description>
+      <Mapping_Notes>
+        <Usage>Prohibited</Usage>
+        <Rationale>This CWE has been deprecated.</Rationale>
+        <Comments>See description and name for possible suggestions of other CWEs to consider.</Comments>
+        <Reasons>
+          <Reason Type="Deprecated" />
+        </Reasons>
+      </Mapping_Notes>
+    </Weakness>
+    <Weakness ID="707" Name="Improper Neutralization" Abstraction="Pillar" Structure="Simple" Status="Incomplete">
+      <Description>The product does not ensure or incorrectly ensures that structured messages or data are well-formed and that certain security properties are met before being read from an upstream component or sent to a downstream component.</Description>
+      <Extended_Description>
+        <html:p>If a message is malformed, it may cause the message to be incorrectly interpreted.</html:p>
+        <html:p>Neutralization is an abstract term for any technique that ensures that input (and output) conforms with expectations and is "safe."  This can be done by:</html:p>
+        <html:ul>
+          <html:li>checking that the input/output is already "safe" (e.g. validation)</html:li>
+          <html:li>transformation of the input/output to be "safe" using techniques such as filtering, encoding/decoding, escaping/unescaping, quoting/unquoting, or canonicalization</html:li>
+          <html:li>preventing the input/output from being directly provided by an attacker (e.g. "indirect selection" that maps externally-provided values to internally-controlled values)</html:li>
+          <html:li>preventing the input/output from being processed at all</html:li>
+        </html:ul>
+        <html:p>This weakness typically applies in cases where the product prepares a control message that another process must act on, such as a command or query, and malicious input that was intended as data, can enter the control plane instead. However, this weakness also applies to more general cases where there are not always control implications.</html:p>
+      </Extended_Description>
+      <Applicable_Platforms>
+        <Language Class="Not Language-Specific" Prevalence="Undetermined" />
+        <Operating_System Class="Not OS-Specific" Prevalence="Undetermined" />
+        <Architecture Class="Not Architecture-Specific" Prevalence="Undetermined" />
+        <Technology Class="Not Technology-Specific" Prevalence="Undetermined" />
+      </Applicable_Platforms>
+      <Modes_Of_Introduction>
+        <Introduction>
+          <Phase>Implementation</Phase>
+          <Note>REALIZATION: This weakness is caused during implementation of an architectural security tactic.</Note>
+        </Introduction>
+      </Modes_Of_Introduction>
+      <Common_Consequences>
+        <Consequence>
+          <Scope>Other</Scope>
+          <Impact>Other</Impact>
+        </Consequence>
+      </Common_Consequences>
+      <Mapping_Notes>
+        <Usage>Discouraged</Usage>
+        <Rationale>This CWE entry is extremely high-level, a Pillar.</Rationale>
+        <Comments>Consider children or descendants of this entry instead.</Comments>
+        <Reasons>
+          <Reason Type="Abstraction" />
+        </Reasons>
+      </Mapping_Notes>
+    </Weakness>
+    <Weakness ID="74" Name="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" Abstraction="Class" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-74-Diagram.png">
+      <Description>The product constructs all or part of a command, data structure, or record using externally-influenced input from an upstream component, but it does not neutralize or incorrectly neutralizes special elements that could modify how it is parsed or interpreted when it is sent to a downstream component.</Description>
+      <Related_Weaknesses>
+        <Related_Weakness Nature="ChildOf" CWE_ID="707" View_ID="1000" Ordinal="Primary" />
+      </Related_Weaknesses>
+      <Applicable_Platforms>
+        <Language Class="Not Language-Specific" Prevalence="Undetermined" />
+      </Applicable_Platforms>
+      <Modes_Of_Introduction>
+        <Introduction>
+          <Phase>Implementation</Phase>
+          <Note>REALIZATION: This weakness is caused during implementation of an architectural security tactic.</Note>
+        </Introduction>
+      </Modes_Of_Introduction>
+      <Likelihood_Of_Exploit>High</Likelihood_Of_Exploit>
+      <Common_Consequences>
+        <Consequence>
+          <Scope>Confidentiality</Scope>
+          <Impact>Read Application Data</Impact>
+          <Note>Many injection attacks involve the disclosure of important information -- in terms of both data sensitivity and usefulness in further exploitation.</Note>
+        </Consequence>
+      </Common_Consequences>
+      <Potential_Mitigations>
+        <Mitigation>
+          <Phase>Requirements</Phase>
+          <Description>Programming languages and supporting technologies might be chosen which are not subject to these issues.</Description>
+        </Mitigation>
+      </Potential_Mitigations>
+      <Observed_Examples>
+        <Observed_Example>
+          <Reference>CVE-2024-5184</Reference>
+          <Description>API service using a large generative AI model allows direct prompt injection to leak hard-coded system prompts or execute other prompts.</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2024-5184</Link>
+        </Observed_Example>
+        <Observed_Example>
+          <Reference>CVE-2022-36069</Reference>
+          <Description>Python-based dependency management tool avoids OS command injection  when generating Git commands but allows  injection of optional arguments with input beginning with a dash (CWE-88), potentially allowing for code execution.</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2022-36069</Link>
+        </Observed_Example>
+      </Observed_Examples>
+      <Mapping_Notes>
+        <Usage>Discouraged</Usage>
+        <Rationale>CWE-74 is high-level and often misused when lower-level weaknesses are more appropriate.</Rationale>
+        <Comments>Examine the children and descendants of this entry to find a more specific mapping.</Comments>
+        <Reasons>
+          <Reason Type="Frequent Misuse" />
+          <Reason Type="Abstraction" />
+        </Reasons>
+      </Mapping_Notes>
+    </Weakness>
+    <Weakness ID="79" Name="Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')" Abstraction="Base" Structure="Simple" Status="Stable" Diagram="/data/images/CWE-79-Diagram.png">
+      <Description>The product does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output that is used as a web page that is served to other users.</Description>
+      <Extended_Description>
+        <html:p>There are many variants of cross-site scripting, characterized by a variety of terms or involving different attack topologies. However, they all indicate the same fundamental weakness: improper neutralization of dangerous input between the adversary and a victim.</html:p>
+      </Extended_Description>
+      <Related_Weaknesses>
+        <Related_Weakness Nature="ChildOf" CWE_ID="74" View_ID="1000" Ordinal="Primary" />
+        <Related_Weakness Nature="ChildOf" CWE_ID="74" View_ID="1003" Ordinal="Primary" />
+        <Related_Weakness Nature="CanPrecede" CWE_ID="494" View_ID="1000" />
+        <Related_Weakness Nature="PeerOf" CWE_ID="352" View_ID="1000" />
+      </Related_Weaknesses>
+      <Applicable_Platforms>
+        <Language Class="Not Language-Specific" Prevalence="Undetermined" />
+        <Technology Name="AI/ML" Prevalence="Undetermined" />
+        <Technology Class="Web Based" Prevalence="Often" />
+        <Technology Name="Web Server" Prevalence="Undetermined" />
+      </Applicable_Platforms>
+      <Alternate_Terms>
+        <Alternate_Term>
+          <Term>XSS</Term>
+          <Description>A common abbreviation for Cross-Site Scripting.</Description>
+        </Alternate_Term>
+        <Alternate_Term>
+          <Term>HTML Injection</Term>
+          <Description>Used as a synonym of stored (Type 2) XSS.</Description>
+        </Alternate_Term>
+      </Alternate_Terms>
+      <Modes_Of_Introduction>
+        <Introduction>
+          <Phase>Implementation</Phase>
+          <Note>REALIZATION: This weakness is caused during implementation of an architectural security tactic.</Note>
+        </Introduction>
+      </Modes_Of_Introduction>
+      <Likelihood_Of_Exploit>High</Likelihood_Of_Exploit>
+      <Common_Consequences>
+        <Consequence>
+          <Scope>Access Control</Scope>
+          <Scope>Confidentiality</Scope>
+          <Impact>Bypass Protection Mechanism</Impact>
+          <Impact>Read Application Data</Impact>
+          <Note>The most common attack performed with cross-site scripting involves the disclosure of private information stored in user cookies, such as session information. Typically, a malicious user will craft a client-side script, which -- when parsed by a web browser -- performs some activity on behalf of the victim to an attacker-controlled system (such as sending all site cookies to a given E-mail address). This could be especially dangerous to the site if the victim has administrator privileges to manage that site. This script will be loaded and run by each user visiting the web site. Since the site requesting to run the script has access to the cookies in question, the malicious script does also.</Note>
+        </Consequence>
+      </Common_Consequences>
+      <Potential_Mitigations>
+        <Mitigation Mitigation_ID="MIT-4">
+          <Phase>Architecture and Design</Phase>
+          <Strategy>Libraries or Frameworks</Strategy>
+          <Description>
+            <html:p>Use a vetted library or framework that does not allow this weakness to occur or provides constructs that make this weakness easier to avoid [REF-1482].</html:p>
+            <html:p>Examples of libraries and frameworks that make it easier to generate properly encoded output include Microsoft's Anti-XSS library, the OWASP ESAPI Encoding module, and Apache Wicket.</html:p>
+          </Description>
+        </Mitigation>
+      </Potential_Mitigations>
+      <Observed_Examples>
+        <Observed_Example>
+          <Reference>CVE-2024-49038</Reference>
+          <Description>XSS in AI assistant</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2024-49038</Link>
+        </Observed_Example>
+        <Observed_Example>
+          <Reference>CVE-2024-54142</Reference>
+          <Description>Plugin that enables AI features allows input with html entities, leading to XSS</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2024-54142</Link>
+        </Observed_Example>
+      </Observed_Examples>
+      <Mapping_Notes>
+        <Usage>Allowed</Usage>
+        <Rationale>This CWE entry is at the Base level of abstraction, which is a preferred level of abstraction for mapping to the root causes of vulnerabilities.</Rationale>
+        <Comments>Carefully read both the name and description to ensure that this mapping is an appropriate fit. Do not try to 'force' a mapping to a lower-level Base/Variant simply to comply with this preferred level of abstraction.</Comments>
+        <Reasons>
+          <Reason Type="Acceptable-Use" />
+        </Reasons>
+      </Mapping_Notes>
+    </Weakness>
+    <Weakness ID="80" Name="Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)" Abstraction="Variant" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-80-Diagram.png">
+      <Description>The product receives input from an upstream component, but it does not neutralize or incorrectly neutralizes special characters such as "&lt;", "&gt;", and "&amp;" that could be interpreted as web-scripting elements when they are sent to a downstream component that processes web pages.</Description>
+      <Related_Weaknesses>
+        <Related_Weakness Nature="ChildOf" CWE_ID="79" View_ID="1000" Ordinal="Primary" />
+      </Related_Weaknesses>
+      <Applicable_Platforms>
+        <Language Class="Not Language-Specific" Prevalence="Undetermined" />
+        <Technology Class="Web Based" Prevalence="Often" />
+        <Technology Name="Web Server" Prevalence="Undetermined" />
+      </Applicable_Platforms>
+      <Modes_Of_Introduction>
+        <Introduction>
+          <Phase>Implementation</Phase>
+        </Introduction>
+      </Modes_Of_Introduction>
+      <Likelihood_Of_Exploit>High</Likelihood_Of_Exploit>
+      <Common_Consequences>
+        <Consequence>
+          <Scope>Confidentiality</Scope>
+          <Scope>Integrity</Scope>
+          <Scope>Availability</Scope>
+          <Impact>Read Application Data</Impact>
+          <Impact>Execute Unauthorized Code or Commands</Impact>
+          <Note>An attacker could insert special characters that are processed client-side in the context of the user's session.</Note>
+        </Consequence>
+      </Common_Consequences>
+      <Potential_Mitigations>
+        <Mitigation>
+          <Phase>Implementation</Phase>
+          <Description>Carefully check each input parameter against a rigorous positive specification (allowlist) defining the specific characters and format allowed. All input should be neutralized, not just parameters that the user is supposed to specify, but all data in the request, including hidden fields, cookies, headers, the URL itself, and so forth. A common mistake that leads to continuing XSS vulnerabilities is to validate only fields that are expected to be redisplayed by the site. We often encounter data from the request that is reflected by the application server or the application that the development team did not anticipate. Also, a field that is not currently reflected may be used by a future developer. Therefore, validating ALL parts of the HTTP request is recommended.</Description>
+        </Mitigation>
+      </Potential_Mitigations>
+      <Observed_Examples>
+        <Observed_Example>
+          <Reference>CVE-2002-0938</Reference>
+          <Description>XSS in parameter in a link.</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2002-0938</Link>
+        </Observed_Example>
+        <Observed_Example>
+          <Reference>CVE-2002-1495</Reference>
+          <Description>XSS in web-based email product via attachment filenames.</Description>
+          <Link>https://www.cve.org/CVERecord?id=CVE-2002-1495</Link>
+        </Observed_Example>
+      </Observed_Examples>
+      <Mapping_Notes>
+        <Usage>Allowed</Usage>
+        <Rationale>This CWE entry is at the Variant level of abstraction, which is a preferred level of abstraction for mapping to the root causes of vulnerabilities.</Rationale>
+        <Comments>Carefully read both the name and description to ensure that this mapping is an appropriate fit. Do not try to 'force' a mapping to a lower-level Base/Variant simply to comply with this preferred level of abstraction.</Comments>
+        <Reasons>
+          <Reason Type="Acceptable-Use" />
+        </Reasons>
+      </Mapping_Notes>
+    </Weakness>
+  </Weaknesses>
+  <Categories>
+    <Category ID="1347" Name="OWASP Top Ten 2021 Category A03:2021 - Injection" Status="Incomplete">
+      <Summary>Weaknesses in this category are related to the A03 category "Injection" in the OWASP Top Ten 2021.</Summary>
+      <Relationships>
+        <Has_Member CWE_ID="74" View_ID="1344" />
+        <Has_Member CWE_ID="79" View_ID="1344" />
+        <Has_Member CWE_ID="80" View_ID="1344" />
+      </Relationships>
+      <Mapping_Notes>
+        <Usage>Prohibited</Usage>
+        <Rationale>This entry is a Category. Using categories for mapping has been discouraged since 2019. Categories are informal organizational groupings of weaknesses that can help CWE users with data aggregation, navigation, and browsing. However, they are not weaknesses in themselves.</Rationale>
+        <Comments>See member weaknesses of this category.</Comments>
+        <Reasons>
+          <Reason Type="Category" />
+        </Reasons>
+      </Mapping_Notes>
+    </Category>
+  </Categories>
+  <Views>
+    <View ID="1344" Name="Weaknesses in OWASP Top Ten (2021)" Type="Graph" Status="Incomplete">
+      <Objective>CWE entries in this view (graph) are associated with the OWASP Top Ten, as released in 2021.</Objective>
+      <Members>
+        <Has_Member CWE_ID="1347" View_ID="1344" />
+      </Members>
+    </View>
+    <View ID="1435" Name="Weaknesses in the 2025 CWE Top 25 Most Dangerous Software Weaknesses" Type="Graph" Status="Draft">
+      <Objective>CWE entries in this view are listed in the 2025 CWE Top 25 Most Dangerous Software Weaknesses.</Objective>
+      <Members>
+        <Has_Member CWE_ID="79" View_ID="1435" />
+      </Members>
+    </View>
+  </Views>
+</Weakness_Catalog>

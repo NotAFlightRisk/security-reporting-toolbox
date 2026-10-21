@@ -1,0 +1,28 @@
+{
+ "resultsPerPage": 2,
+ "startIndex": 100,
+ "totalResults": 18639,
+ "format": "NVD_CVE",
+ "version": "2.0",
+ "timestamp": "2026-10-21T17:27:22.951",
+ "vulnerabilities": [
+  {
+   "cve": {
+    "id": "CVE-2004-0874",
+    "sourceIdentifier": "cve@mitre.org",
+    "published": "2005-01-10T05:00:00.000",
+    "lastModified": "2023-11-07T01:56:49.570",
+    "vulnStatus": "Rejected",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "Rejected reason: DO NOT USE THIS CANDIDATE NUMBER.  ConsultIDs: CVE-2004-1123.  Reason: This candidate is a reservation duplicate of CVE-2004-1123.  Notes: All CVE users should reference CVE-2004-1123 instead of this candidate.  All references and descriptions in this candidate have been removed to prevent accidental usage"
+     }
+    ],
+    "metrics": {},
+    "references": []
+   }
+  }
+ ]
+}

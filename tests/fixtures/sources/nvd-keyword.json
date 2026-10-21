@@ -1,0 +1,472 @@
+{
+ "resultsPerPage": 3,
+ "startIndex": 0,
+ "totalResults": 7,
+ "format": "NVD_CVE",
+ "version": "2.0",
+ "timestamp": "2026-10-21T17:23:45.938",
+ "vulnerabilities": [
+  {
+   "cve": {
+    "id": "CVE-2021-44228",
+    "sourceIdentifier": "security@apache.org",
+    "published": "2021-12-10T10:15:09.143",
+    "lastModified": "2026-08-11T19:33:44.513",
+    "vulnStatus": "Analyzed",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "Apache Log4j2 2.0-beta9 through 2.15.0 (excluding security releases 2.12.2, 2.12.3, and 2.3.1) JNDI features used in configuration, log messages, and parameters do not protect against attacker controlled LDAP and other JNDI related endpoints. An attacker who can control log messages or log message parameters can execute arbitrary code loaded from LDAP servers when message lookup substitution is enabled. From log4j 2.15.0, this behavior has been disabled by default. From version 2.16.0 (along with 2.12.2, 2.12.3, and 2.3.1), this functionality has been completely removed. Note that this vulnerability is specific to log4j-core and does not affect log4net, log4cxx, or other Apache Logging Services projects."
+     },
+     {
+      "lang": "es",
+      "value": "Las características JNDI de Apache Log4j2 2.0-beta9 hasta 2.15.0 (excluyendo las versiones de seguridad 2.12.2, 2.12.3 y 2.3.1) utilizadas en la configuración, los mensajes de registro y los parámetros no protegen contra LDAP controlado por un atacante y otros puntos finales relacionados con JNDI. Un atacante que pueda controlar los mensajes de registro o los parámetros de los mensajes de registro puede ejecutar código arbitrario cargado desde servidores LDAP cuando la sustitución de la búsqueda de mensajes está habilitada. A partir de la versión 2.15.0 de log4j, este comportamiento ha sido deshabilitado por defecto. A partir de la versión 2.16.0 (junto con las versiones 2.12.2, 2.12.3 y 2.3.1), esta funcionalidad se ha eliminado por completo. Tenga en cuenta que esta vulnerabilidad es específica de log4j-core y no afecta a log4net, log4cxx u otros proyectos de Apache Logging Services"
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10.0,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "CHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 3.9,
+       "impactScore": 6.0
+      },
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 10.0,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "LOW",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "CHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 3.9,
+       "impactScore": 6.0
+      }
+     ],
+     "cvssMetricV2": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "2.0",
+        "vectorString": "AV:N/AC:M/Au:N/C:C/I:C/A:C",
+        "baseScore": 9.3,
+        "accessVector": "NETWORK",
+        "accessComplexity": "MEDIUM",
+        "authentication": "NONE",
+        "confidentialityImpact": "COMPLETE",
+        "integrityImpact": "COMPLETE",
+        "availabilityImpact": "COMPLETE"
+       },
+       "baseSeverity": "HIGH",
+       "exploitabilityScore": 8.6,
+       "impactScore": 10.0,
+       "acInsufInfo": false,
+       "obtainAllPrivilege": false,
+       "obtainUserPrivilege": false,
+       "obtainOtherPrivilege": false,
+       "userInteractionRequired": false
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2025-02-04T14:25:34.416117Z",
+        "id": "CVE-2021-44228",
+        "options": [
+         {
+          "exploitation": "active"
+         },
+         {
+          "automatable": "yes"
+         },
+         {
+          "technicalImpact": "total"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "cisaExploitAdd": "2021-12-10",
+    "cisaActionDue": "2021-12-24",
+    "cisaRequiredAction": "For all affected software assets for which updates exist, the only acceptable remediation actions are: 1) Apply updates; OR 2) remove affected assets from agency networks. Temporary mitigations using one of the measures provided at https://www.cisa.gov/uscert/ed-22-02-apache-log4j-recommended-mitigation-measures are only acceptable until updates are available.",
+    "cisaVulnerabilityName": "Apache Log4j2 Remote Code Execution Vulnerability",
+    "weaknesses": [
+     {
+      "source": "security@apache.org",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-20"
+       },
+       {
+        "lang": "en",
+        "value": "CWE-400"
+       },
+       {
+        "lang": "en",
+        "value": "CWE-502"
+       }
+      ]
+     },
+     {
+      "source": "nvd@nist.gov",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-917"
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "http://packetstormsecurity.com/files/165225/Apache-Log4j2-2.14.1-Remote-Code-Execution.html",
+      "source": "security@apache.org",
+      "tags": [
+       "Third Party Advisory",
+       "VDB Entry"
+      ]
+     },
+     {
+      "url": "http://packetstormsecurity.com/files/165260/VMware-Security-Advisory-2021-0028.html",
+      "source": "security@apache.org",
+      "tags": [
+       "Third Party Advisory",
+       "VDB Entry"
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "cve": {
+    "id": "CVE-2021-4104",
+    "sourceIdentifier": "security@apache.org",
+    "published": "2021-12-14T12:15:12.200",
+    "lastModified": "2026-06-17T04:19:02.513",
+    "vulnStatus": "Modified",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "JMSAppender in Log4j 1.2 is vulnerable to deserialization of untrusted data when the attacker has write access to the Log4j configuration. The attacker can provide TopicBindingName and TopicConnectionFactoryBindingName configurations causing JMSAppender to perform JNDI requests that result in remote code execution in a similar fashion to CVE-2021-44228. Note this issue only affects Log4j 1.2 when specifically configured to use JMSAppender, which is not the default. Apache Log4j 1.2 reached end of life in August 2015. Users should upgrade to Log4j 2 as it addresses numerous other issues from the previous versions."
+     },
+     {
+      "lang": "es",
+      "value": "JMSAppender en Log4j versión 1.2 es vulnerable a una deserialización de datos no confiables cuando el atacante presenta acceso de escritura a la configuración de Log4j. El atacante puede proporcionar configuraciones TopicBindingName y TopicConnectionFactoryBindingName haciendo que JMSAppender realice peticiones JNDI que resulten en la ejecución de código remota de forma similar a CVE-2021-44228. Tenga en cuenta que este problema sólo afecta a Log4j versión 1.2 cuando es configurado específicamente para usar JMSAppender, que no es el predeterminado. Apache Log4j versión 1.2 llegó al final de su vida útil en agosto de 2015. Los usuarios deberían actualizar a Log4j 2 ya que aborda otros numerosos problemas de las versiones anteriores"
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.5,
+        "baseSeverity": "HIGH",
+        "attackVector": "NETWORK",
+        "attackComplexity": "HIGH",
+        "privilegesRequired": "LOW",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 1.6,
+       "impactScore": 5.9
+      },
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:H/I:H/A:H",
+        "baseScore": 7.5,
+        "baseSeverity": "HIGH",
+        "attackVector": "NETWORK",
+        "attackComplexity": "HIGH",
+        "privilegesRequired": "LOW",
+        "userInteraction": "NONE",
+        "scope": "UNCHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 1.6,
+       "impactScore": 5.9
+      }
+     ],
+     "cvssMetricV2": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "2.0",
+        "vectorString": "AV:N/AC:M/Au:S/C:P/I:P/A:P",
+        "baseScore": 6.0,
+        "accessVector": "NETWORK",
+        "accessComplexity": "MEDIUM",
+        "authentication": "SINGLE",
+        "confidentialityImpact": "PARTIAL",
+        "integrityImpact": "PARTIAL",
+        "availabilityImpact": "PARTIAL"
+       },
+       "baseSeverity": "MEDIUM",
+       "exploitabilityScore": 6.8,
+       "impactScore": 6.4,
+       "acInsufInfo": false,
+       "obtainAllPrivilege": false,
+       "obtainUserPrivilege": false,
+       "obtainOtherPrivilege": false,
+       "userInteractionRequired": false
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2023-12-20T16:29:18.701121Z",
+        "id": "CVE-2021-4104",
+        "options": [
+         {
+          "exploitation": "none"
+         },
+         {
+          "automatable": "no"
+         },
+         {
+          "technicalImpact": "partial"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "weaknesses": [
+     {
+      "source": "security@apache.org",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-502"
+       }
+      ]
+     },
+     {
+      "source": "nvd@nist.gov",
+      "type": "Primary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-502"
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "http://www.openwall.com/lists/oss-security/2022/01/18/3",
+      "source": "security@apache.org"
+     },
+     {
+      "url": "https://access.redhat.com/security/cve/CVE-2021-4104",
+      "source": "security@apache.org"
+     }
+    ]
+   }
+  },
+  {
+   "cve": {
+    "id": "CVE-2021-45046",
+    "sourceIdentifier": "security@apache.org",
+    "published": "2021-12-14T19:15:07.733",
+    "lastModified": "2026-06-17T04:13:05.570",
+    "vulnStatus": "Analyzed",
+    "cveTags": [],
+    "descriptions": [
+     {
+      "lang": "en",
+      "value": "It was found that the fix to address CVE-2021-44228 in Apache Log4j 2.15.0 was incomplete in certain non-default configurations. This could allows attackers with control over Thread Context Map (MDC) input data when the logging configuration uses a non-default Pattern Layout with either a Context Lookup (for example, $${ctx:loginId}) or a Thread Context Map pattern (%X, %mdc, or %MDC) to craft malicious input data using a JNDI Lookup pattern resulting in an information leak and remote code execution in some environments and local code execution in all environments. Log4j 2.16.0 (Java 8) and 2.12.2 (Java 7) fix this issue by removing support for message lookup patterns and disabling JNDI functionality by default."
+     },
+     {
+      "lang": "es",
+      "value": "Se descubrió que la corrección para abordar CVE-2021-44228 en Apache Log4j versiones 2.15.0 estaba incompleta en ciertas configuraciones no predeterminadas. Esto podría permitir a los atacantes con control sobre los datos de entrada de Thread Context Map (MDC) cuando la configuración de registro utiliza un Pattern Layout no predeterminado con un Context Lookup (por ejemplo, $${ctx:loginId}) o un Thread Context Map pattern (%X, %mdc, o %MDC) para elaborar datos de entrada maliciosos utilizando un patrón JNDI Lookup que resulta en una fuga de información y ejecución de código remoto en algunos entornos y ejecución de código local en todos los entornos. Log4j versiones 2.16.0 (Java 8) y 2.12.2 (Java 7) solucionan este problema eliminando el soporte para los patrones de búsqueda de mensajes y deshabilitando la funcionalidad JNDI por defecto"
+     }
+    ],
+    "metrics": {
+     "cvssMetricV31": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9.0,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "HIGH",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "CHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 2.2,
+       "impactScore": 6.0
+      },
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "type": "Secondary",
+       "cvssData": {
+        "version": "3.1",
+        "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:C/C:H/I:H/A:H",
+        "baseScore": 9.0,
+        "baseSeverity": "CRITICAL",
+        "attackVector": "NETWORK",
+        "attackComplexity": "HIGH",
+        "privilegesRequired": "NONE",
+        "userInteraction": "NONE",
+        "scope": "CHANGED",
+        "confidentialityImpact": "HIGH",
+        "integrityImpact": "HIGH",
+        "availabilityImpact": "HIGH"
+       },
+       "exploitabilityScore": 2.2,
+       "impactScore": 6.0
+      }
+     ],
+     "cvssMetricV2": [
+      {
+       "source": "nvd@nist.gov",
+       "type": "Primary",
+       "cvssData": {
+        "version": "2.0",
+        "vectorString": "AV:N/AC:H/Au:N/C:P/I:P/A:P",
+        "baseScore": 5.1,
+        "accessVector": "NETWORK",
+        "accessComplexity": "HIGH",
+        "authentication": "NONE",
+        "confidentialityImpact": "PARTIAL",
+        "integrityImpact": "PARTIAL",
+        "availabilityImpact": "PARTIAL"
+       },
+       "baseSeverity": "MEDIUM",
+       "exploitabilityScore": 4.9,
+       "impactScore": 6.4,
+       "acInsufInfo": false,
+       "obtainAllPrivilege": false,
+       "obtainUserPrivilege": false,
+       "obtainOtherPrivilege": false,
+       "userInteractionRequired": false
+      }
+     ],
+     "ssvcV203": [
+      {
+       "source": "134c704f-9b21-4f2e-91b3-4a467353bcc0",
+       "ssvcData": {
+        "timestamp": "2025-02-04T19:31:22.638704Z",
+        "id": "CVE-2021-45046",
+        "options": [
+         {
+          "exploitation": "active"
+         },
+         {
+          "automatable": "no"
+         },
+         {
+          "technicalImpact": "total"
+         }
+        ],
+        "role": "CISA Coordinator",
+        "version": "2.0.3"
+       }
+      }
+     ]
+    },
+    "cisaExploitAdd": "2023-05-01",
+    "cisaActionDue": "2023-05-22",
+    "cisaRequiredAction": "Apply updates per vendor instructions.",
+    "cisaVulnerabilityName": "Apache Log4j2 Deserialization of Untrusted Data Vulnerability",
+    "weaknesses": [
+     {
+      "source": "security@apache.org",
+      "type": "Secondary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-917"
+       }
+      ]
+     },
+     {
+      "source": "nvd@nist.gov",
+      "type": "Primary",
+      "description": [
+       {
+        "lang": "en",
+        "value": "CWE-917"
+       }
+      ]
+     }
+    ],
+    "references": [
+     {
+      "url": "http://www.openwall.com/lists/oss-security/2021/12/14/4",
+      "source": "security@apache.org",
+      "tags": [
+       "Mailing List",
+       "Mitigation",
+       "Third Party Advisory"
+      ]
+     },
+     {
+      "url": "http://www.openwall.com/lists/oss-security/2021/12/15/3",
+      "source": "security@apache.org",
+      "tags": [
+       "Mailing List",
+       "Third Party Advisory"
+      ]
+     }
+    ]
+   }
+  }
+ ]
+}

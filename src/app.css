@@ -1,0 +1,303 @@
+:root {
+  color-scheme: light dark;
+
+  --page: light-dark(#eceef1, #0d1014);
+  --surface: light-dark(#ffffff, #161a20);
+  --surface-sunk: light-dark(#f4f5f7, #11151a);
+  --surface-raised: light-dark(#e3e6ea, #1f242c);
+  --line: light-dark(#cfd4da, #2b323c);
+  --line-strong: light-dark(#9aa3ad, #46505c);
+  --text: light-dark(#14181d, #e4e8ec);
+  --text-muted: light-dark(#56606b, #9aa4af);
+  --text-faint: light-dark(#6c7680, #7d8893);
+  --accent: light-dark(#2251c7, #7ea2ff);
+  --accent-text: light-dark(#ffffff, #0d1014);
+  --accent-soft: light-dark(#e3eafc, #1c2a4a);
+  --focus: light-dark(#2251c7, #9db8ff);
+  --good: light-dark(#1d7a4c, #5ccf91);
+  --good-soft: light-dark(#e2f3ea, #15301f);
+  --bad: light-dark(#b42335, #ff8592);
+  --bad-soft: light-dark(#fbe7ea, #3a1a1f);
+  --warn: light-dark(#8a5a00, #f0c067);
+  --warn-soft: light-dark(#fbf1dc, #33280f);
+
+  --sev-none: light-dark(#7a848f, #7d8893);
+  --sev-low: light-dark(#1f7a74, #4fc4bb);
+  --sev-medium: light-dark(#9a6b00, #e8b949);
+  --sev-high: light-dark(#c2501a, #ff9459);
+  --sev-critical: light-dark(#b01f3a, #ff6b85);
+
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  --font-mono:
+    ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
+
+  --text-xs: 0.6875rem;
+  --text-sm: 0.8125rem;
+  --text-base: 0.9375rem;
+  --text-md: 1.0625rem;
+  --text-lg: 1.375rem;
+  --text-xl: 1.75rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4.5rem;
+
+  --hairline: 1px;
+  --radius: 2px;
+  --control: 2rem;
+  --page-width: 78rem;
+  --measure: 68ch;
+  --pad: clamp(1rem, 3vw, 2rem);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--page);
+  color: var(--text);
+  font: var(--text-base) / 1.55 var(--font-ui);
+  font-variant-numeric: tabular-nums;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  line-height: 1.2;
+  font-weight: 650;
+  text-wrap: balance;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--accent);
+  text-underline-offset: 0.15em;
+}
+
+code,
+kbd,
+samp,
+pre,
+.mono {
+  font-family: var(--font-mono);
+  font-size: 0.92em;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+input,
+select,
+textarea {
+  min-height: var(--control);
+  padding: var(--space-1) var(--space-2);
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  font-size: var(--text-sm);
+
+  &:focus-visible {
+    outline-offset: 0;
+    border-color: var(--focus);
+  }
+
+  &::placeholder {
+    color: var(--text-faint);
+  }
+}
+
+textarea {
+  resize: vertical;
+}
+
+/* a control in the Navigator sense: square, hairline, tight */
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  min-height: var(--control);
+  padding: 0 var(--space-3);
+  border: var(--hairline) solid var(--line-strong);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--text-sm);
+  font-weight: 550;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+
+  &:hover {
+    background: var(--surface-raised);
+  }
+
+  &.primary {
+    border-color: var(--accent);
+    background: var(--accent);
+    color: var(--accent-text);
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+/* the matrix: columns of tight cells under a grey header cell, ruled so empty slots stay page */
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--column, 10rem)), 1fr));
+  border-top: var(--hairline) solid var(--line);
+  border-left: var(--hairline) solid var(--line);
+
+  & > :is(.column, .cell) {
+    border-right: var(--hairline) solid var(--line);
+    border-bottom: var(--hairline) solid var(--line);
+  }
+}
+
+.column {
+  display: grid;
+  grid-auto-rows: min-content;
+  align-content: start;
+  gap: var(--hairline);
+  background: var(--surface);
+}
+
+.column-head {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: var(--space-2);
+  background: var(--surface-raised);
+  font-size: var(--text-sm);
+  font-weight: 650;
+  line-height: 1.25;
+
+  & small {
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    font-weight: 450;
+  }
+}
+
+.cell {
+  display: block;
+  width: 100%;
+  min-height: var(--control);
+  padding: var(--space-1) var(--space-2);
+  border: 0;
+  border-radius: 0;
+  background: var(--surface);
+  color: var(--text);
+  font-size: var(--text-sm);
+  line-height: 1.35;
+  text-align: start;
+  text-decoration: none;
+  box-shadow: 0 var(--hairline) 0 var(--line);
+
+  &:is(a, button) {
+    cursor: pointer;
+
+    &:hover {
+      background: var(--surface-sunk);
+    }
+  }
+
+  &[aria-pressed='true'],
+  &[aria-current='true'],
+  &[aria-checked='true'] {
+    background: var(--accent);
+    color: var(--accent-text);
+  }
+
+  &.hit {
+    box-shadow: inset 3px 0 0 var(--accent);
+  }
+
+  &.dim {
+    color: var(--text-faint);
+  }
+}
+
+/* a quiet box for results, notes and anything boxed */
+.panel {
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.label {
+  color: var(--text-muted);
+  font-size: var(--text-xs);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* the parent contains it, or it sits at its static spot and can widen the page */
+:has(> .visually-hidden) {
+  position: relative;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "name": "security-reporting-toolbox",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite dev",
+    "build": "vite build",
+    "preview": "vite preview",
+    "prepare": "svelte-kit sync || echo ''",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "test": "vitest run",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "data:cwe": "python3 scripts/cwe.py"
+  },
+  "devDependencies": {
+    "@sentry/browser": "^11.8.0",
+    "@sentry/vite-plugin": "^11.8.0",
+    "@sveltejs/adapter-static": "^4.0.0",
+    "@sveltejs/kit": "^3.1.0",
+    "@sveltejs/vite-plugin-svelte": "^7.3.1",
+    "@types/node": "^26.6.5",
+    "@types/semver": "^7.7.1",
+    "prettier": "^3.9.10",
+    "prettier-plugin-svelte": "^4.1.1",
+    "svelte": "^5.57.2",
+    "svelte-check": "^4.7.7",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.4",
+    "vitest": "^5.0.5"
+  },
+  "dependencies": {
+    "@renovatebot/pep440": "^5.0.1",
+    "ae-cvss-calculator": "^1.0.13",
+    "semver": "^7.8.5"
+  },
+  "description": "The fiddly bits of writing a security report, in one place: CWE, CVE, CVSS, EPSS, KEV, version ranges, PURLs and CNAs",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NotAFlightRisk/security-reporting-toolbox.git"
+  },
+  "homepage": "https://security-reporting-toolbox.peng.ly",
+  "engines": {
+    "node": "^22.17.0 || >=24.0.0"
+  },
+  "imports": {
+    "#lib/*": "./src/lib/*"
+  }
+}

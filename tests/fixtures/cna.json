@@ -1,0 +1,368 @@
+[
+ {
+  "shortName": "adobe",
+  "cnaID": "CNA-2009-0001",
+  "organizationName": "Adobe Systems Incorporated",
+  "scope": "Adobe issues only.",
+  "contact": [
+   {
+    "email": [
+     {
+      "label": "Email",
+      "emailAddr": "psirt@adobe.com"
+     }
+    ],
+    "contact": [
+     {
+      "label": "Adobe security contact page",
+      "url": "https://helpx.adobe.com/security/alertus.html"
+     }
+    ],
+    "form": []
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "Policy",
+    "language": "",
+    "url": "https://hackerone.com/adobe"
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "Advisories",
+     "url": "https://helpx.adobe.com/security.html"
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": false,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "Vendor"
+   ],
+   "TLR": {
+    "shortName": "mitre",
+    "organizationName": "MITRE Corporation"
+   },
+   "roles": [
+    {
+     "helpText": "",
+     "role": "CNA"
+    }
+   ]
+  },
+  "country": "USA"
+ },
+ {
+  "shortName": "apache",
+  "cnaID": "CNA-2016-0004",
+  "organizationName": "Apache Software Foundation",
+  "scope": "All Apache Software Foundation issues only.",
+  "contact": [
+   {
+    "email": [
+     {
+      "label": "Email",
+      "emailAddr": "security@apache.org"
+     }
+    ],
+    "contact": [
+     {
+      "label": "Apache security contact page",
+      "url": "https://www.apache.org/security/"
+     }
+    ],
+    "form": []
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "Policy",
+    "language": "",
+    "url": "https://www.apache.org/security/"
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "Advisories",
+     "url": "https://www.openwall.com/lists/oss-security"
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": false,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "Vendor",
+    "Open Source"
+   ],
+   "TLR": {
+    "shortName": "mitre",
+    "organizationName": "MITRE Corporation"
+   },
+   "roles": [
+    {
+     "helpText": "",
+     "role": "CNA"
+    }
+   ]
+  },
+  "country": "USA"
+ },
+ {
+  "shortName": "icscert",
+  "cnaID": "CNA-2012-0001",
+  "organizationName": "Cybersecurity and Infrastructure Security Agency (CISA) Industrial Control Systems (ICS)",
+  "scope": "Vulnerabilities that are (1) reported to or observed by CISA, (2) affect industrial control systems or medical devices, and (3) are not covered by another CNA\u2019s scope.",
+  "contact": [
+   {
+    "email": [],
+    "contact": [],
+    "form": [
+     {
+      "label": "Submit a Report",
+      "url": "https://www.cisa.gov/report"
+     }
+    ]
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "Policy",
+    "language": "",
+    "url": "https://www.cisa.gov/coordinated-vulnerability-disclosure-process"
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "ICS Advisories",
+     "url": "https://cisa.gov/icsa"
+    },
+    {
+     "label": "ICS Medical Advisories",
+     "url": "https://cisa.gov/icsma"
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": true,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "CERT"
+   ],
+   "TLR": {
+    "shortName": "CISA",
+    "organizationName": "Cybersecurity and Infrastructure Security Agency (CISA)"
+   },
+   "roles": [
+    {
+     "helpText": "",
+     "role": "Root"
+    },
+    {
+     "helpText": "reports to CISA ICS Root",
+     "role": "CNA-LR"
+    }
+   ]
+  },
+  "country": "USA"
+ },
+ {
+  "shortName": "GitHub_M",
+  "cnaID": "CNA-2019-0009",
+  "organizationName": "GitHub, Inc.",
+  "scope": "CVEs requested by code owners using the GitHub Security Advisories feature and vulnerabilities affecting open source projects discovered by security researchers at GitHub or Microsoft not covered by another CNA\u2019s scope.",
+  "contact": [
+   {
+    "email": [
+     {
+      "label": "Email",
+      "emailAddr": "security-advisories@github.com"
+     }
+    ],
+    "contact": [],
+    "form": []
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "Policy",
+    "language": "",
+    "url": "https://help.github.com/en/articles/about-maintainer-security-advisories"
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "Advisories",
+     "url": "https://github.com/advisories"
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": false,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "Vendor",
+    "Open Source",
+    "Researcher"
+   ],
+   "TLR": {
+    "shortName": "mitre",
+    "organizationName": "MITRE Corporation"
+   },
+   "roles": [
+    {
+     "helpText": "",
+     "role": "CNA"
+    }
+   ]
+  },
+  "country": "USA"
+ },
+ {
+  "shortName": "mitre",
+  "cnaID": "CNA-1999-0001",
+  "organizationName": "MITRE Corporation",
+  "scope": "All vulnerabilities, and Open Source software product vulnerabilities, not already covered by a CNA listed on this website.",
+  "contact": [
+   {
+    "email": [],
+    "contact": [],
+    "form": [
+     {
+      "label": "MITRE CVE Request web form",
+      "url": "https://cveform.mitre.org/"
+     }
+    ]
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "N/A",
+    "language": "",
+    "url": ""
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "N/A",
+     "url": ""
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": true,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "N/A"
+   ],
+   "TLR": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "roles": [
+    {
+     "helpText": "reports to CVE Board",
+     "role": "Top-Level Root"
+    },
+    {
+     "helpText": "reports to MITRE TL-Root",
+     "role": "CNA-LR"
+    },
+    {
+     "helpText": "reports to CVE Board",
+     "role": "Secretariat"
+    }
+   ]
+  },
+  "country": "USA"
+ },
+ {
+  "shortName": "Wordfence",
+  "cnaID": "CNA-2021-0022",
+  "organizationName": "Wordfence",
+  "scope": "WordPress Plugins, Themes, and Core Vulnerabilities discovered by, or reported to, the Wordfence/Defiant team.",
+  "contact": [
+   {
+    "email": [
+     {
+      "label": "Email",
+      "emailAddr": "cve-request@wordfence.com"
+     }
+    ],
+    "contact": [],
+    "form": []
+   }
+  ],
+  "disclosurePolicy": [
+   {
+    "label": "Policy",
+    "language": "",
+    "url": "https://www.wordfence.com/security/"
+   }
+  ],
+  "securityAdvisories": {
+   "alerts": [],
+   "advisories": [
+    {
+     "label": "Advisories",
+     "url": "https://www.wordfence.com/blog/category/vulnerabilities/"
+    }
+   ]
+  },
+  "resources": [],
+  "CNA": {
+   "isRoot": false,
+   "root": {
+    "shortName": "n/a",
+    "organizationName": "n/a"
+   },
+   "type": [
+    "Vendor",
+    "Researcher"
+   ],
+   "TLR": {
+    "shortName": "mitre",
+    "organizationName": "MITRE Corporation"
+   },
+   "roles": [
+    {
+     "helpText": "",
+     "role": "CNA"
+    }
+   ]
+  },
+  "country": "USA"
+ }
+]

@@ -1,0 +1,38 @@
+{
+  "versionKey": {
+    "system": "MAVEN",
+    "name": "org.apache.logging.log4j:log4j-core",
+    "version": "2.17.1"
+  },
+  "publishedAt": "2021-12-27T23:30:54Z",
+  "isDefault": false,
+  "isDeprecated": false,
+  "deprecatedReason": "",
+  "licenses": ["Apache-2.0"],
+  "links": [
+    {
+      "label": "SOURCE_REPO",
+      "url": "https://gitbox.apache.org/repos/asf?p=logging-log4j2.git"
+    },
+    {
+      "label": "ISSUE_TRACKER",
+      "url": "https://issues.apache.org/jira/browse/LOG4J2"
+    },
+    {
+      "label": "HOMEPAGE",
+      "url": "https://logging.apache.org/log4j/2.x/"
+    }
+  ],
+  "slsaProvenances": [],
+  "attestations": [],
+  "registries": ["https://repo.maven.apache.org/maven2/"],
+  "relatedProjects": [
+    {
+      "projectKey": {
+        "id": ""
+      },
+      "relationProvenance": "UNVERIFIED_METADATA",
+      "relationType": "ISSUE_TRACKER"
+    }
+  ]
+}

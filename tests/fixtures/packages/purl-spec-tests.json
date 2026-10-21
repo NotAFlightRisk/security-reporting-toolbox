@@ -1,0 +1,2491 @@
+{
+  "source": "https://github.com/package-url/purl-spec/tree/main/tests",
+  "tests": [
+    {
+      "description": "Parse test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:cargo/rand@0.7.2",
+      "expected_output": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "rand",
+        "version": "0.7.2",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:cargo/rand@0.7.2",
+      "expected_output": "pkg:cargo/rand@0.7.2",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "rand",
+        "version": "0.7.2",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:cargo/rand@0.7.2",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:cargo/clap@2.33.0",
+      "expected_output": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "clap",
+        "version": "2.33.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:cargo/clap@2.33.0",
+      "expected_output": "pkg:cargo/clap@2.33.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "clap",
+        "version": "2.33.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:cargo/clap@2.33.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:cargo/structopt@0.3.11",
+      "expected_output": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "structopt",
+        "version": "0.3.11",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:cargo/structopt@0.3.11",
+      "expected_output": "pkg:cargo/structopt@0.3.11",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: cargo",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "cargo",
+        "namespace": null,
+        "name": "structopt",
+        "version": "0.3.11",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:cargo/structopt@0.3.11",
+      "expected_failure": false
+    },
+    {
+      "description": "valid packagist purl",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:composer/guzzlehttp/promises@2.0.2",
+      "expected_output": "pkg:composer/guzzlehttp/promises@2.0.2",
+      "expected_failure": false
+    },
+    {
+      "description": "valid packagist purl",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:composer/guzzlehttp/promises@2.0.2",
+      "expected_output": {
+        "type": "composer",
+        "namespace": "guzzlehttp",
+        "name": "promises",
+        "version": "2.0.2",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "composer names are not case sensitive. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:composer/Laravel/Laravel@5.5.0",
+      "expected_output": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_failure": false
+    },
+    {
+      "description": "composer names are not case sensitive",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:composer/Laravel/Laravel@5.5.0",
+      "expected_output": {
+        "type": "composer",
+        "namespace": "laravel",
+        "name": "laravel",
+        "version": "5.5.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "composer names are not case sensitive. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_output": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_failure": false
+    },
+    {
+      "description": "composer names are not case sensitive",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "composer",
+        "namespace": "laravel",
+        "name": "laravel",
+        "version": "5.5.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: composer",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_output": {
+        "type": "composer",
+        "namespace": "laravel",
+        "name": "laravel",
+        "version": "5.5.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: composer",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_output": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: composer",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "composer",
+        "namespace": "laravel",
+        "name": "laravel",
+        "version": "5.5.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:composer/laravel/laravel@5.5.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Ruby gems can use qualifiers. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:gem/jruby-launcher@1.1.2?Platform=java",
+      "expected_output": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_failure": false
+    },
+    {
+      "description": "Ruby gems can use qualifiers",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:gem/jruby-launcher@1.1.2?Platform=java",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "Ruby gems can use qualifiers. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_output": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_failure": false
+    },
+    {
+      "description": "Ruby gems can use qualifiers",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "gem",
+        "namespace": null,
+        "name": "jruby-launcher",
+        "version": "1.1.2",
+        "qualifiers": { "platform": "java" },
+        "subpath": null
+      },
+      "expected_output": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: gem",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:gem/ruby-advisory-db-check@0.12.4",
+      "expected_output": {
+        "type": "gem",
+        "namespace": null,
+        "name": "ruby-advisory-db-check",
+        "version": "0.12.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: gem",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:gem/ruby-advisory-db-check@0.12.4",
+      "expected_output": "pkg:gem/ruby-advisory-db-check@0.12.4",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: gem",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "gem",
+        "namespace": null,
+        "name": "ruby-advisory-db-check",
+        "version": "0.12.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:gem/ruby-advisory-db-check@0.12.4",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: gem",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_output": {
+        "type": "gem",
+        "namespace": null,
+        "name": "jruby-launcher",
+        "version": "1.1.2",
+        "qualifiers": { "platform": "java" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: gem",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_output": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: gem",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "gem",
+        "namespace": null,
+        "name": "jruby-launcher",
+        "version": "1.1.2",
+        "qualifiers": { "platform": "java" },
+        "subpath": null
+      },
+      "expected_output": "pkg:gem/jruby-launcher@1.1.2?platform=java",
+      "expected_failure": false
+    },
+    {
+      "description": "github namespace and name should be lowercased. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:github/Package-url/purl-Spec@244fd47e07d1004f0aed9c",
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004f0aed9c",
+      "expected_failure": false
+    },
+    {
+      "description": "github namespace and name should be lowercased",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:github/Package-url/purl-Spec@244fd47e07d1004f0aed9c",
+      "expected_output": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "github namespace and name should be lowercased. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:github/package-url/purl-spec@244fd47e07d1004f0aed9c",
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004f0aed9c",
+      "expected_failure": false
+    },
+    {
+      "description": "github namespace and name should be lowercased",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004f0aed9c",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: github",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:github/package-url/purl-spec@244fd47e07d1004",
+      "expected_output": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: github",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:github/package-url/purl-spec@244fd47e07d1004",
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: github",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: github",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:github/package-url/purl-spec@244fd47e07d1004#everybody/loves/dogs",
+      "expected_output": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004",
+        "qualifiers": null,
+        "subpath": "everybody/loves/dogs"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: github",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:github/package-url/purl-spec@244fd47e07d1004#everybody/loves/dogs",
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004#everybody/loves/dogs",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: github",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "github",
+        "namespace": "package-url",
+        "name": "purl-spec",
+        "version": "244fd47e07d1004",
+        "qualifiers": null,
+        "subpath": "everybody/loves/dogs"
+      },
+      "expected_output": "pkg:github/package-url/purl-spec@244fd47e07d1004#everybody/loves/dogs",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl without version and with subpath. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:GOLANG/google.golang.org/genproto#/googleapis/api/annotations/",
+      "expected_output": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl without version and with subpath",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:GOLANG/google.golang.org/genproto#/googleapis/api/annotations/",
+      "expected_output": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl without version and with subpath. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_output": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl without version and with subpath",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_output": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl with version and subpath. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:GOLANG/google.golang.org/genproto@abcdedf#/googleapis/api/annotations/",
+      "expected_output": "pkg:golang/google.golang.org/genproto@abcdedf#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl with version and subpath",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:GOLANG/google.golang.org/genproto@abcdedf#/googleapis/api/annotations/",
+      "expected_output": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": "abcdedf",
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl with version and subpath. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:golang/google.golang.org/genproto@abcdedf#googleapis/api/annotations",
+      "expected_output": "pkg:golang/google.golang.org/genproto@abcdedf#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid go purl with version and subpath",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": "abcdedf",
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_output": "pkg:golang/google.golang.org/genproto@abcdedf#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c",
+      "expected_output": {
+        "type": "golang",
+        "namespace": "github.com/gorilla",
+        "name": "context",
+        "version": "234fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c",
+      "expected_output": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: golang",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "golang",
+        "namespace": "github.com/gorilla",
+        "name": "context",
+        "version": "234fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_output": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_output": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: golang",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "golang",
+        "namespace": "google.golang.org",
+        "name": "genproto",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_output": "pkg:golang/google.golang.org/genproto#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c#api",
+      "expected_output": {
+        "type": "golang",
+        "namespace": "github.com/gorilla",
+        "name": "context",
+        "version": "234fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": "api"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: golang",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c#api",
+      "expected_output": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c#api",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: golang",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "golang",
+        "namespace": "github.com/gorilla",
+        "name": "context",
+        "version": "234fd47e07d1004f0aed9c",
+        "qualifiers": null,
+        "subpath": "api"
+      },
+      "expected_output": "pkg:golang/github.com/gorilla/context@234fd47e07d1004f0aed9c#api",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:hex/jason@1.1.2",
+      "expected_output": {
+        "type": "hex",
+        "namespace": null,
+        "name": "jason",
+        "version": "1.1.2",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:hex/jason@1.1.2",
+      "expected_output": "pkg:hex/jason@1.1.2",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: hex",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "hex",
+        "namespace": null,
+        "name": "jason",
+        "version": "1.1.2",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:hex/jason@1.1.2",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:hex/acme/foo@2.3.",
+      "expected_output": {
+        "type": "hex",
+        "namespace": "acme",
+        "name": "foo",
+        "version": "2.3.",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:hex/acme/foo@2.3.",
+      "expected_output": "pkg:hex/acme/foo@2.3.",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: hex",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "hex",
+        "namespace": "acme",
+        "name": "foo",
+        "version": "2.3.",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:hex/acme/foo@2.3.",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:hex/phoenix_html@2.13.3#priv/static/phoenix_html.js",
+      "expected_output": {
+        "type": "hex",
+        "namespace": null,
+        "name": "phoenix_html",
+        "version": "2.13.3",
+        "qualifiers": null,
+        "subpath": "priv/static/phoenix_html.js"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:hex/phoenix_html@2.13.3#priv/static/phoenix_html.js",
+      "expected_output": "pkg:hex/phoenix_html@2.13.3#priv/static/phoenix_html.js",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: hex",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "hex",
+        "namespace": null,
+        "name": "phoenix_html",
+        "version": "2.13.3",
+        "qualifiers": null,
+        "subpath": "priv/static/phoenix_html.js"
+      },
+      "expected_output": "pkg:hex/phoenix_html@2.13.3#priv/static/phoenix_html.js",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:hex/bar@1.2.3?repository_url=https://myrepo.example.com",
+      "expected_output": {
+        "type": "hex",
+        "namespace": null,
+        "name": "bar",
+        "version": "1.2.3",
+        "qualifiers": { "repository_url": "https://myrepo.example.com" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: hex",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:hex/bar@1.2.3?repository_url=https://myrepo.example.com",
+      "expected_output": "pkg:hex/bar@1.2.3?repository_url=https:%2F%2Fmyrepo.example.com",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: hex",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "hex",
+        "namespace": null,
+        "name": "bar",
+        "version": "1.2.3",
+        "qualifiers": { "repository_url": "https://myrepo.example.com" },
+        "subpath": null
+      },
+      "expected_output": "pkg:hex/bar@1.2.3?repository_url=https:%2F%2Fmyrepo.example.com",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_output": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": "1.3.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_output": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": "1.3.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.commons/io@1.3.4",
+      "expected_failure": false
+    },
+    {
+      "description": "basic valid maven purl without version. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "basic valid maven purl without version",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "basic valid maven purl without version. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "basic valid maven purl without version",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "maven often uses qualifiers. Roundtrip an input purl to canonical using mixedcase type",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:Maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repositorY_url=https://repo.spring.io/release",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repository_url=https:%2F%2Frepo.spring.io%2Frelease",
+      "expected_failure": false
+    },
+    {
+      "description": "maven often uses qualifiers here mixedcase type",
+      "test_group": "recommended",
+      "test_type": "parse",
+      "input": "pkg:Maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repositorY_url=https://repo.spring.io/release",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": {
+          "classifier": "sources",
+          "repository_url": "https://repo.spring.io/release"
+        },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "maven often uses qualifiers. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repository_url=repo.spring.io/release",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repository_url=repo.spring.io%2Frelease",
+      "expected_failure": false
+    },
+    {
+      "description": "maven often uses qualifiers",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "sources", "repository_url": "repo.spring.io/release" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources&repository_url=repo.spring.io%2Frelease",
+      "expected_failure": false
+    },
+    {
+      "description": "maven pom reference. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:Maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom&repositorY_url=repo.spring.io/release",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?repository_url=repo.spring.io%2Frelease&type=pom",
+      "expected_failure": false
+    },
+    {
+      "description": "maven pom reference",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:Maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom&repositorY_url=repo.spring.io/release",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "type": "pom", "repository_url": "repo.spring.io/release" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "maven pom reference. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=war&repository_url=https://repo.spring.io/release",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?repository_url=https:%2F%2Frepo.spring.io%2Frelease&type=war",
+      "expected_failure": false
+    },
+    {
+      "description": "maven pom reference",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "foo", "repository_url": "repo.spring.io/release" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=foo&repository_url=repo.spring.io%2Frelease",
+      "expected_failure": false
+    },
+    {
+      "description": "maven can come with a type qualifier. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:Maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_output": "pkg:maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "maven can come with a type qualifier",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:Maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-project",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x86", "type": "dll" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "maven can come with a type qualifier. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_output": "pkg:maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "maven can come with a type qualifier",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-project",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x86", "type": "dll" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/net.sf.jacob-project/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "slash / after type is not significant. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:/maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "slash / after type is not significant",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:/maven/org.apache.commons/io",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "slash / after type is not significant. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "slash / after type is not significant",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "double slash // after type is not significant. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg://maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "double slash // after type is not significant",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg://maven/org.apache.commons/io",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "double slash // after type is not significant. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "double slash // after type is not significant",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "slash /// after type is not significant. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:///maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "slash /// after type is not significant",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:///maven/org.apache.commons/io",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "slash /// after type is not significant. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.commons/io",
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "slash /// after type is not significant",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.commons",
+        "name": "io",
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.commons/io",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl with case sensitive namespace and name. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_output": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl with case sensitive namespace and name",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "HTTPClient",
+        "name": "HTTPClient",
+        "version": "0.3-3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl with case sensitive namespace and name. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_output": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl with case sensitive namespace and name",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "HTTPClient",
+        "name": "HTTPClient",
+        "version": "0.3-3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/HTTPClient/HTTPClient@0.3-3",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl containing a space in the version and qualifier. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_output": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl containing a space in the version and qualifier",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "mygroup",
+        "name": "myartifact",
+        "version": "1.0.0 Final",
+        "qualifiers": { "mykey": "my value" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl containing a space in the version and qualifier. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_output": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_failure": false
+    },
+    {
+      "description": "valid maven purl containing a space in the version and qualifier",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "mygroup",
+        "name": "myartifact",
+        "version": "1.0.0 Final",
+        "qualifiers": { "mykey": "my value" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/mygroup/myartifact@1.0.0%20Final?mykey=my%20value",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "type": "pom" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "type": "pom" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=pom",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "sources" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "sources" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=sources",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=zip&classifier=dist",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "dist", "type": "zip" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?type=zip&classifier=dist",
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=dist&type=zip",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "org.apache.xmlgraphics",
+        "name": "batik-anim",
+        "version": "1.9.1",
+        "qualifiers": { "classifier": "dist", "type": "zip" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/org.apache.xmlgraphics/batik-anim@1.9.1?classifier=dist&type=zip",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-projec",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x86", "type": "dll" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_output": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-projec",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x86", "type": "dll" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x86&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x64&type=dll",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-projec",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x64", "type": "dll" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x64&type=dll",
+      "expected_output": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x64&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "net.sf.jacob-projec",
+        "name": "jacob",
+        "version": "1.14.3",
+        "qualifiers": { "classifier": "x64", "type": "dll" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/net.sf.jacob-projec/jacob@1.14.3?classifier=x64&type=dll",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/groovy/groovy@1.0?repository_url=https://maven.google.com",
+      "expected_output": {
+        "type": "maven",
+        "namespace": "groovy",
+        "name": "groovy",
+        "version": "1.0",
+        "qualifiers": { "repository_url": "https://maven.google.com" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: maven",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:maven/groovy/groovy@1.0?repository_url=https://maven.google.com",
+      "expected_output": "pkg:maven/groovy/groovy@1.0?repository_url=https:%2F%2Fmaven.google.com",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: maven",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": "groovy",
+        "name": "groovy",
+        "version": "1.0",
+        "qualifiers": { "repository_url": "https://maven.google.com" },
+        "subpath": null
+      },
+      "expected_output": "pkg:maven/groovy/groovy@1.0?repository_url=https:%2F%2Fmaven.google.com",
+      "expected_failure": false
+    },
+    {
+      "description": "npm can be scoped. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_output": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "npm can be scoped",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_output": {
+        "type": "npm",
+        "namespace": "@angular",
+        "name": "animation",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "npm can be scoped. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_output": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "npm can be scoped",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "npm",
+        "namespace": "@angular",
+        "name": "animation",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/foobar@12.3.1",
+      "expected_output": {
+        "type": "npm",
+        "namespace": null,
+        "name": "foobar",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:npm/foobar@12.3.1",
+      "expected_output": "pkg:npm/foobar@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: npm",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "npm",
+        "namespace": null,
+        "name": "foobar",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:npm/foobar@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_output": {
+        "type": "npm",
+        "namespace": "@angular",
+        "name": "animation",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_output": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: npm",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "npm",
+        "namespace": "@angular",
+        "name": "animation",
+        "version": "12.3.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:npm/%40angular/animation@12.3.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/mypackage@12.4.5?vcs_url=git://host.com/path/to/repo.git%404345abcd34343",
+      "expected_output": {
+        "type": "npm",
+        "namespace": null,
+        "name": "mypackage",
+        "version": "12.4.5",
+        "qualifiers": { "vcs_url": "git://host.com/path/to/repo.git@4345abcd34343" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:npm/mypackage@12.4.5?vcs_url=git://host.com/path/to/repo.git%404345abcd34343",
+      "expected_output": "pkg:npm/mypackage@12.4.5?vcs_url=git:%2F%2Fhost.com%2Fpath%2Fto%2Frepo.git%404345abcd34343",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test for PURL type: npm",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "npm",
+        "namespace": null,
+        "name": "mypackage",
+        "version": "12.4.5",
+        "qualifiers": { "vcs_url": "git://host.com/path/to/repo.git@4345abcd34343" },
+        "subpath": null
+      },
+      "expected_output": "pkg:npm/mypackage@12.4.5?vcs_url=git:%2F%2Fhost.com%2Fpath%2Fto%2Frepo.git%404345abcd34343",
+      "expected_failure": false
+    },
+    {
+      "description": "valid npm purl without version and with subpath, scope unencoded",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:npm/@babel/core#/googleapis/api/annotations/",
+      "expected_output": "pkg:npm/%40babel/core#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "valid npm purl without version and with subpath, scope unencoded",
+      "test_group": "recommended",
+      "test_type": "parse",
+      "input": "pkg:npm/@babel/core#/googleapis/api/annotations/",
+      "expected_output": {
+        "type": "npm",
+        "namespace": "@babel",
+        "name": "core",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid npm purl without version and with subpath, scope unencoded",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/%40babel/core#/googleapis/api/annotations/",
+      "expected_output": {
+        "type": "npm",
+        "namespace": "@babel",
+        "name": "core",
+        "version": null,
+        "qualifiers": null,
+        "subpath": "googleapis/api/annotations"
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid npm purl without namespace and with subpath",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:npm/core@2.0.1#/googleapis/api/annotations/",
+      "expected_output": "pkg:npm/core@2.0.1#googleapis/api/annotations",
+      "expected_failure": false
+    },
+    {
+      "description": "nuget names are case sensitive. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:Nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_failure": false
+    },
+    {
+      "description": "nuget names are case sensitive",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:Nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": {
+        "type": "nuget",
+        "namespace": null,
+        "name": "EnterpriseLibrary.Common",
+        "version": "6.0.1304",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "nuget names are case sensitive. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_failure": false
+    },
+    {
+      "description": "nuget names are case sensitive",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "nuget",
+        "namespace": null,
+        "name": "EnterpriseLibrary.Common",
+        "version": "6.0.1304",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: nuget",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": {
+        "type": "nuget",
+        "namespace": null,
+        "name": "EnterpriseLibrary.Common",
+        "version": "6.0.1304",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: nuget",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: nuget",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "nuget",
+        "namespace": null,
+        "name": "EnterpriseLibrary.Common",
+        "version": "6.0.1304",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:nuget/EnterpriseLibrary.Common@6.0.1304",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pub",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pub/characters@1.2.0",
+      "expected_output": {
+        "type": "pub",
+        "namespace": null,
+        "name": "characters",
+        "version": "1.2.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pub",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pub/characters@1.2.0",
+      "expected_output": "pkg:pub/characters@1.2.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pub",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pub",
+        "namespace": null,
+        "name": "characters",
+        "version": "1.2.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:pub/characters@1.2.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pub",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pub/flutter@0.0.0",
+      "expected_output": {
+        "type": "pub",
+        "namespace": null,
+        "name": "flutter",
+        "version": "0.0.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pub",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pub/flutter@0.0.0",
+      "expected_output": "pkg:pub/flutter@0.0.0",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pub",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pub",
+        "namespace": null,
+        "name": "flutter",
+        "version": "0.0.0",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:pub/flutter@0.0.0",
+      "expected_failure": false
+    },
+    {
+      "description": "pypi names have special rules and not case sensitive. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:PYPI/Django_package@1.11.1.dev1",
+      "expected_output": "pkg:pypi/django-package@1.11.1.dev1",
+      "expected_failure": false
+    },
+    {
+      "description": "pypi names have special rules and not case sensitive",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:PYPI/Django_package@1.11.1.dev1",
+      "expected_output": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django-package",
+        "version": "1.11.1.dev1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "pypi names have special rules and not case sensitive. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pypi/django-package@1.11.1.dev1",
+      "expected_output": "pkg:pypi/django-package@1.11.1.dev1",
+      "expected_failure": false
+    },
+    {
+      "description": "pypi names have special rules and not case sensitive",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django-package",
+        "version": "1.11.1.dev1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:pypi/django-package@1.11.1.dev1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pypi/django@1.11.1",
+      "expected_output": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pypi/django@1.11.1",
+      "expected_output": "pkg:pypi/django@1.11.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:pypi/django@1.11.1",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1.tar.gz",
+      "expected_output": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": { "file_name": "Django-1.11.1.tar.gz" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1.tar.gz",
+      "expected_output": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1.tar.gz",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": { "file_name": "Django-1.11.1.tar.gz" },
+        "subpath": null
+      },
+      "expected_output": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1.tar.gz",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1-py2.py3-none-any.whl",
+      "expected_output": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": { "file_name": "Django-1.11.1-py2.py3-none-any.whl" },
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1-py2.py3-none-any.whl",
+      "expected_output": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1-py2.py3-none-any.whl",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django",
+        "version": "1.11.1",
+        "qualifiers": { "file_name": "Django-1.11.1-py2.py3-none-any.whl" },
+        "subpath": null
+      },
+      "expected_output": "pkg:pypi/django@1.11.1?file_name=Django-1.11.1-py2.py3-none-any.whl",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:pypi/django-allauth@12.23",
+      "expected_output": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django-allauth",
+        "version": "12.23",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:pypi/django-allauth@12.23",
+      "expected_output": "pkg:pypi/django-allauth@12.23",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: pypi",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "pypi",
+        "namespace": null,
+        "name": "django-allauth",
+        "version": "12.23",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:pypi/django-allauth@12.23",
+      "expected_failure": false
+    },
+    {
+      "description": "a scheme is always required",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a scheme is always required",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a type is always required",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a type is always required",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:EnterpriseLibrary.Common@6.0.1304",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a type is always required",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": null,
+        "namespace": null,
+        "name": "EnterpriseLibrary.Common",
+        "version": "6.0.1304",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for invalid character in type",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:n&g?inx/nginx@0.8.9",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for null type",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": null,
+        "namespace": null,
+        "name": "nginx",
+        "version": "0.8.9",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for type that starts with number",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:3nginx/nginx@0.8.9",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for type that starts with number",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": null,
+        "namespace": null,
+        "name": "nginx",
+        "version": "0.8.9",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for colon in type",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:nginx:a/nginx@0.8.9",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "check for colon in type",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": null,
+        "namespace": null,
+        "name": "nginx",
+        "version": "0.8.9",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "checks for invalid qualifier keys",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:npm/myartifact@1.0.0?in%20production=true",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "checks for invalid qualifier keys",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "npm",
+        "namespace": null,
+        "name": "myartifact",
+        "version": "1.0.0",
+        "qualifiers": { "in production": "true" },
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a name is required",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:maven/@1.3.4",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "a name is required",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "maven",
+        "namespace": null,
+        "name": null,
+        "version": null,
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid encoded colon : between scheme and type",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg%3Amaven/org.apache.commons/io",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "Build with multiple checksum",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "generic",
+        "namespace": null,
+        "name": "openssl",
+        "version": "1.1.10g",
+        "qualifiers": { "checksum": "sha1:ad9503c3e994a4f,sha256:41bf9088b3a1e6c1ef1d" },
+        "subpath": null
+      },
+      "expected_output": "pkg:generic/openssl@1.1.10g?checksum=sha1:ad9503c3e994a4f%2Csha256:41bf9088b3a1e6c1ef1d",
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip with multiple checksum",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:generic/bitwarderl?checksum=sha1:ad9503c3e994a4f%2Csha256:41bf9088b3a1e6c1ef1d",
+      "expected_output": "pkg:generic/bitwarderl?checksum=sha1:ad9503c3e994a4f%2Csha256:41bf9088b3a1e6c1ef1d",
+      "expected_failure": false
+    },
+    {
+      "description": "valid swift purl. Roundtrip an input purl to canonical.",
+      "test_group": "recommended",
+      "test_type": "validate",
+      "input": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_output": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_failure": false
+    },
+    {
+      "description": "valid swift purl",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_output": {
+        "type": "swift",
+        "namespace": "github.com/Alamofire",
+        "name": "Alamofire",
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "valid swift purl. Roundtrip a canonical input to canonical output.",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_output": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_failure": false
+    },
+    {
+      "description": "valid swift purl",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "swift",
+        "namespace": "github.com/Alamofire",
+        "name": "Alamofire",
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_failure": false
+    },
+    {
+      "description": "invalid swift purl without namespace",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/Alamofire@5.4.3",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid swift purl without namespace",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/Alamofire@5.4.3",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid swift purl without namespace",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "swift",
+        "namespace": null,
+        "name": "Alamofire",
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid swift purl without name",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/github.com/Alamofire/@5.4.3",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid swift purl without name",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/github.com/Alamofire/@5.4.3",
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "invalid swift purl without name",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "swift",
+        "namespace": "github.com/Alamofire",
+        "name": null,
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": null,
+      "expected_failure": true
+    },
+    {
+      "description": "Parse test for PURL type: swift",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_output": {
+        "type": "swift",
+        "namespace": "github.com/Alamofire",
+        "name": "Alamofire",
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: swift",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_output": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: swift",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "swift",
+        "namespace": "github.com/Alamofire",
+        "name": "Alamofire",
+        "version": "5.4.3",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:swift/github.com/Alamofire/Alamofire@5.4.3",
+      "expected_failure": false
+    },
+    {
+      "description": "Parse test for PURL type: swift",
+      "test_group": "required",
+      "test_type": "parse",
+      "input": "pkg:swift/github.com/RxSwiftCommunity/RxFlow@2.12.4",
+      "expected_output": {
+        "type": "swift",
+        "namespace": "github.com/RxSwiftCommunity",
+        "name": "RxFlow",
+        "version": "2.12.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_failure": false
+    },
+    {
+      "description": "Roundtrip test for PURL type: swift",
+      "test_group": "required",
+      "test_type": "validate",
+      "input": "pkg:swift/github.com/RxSwiftCommunity/RxFlow@2.12.4",
+      "expected_output": "pkg:swift/github.com/RxSwiftCommunity/RxFlow@2.12.4",
+      "expected_failure": false
+    },
+    {
+      "description": "Build test  for PURL type: swift",
+      "test_group": "required",
+      "test_type": "build",
+      "input": {
+        "type": "swift",
+        "namespace": "github.com/RxSwiftCommunity",
+        "name": "RxFlow",
+        "version": "2.12.4",
+        "qualifiers": null,
+        "subpath": null
+      },
+      "expected_output": "pkg:swift/github.com/RxSwiftCommunity/RxFlow@2.12.4",
+      "expected_failure": false
+    }
+  ]
+}

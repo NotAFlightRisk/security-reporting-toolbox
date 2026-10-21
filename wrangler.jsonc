@@ -1,0 +1,9 @@
+{
+  "name": "security-reporting-toolbox",
+  "compatibility_date": "2026-08-01",
+  "assets": {
+    "directory": "./build",
+    "not_found_handling": "404-page"
+  },
+  "routes": [{ "pattern": "security-reporting-toolbox.peng.ly", "custom_domain": true }]
+}

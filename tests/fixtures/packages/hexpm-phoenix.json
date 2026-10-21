@@ -1,0 +1,34 @@
+{
+  "name": "phoenix",
+  "html_url": "https://hex.pm/packages/phoenix",
+  "meta": {
+    "links": {
+      "Changelog": "https://phoenix.hexdocs.pm/changelog.html",
+      "GitHub": "https://github.com/phoenixframework/phoenix"
+    },
+    "description": "Peace of mind from prototype to production",
+    "licenses": ["MIT"],
+    "maintainers": []
+  },
+  "latest_version": "1.8.16",
+  "latest_stable_version": "1.8.16",
+  "retirements": {},
+  "releases": [
+    {
+      "version": "1.8.16",
+      "inserted_at": "2026-10-20T10:33:05.082429Z"
+    },
+    {
+      "version": "1.8.15",
+      "inserted_at": "2026-09-25T13:19:05.947590Z"
+    },
+    {
+      "version": "1.8.14",
+      "inserted_at": "2026-09-14T09:39:55.338525Z"
+    },
+    {
+      "version": "1.8.13",
+      "inserted_at": "2026-08-25T09:12:05.501145Z"
+    }
+  ]
+}

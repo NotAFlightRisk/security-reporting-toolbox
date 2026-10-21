@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://security-reporting-toolbox.peng.ly/sitemap.xml
