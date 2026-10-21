@@ -72,7 +72,12 @@ docker run -p 8080:8080 notaflightrisk/security-reporting-toolbox
 
 ### Option 3: From a release
 
-Grab `site.zip` from the [latest release](https://github.com/NotAFlightRisk/security-reporting-toolbox/releases/latest), unzip it, and serve the folder with anything that maps `/cwe` to `cwe.html`. For a quick look, `npx serve site` does the job.
+Grab `site.zip` from the [latest release](https://github.com/NotAFlightRisk/security-reporting-toolbox/releases/latest) and serve it with anything that maps `/cwe` to `cwe.html`. For a quick look:
+
+```shell
+unzip site.zip -d site
+npx serve site
+```
 
 ### Option 4: Build from source
 

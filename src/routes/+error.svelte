@@ -18,7 +18,7 @@
       ? 'It might have moved, or the link had a typo in it. One of these is probably what you were after:'
       : "It's been logged. Try again in a moment, or head to one of the tools:"}
   </p>
-  <nav class="matrix" aria-label="Tools">
+  <nav class="matrix" aria-label="Pick a tool">
     {#each tools as { path, title } (path)}
       <a class="cell" href={path}>{title}</a>
     {/each}

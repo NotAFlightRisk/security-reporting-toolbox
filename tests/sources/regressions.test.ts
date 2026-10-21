@@ -71,6 +71,21 @@ describe('an answer we cannot read is bad data, never missing', () => {
     expect(parseEpss({ data })![0].probability).toBe(Number(epss));
   });
 
+  it.each([{}, 'x', null, 1])('EPSS time-series %j that is not a list', (series) => {
+    const row = { cve: 'CVE-2024-1', epss: '0.1', percentile: '0.2', date: '2026-10-21' };
+    expect(parseEpss({ data: [{ ...row, 'time-series': series }] })).toBeNull();
+  });
+
+  it.each([
+    [undefined, 0],
+    [[], 1]
+  ])('EPSS time-series %j is still fine', (series, points) => {
+    const row = { cve: 'CVE-2024-1', epss: '0.1', percentile: '0.2', date: '2026-10-21' };
+    expect(parseEpss({ data: [{ ...row, 'time-series': series }] })![0].history).toHaveLength(
+      points
+    );
+  });
+
   it('an EPSS null fails the lookup instead of scoring it 0', async () => {
     const data = [{ cve: 'CVE-2024-9999', epss: null, percentile: null, date: '2026-10-21' }];
     fakeFetch([[/epss\?cve=CVE-2024-9999/, 200, { data }]]);

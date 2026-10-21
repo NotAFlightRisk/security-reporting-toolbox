@@ -1,5 +1,5 @@
 import { getJson, type Outcome } from '#lib/net/fetch.ts';
-import { list, parsed, text } from './types.ts';
+import { parsed, text } from './types.ts';
 
 export interface EpssPoint {
   date: string;
@@ -43,11 +43,14 @@ export function parseEpss(json: unknown): EpssScore[] | null {
   for (const entry of body.data as Json[]) {
     const current = point(entry);
     const cve = text(entry?.cve).toUpperCase();
-    const series = list<Json>(entry?.['time-series']).map(point);
+    // absent means nobody asked for history, anything else has to be a list
+    const raw: unknown = entry?.['time-series'];
+    if (raw !== undefined && !Array.isArray(raw)) return null;
+    const series = (raw ?? []).map(point);
     if (!current || !cve || series.includes(null)) return null;
     const byDate = new Map([...(series as EpssPoint[]), current].map((item) => [item.date, item]));
     const history = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
-    scores.push({ cve, ...current, history: entry['time-series'] ? history : [] });
+    scores.push({ cve, ...current, history: raw ? history : [] });
   }
   return scores;
 }

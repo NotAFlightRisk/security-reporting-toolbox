@@ -5,7 +5,7 @@
 </script>
 
 <aside class="help panel" aria-live="polite" aria-label="About this metric">
-  <h3>{metric.name} <span class="mono">{metric.key}</span></h3>
+  <h2>{metric.name} <span class="mono">{metric.key}</span></h2>
   <p class="about">{metric.about}</p>
   <dl>
     {#each metric.values.filter((value) => value.about) as value (value.key)}
@@ -26,7 +26,7 @@
     padding: var(--space-3);
     font-size: var(--text-sm);
 
-    & h3 {
+    & h2 {
       font-size: var(--text-md);
     }
 

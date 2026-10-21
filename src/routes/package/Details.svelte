@@ -21,17 +21,19 @@
   let showAll = $state(false);
   const shown = 20;
 
+  // only the newest lookup gets to write, and it starts from a clean slate
   $effect(() => {
     void attempt;
-    result = undefined;
-    gap = undefined;
+    let live = true;
+    [result, info, gap] = [undefined, undefined, undefined];
     lookup(ecosystem, name).then(async (answer) => {
+      if (!live) return;
       result = answer;
       if (answer.status !== 'ok') return;
       const enriched = await details(ecosystem, answer.data);
-      info = enriched.info;
-      gap = enriched.gap;
+      if (live) [info, gap] = [enriched.info, enriched.gap];
     });
+    return () => (live = false);
   });
 
   const problem = $derived(ecosystem.check(name));
