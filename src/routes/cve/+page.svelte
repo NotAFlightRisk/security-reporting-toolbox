@@ -105,6 +105,9 @@
       outcome={results}
       {page}
       what={keyword ? `matching "${keyword}"` : `filed under CWE-${cwe}`}
+      empty={keyword
+        ? 'NVD only returns CVEs whose description contains every word, so try fewer or plainer ones, like the product name and the bug type.'
+        : ''}
       onpage={(next) => setParams({ page: next ? String(next) : null })}
       retry={() => filter && search(filter, page)}
     />

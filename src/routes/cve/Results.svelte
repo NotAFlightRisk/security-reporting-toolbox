@@ -10,6 +10,7 @@
     outcome,
     page,
     what,
+    empty = '',
     onpage,
     retry
   }: {
@@ -17,6 +18,8 @@
     page: number;
     /** "matching log4j", for the count line */
     what: string;
+    /** what to try next when nothing matched */
+    empty?: string;
     onpage: (page: number) => void;
     retry: () => void;
   } = $props();
@@ -84,6 +87,8 @@
           </button>
         </nav>
       {/if}
+    {:else if empty}
+      <p class="empty">{empty}</p>
     {/if}
   </div>
 {/if}
@@ -96,6 +101,11 @@
 
   .count {
     color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  .empty {
+    max-width: var(--measure);
     font-size: var(--text-sm);
   }
 
