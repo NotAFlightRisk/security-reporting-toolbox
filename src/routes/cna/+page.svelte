@@ -115,28 +115,32 @@
 
   <Toolbar label="Filters">
     <ToolGroup caption="Type">
-      {#each types as [value, total] (value)}
-        <button
-          type="button"
-          class="chip"
-          aria-pressed={type === value}
-          onclick={() => toggle('type', value, type)}
-        >
-          {value} <span>{total}</span>
-        </button>
-      {/each}
+      <div class="segments">
+        {#each types as [value, total] (value)}
+          <button
+            type="button"
+            class="cell"
+            aria-pressed={type === value}
+            onclick={() => toggle('type', value, type)}
+          >
+            {value} <small>{total}</small>
+          </button>
+        {/each}
+      </div>
     </ToolGroup>
     <ToolGroup caption="Role">
-      {#each roles as { value, label } (value)}
-        <button
-          type="button"
-          class="chip"
-          aria-pressed={role === value}
-          onclick={() => toggle('role', value, role)}
-        >
-          {label}
-        </button>
-      {/each}
+      <div class="segments">
+        {#each roles as { value, label } (value)}
+          <button
+            type="button"
+            class="cell"
+            aria-pressed={role === value}
+            onclick={() => toggle('role', value, role)}
+          >
+            {label}
+          </button>
+        {/each}
+      </div>
     </ToolGroup>
   </Toolbar>
 
@@ -245,34 +249,8 @@
 </ToolPage>
 
 <style>
-  .chip {
-    min-height: 1.75rem;
-    padding: 0 var(--space-2);
-    border: var(--hairline) solid var(--line);
-    border-radius: var(--radius);
-    background: var(--surface-sunk);
-    font-size: var(--text-xs);
-    font-weight: 600;
-    cursor: pointer;
-
-    & span {
-      color: var(--text-faint);
-      font-weight: 450;
-    }
-
-    &:hover {
-      border-color: var(--line-strong);
-    }
-
-    &[aria-pressed='true'] {
-      border-color: var(--accent);
-      background: var(--accent);
-      color: var(--accent-text);
-
-      & span {
-        color: inherit;
-      }
-    }
+  .segments small {
+    opacity: 0.7;
   }
 
   .count {
@@ -319,7 +297,7 @@
     }
 
     &[open] summary {
-      box-shadow: inset 3px 0 0 var(--accent);
+      background: var(--surface-sunk);
     }
   }
 

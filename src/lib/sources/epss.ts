@@ -1,5 +1,5 @@
 import { getJson, type Outcome } from '#lib/net/fetch.ts';
-import { list, parsed, text } from './types.ts';
+import { parsed, text } from './types.ts';
 
 export interface EpssPoint {
   date: string;
@@ -19,28 +19,40 @@ const base = 'https://api.first.org/data/v1/epss';
 // the API returns 100 rows by default and caps the cve list at 2,000 characters
 export const batchSize = 100;
 
+// Number(null) and Number('') are both 0, which would pass a hole off as a real score
+function numeric(value: unknown) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  if (typeof value !== 'string' || !value.trim()) return null;
+  const number = Number(value);
+  return Number.isFinite(number) ? number : null;
+}
+
 function point(entry: Json): EpssPoint | null {
-  const probability = Number(entry?.epss);
-  const percentile = Number(entry?.percentile);
+  const probability = numeric(entry?.epss);
+  const percentile = numeric(entry?.percentile);
   const date = text(entry?.date);
-  if (!date || !Number.isFinite(probability) || !Number.isFinite(percentile)) return null;
+  if (!date || probability === null || percentile === null) return null;
   return { date, probability, percentile };
 }
 
+/** one unreadable row or history point fails the lot, so a hole never reads as "no score" */
 export function parseEpss(json: unknown): EpssScore[] | null {
   const body = json as Json;
   if (!Array.isArray(body?.data)) return null;
-  return body.data.flatMap((entry: Json) => {
+  const scores: EpssScore[] = [];
+  for (const entry of body.data as Json[]) {
     const current = point(entry);
     const cve = text(entry?.cve).toUpperCase();
-    if (!current || !cve) return [];
-    const series = list<Json>(entry['time-series']).map(point);
-    const byDate = new Map(
-      [...series, current].flatMap((item) => (item ? [[item.date, item]] : []))
-    );
+    // absent means nobody asked for history, anything else has to be a list
+    const raw: unknown = entry?.['time-series'];
+    if (raw !== undefined && !Array.isArray(raw)) return null;
+    const series = (raw ?? []).map(point);
+    if (!current || !cve || series.includes(null)) return null;
+    const byDate = new Map([...(series as EpssPoint[]), current].map((item) => [item.date, item]));
     const history = [...byDate.values()].sort((a, b) => a.date.localeCompare(b.date));
-    return [{ cve, ...current, history: entry['time-series'] ? history : [] }];
-  });
+    scores.push({ cve, ...current, history: raw ? history : [] });
+  }
+  return scores;
 }
 
 export function batches<T>(items: T[], size = batchSize) {

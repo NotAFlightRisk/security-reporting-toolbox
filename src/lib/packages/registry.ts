@@ -15,7 +15,8 @@ export interface PackageInfo {
   latest?: string;
   /** newest first, versions the scheme can't read go last */
   releases: Release[];
-  licenses: string[];
+  /** undefined when the source doesn't say, [] when it says there are none */
+  licenses?: string[];
   repo?: string;
   homepage?: string;
   description?: string;
@@ -92,7 +93,6 @@ export function fromDepsDev(ecosystem: Ecosystem, data: DepsDevPackage): Package
     name,
     latest: data.versions.find((entry) => entry.isDefault)?.versionKey.version,
     releases: sortReleases(ecosystem, releases),
-    licenses: [],
     source: {
       name: 'deps.dev',
       url: `https://deps.dev/${ecosystem.depsDev!.toLowerCase()}/${encodeURIComponent(name)}`
@@ -123,7 +123,6 @@ export function fromPub(ecosystem: Ecosystem, data: PubPackage): PackageInfo {
         pulled: entry.retracted ? 'retracted' : undefined
       }))
     ),
-    licenses: [],
     repo: repoUrl(pubspec.repository),
     homepage: pubspec.homepage,
     description: pubspec.description,
@@ -194,10 +193,18 @@ export function lookup(ecosystem: Ecosystem, name: string): Promise<Lookup> {
   });
 }
 
+export interface Enriched {
+  info: PackageInfo;
+  /** why the licence and links are unknown, as opposed to empty */
+  gap?: string;
+}
+
 /** licence and links for the latest version, which deps.dev keeps per version */
-export async function details(ecosystem: Ecosystem, info: PackageInfo): Promise<PackageInfo> {
-  if (!ecosystem.depsDev || !info.latest) return info;
+export async function details(ecosystem: Ecosystem, info: PackageInfo): Promise<Enriched> {
+  if (!ecosystem.depsDev || !info.latest) return { info };
   const url = `${depsDevPackageUrl(ecosystem, info.name)}/versions/${encodeURIComponent(info.latest)}`;
   const result = await getJson<DepsDevVersion>(url);
-  return result.status === 'ok' ? withDepsDevVersion(info, result.data) : info;
+  if (result.status === 'ok') return { info: withDepsDevVersion(info, result.data) };
+  const why = result.status === 'missing' ? `has no record of ${info.latest}` : result.message;
+  return { info, gap: `deps.dev ${why}, so the licence and links are unknown rather than empty.` };
 }

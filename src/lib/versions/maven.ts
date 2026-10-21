@@ -1,6 +1,7 @@
 // Maven's ComparableVersion ordering, ported from the Java
+import { compareNumbers } from '#lib/versions/order.ts';
 
-type Item = number | string | Item[];
+type Item = bigint | string | Item[];
 
 const qualifiers = ['alpha', 'beta', 'milestone', 'rc', 'snapshot', '', 'sp'];
 const aliases: Record<string, string> = { ga: '', final: '', release: '', cr: 'rc' };
@@ -20,7 +21,7 @@ const rank = (text: string) => {
 const order = (a: string, b: string) => (a < b ? -1 : a > b ? 1 : 0);
 
 const isNull = (item: Item) =>
-  item === 0 || item === '' || (Array.isArray(item) && item.length === 0);
+  item === 0n || item === '' || (Array.isArray(item) && item.length === 0);
 
 function normalise(list: Item[]) {
   for (let index = list.length - 1; index >= 0; index--) {
@@ -39,7 +40,7 @@ export function parseMaven(version: string): Item[] {
 
   const token = (end: number, isNumber: boolean, followedByDigit = false) => {
     const part = text.slice(start, end);
-    list.push(isNumber ? Number(part) : qualifier(part, followedByDigit));
+    list.push(isNumber ? BigInt(part) : qualifier(part, followedByDigit));
   };
   const nest = () => {
     const child: Item[] = [];
@@ -51,7 +52,7 @@ export function parseMaven(version: string): Item[] {
   for (let index = 0; index < text.length; index++) {
     const char = text[index];
     if (char === '.' || char === '-') {
-      if (index === start) list.push(0);
+      if (index === start) list.push(0n);
       else token(index, digits);
       start = index + 1;
       if (char === '-') nest();
@@ -82,16 +83,16 @@ export function parseMaven(version: string): Item[] {
 
 function compareItems(left: Item | undefined, right: Item | undefined): number {
   if (left === undefined) return right === undefined ? 0 : -compareItems(right, undefined);
-  if (typeof left === 'number') {
-    if (right === undefined) return left === 0 ? 0 : 1;
-    return typeof right === 'number' ? Math.sign(left - right) : 1;
+  if (typeof left === 'bigint') {
+    if (right === undefined) return left === 0n ? 0 : 1;
+    return typeof right === 'bigint' ? compareNumbers(left, right) : 1;
   }
   if (typeof left === 'string') {
     if (right === undefined) return order(rank(left), rank(''));
     return typeof right === 'string' ? order(rank(left), rank(right)) : -1;
   }
   if (right === undefined) return left.length === 0 ? 0 : compareItems(left[0], undefined);
-  if (typeof right === 'number') return -1;
+  if (typeof right === 'bigint') return -1;
   if (typeof right === 'string') return 1;
   for (let index = 0; index < Math.max(left.length, right.length); index++) {
     const result = compareItems(left[index], right[index]);

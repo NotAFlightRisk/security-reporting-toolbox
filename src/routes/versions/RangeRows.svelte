@@ -67,7 +67,7 @@
               <input
                 class="mono"
                 bind:value={range.version}
-                placeholder={scheme.example.split(' ')[0]}
+                placeholder={scheme.example.split(/[ ,]/)[0]}
                 spellcheck="false"
                 autocomplete="off"
               />
@@ -141,7 +141,7 @@
     background: var(--surface);
 
     &.bad {
-      box-shadow: inset 3px 0 0 var(--bad);
+      background: var(--bad-soft);
     }
   }
 

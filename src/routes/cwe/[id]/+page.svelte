@@ -304,9 +304,7 @@
     }
 
     & .id {
-      display: block;
-      color: var(--accent);
-      font-size: var(--text-md);
+      color: var(--text-muted);
     }
   }
 
@@ -321,15 +319,16 @@
   .facts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    gap: var(--hairline);
     margin: 0 0 var(--space-5);
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
+    border-top: var(--hairline) solid var(--line);
+    border-left: var(--hairline) solid var(--line);
 
     & div {
       display: grid;
       gap: 2px;
       padding: var(--space-2) var(--space-3);
+      border-right: var(--hairline) solid var(--line);
+      border-bottom: var(--hairline) solid var(--line);
       background: var(--surface);
     }
 
@@ -394,7 +393,8 @@
     display: grid;
     gap: var(--space-2);
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid var(--accent);
+    border: var(--hairline) solid var(--line-strong);
+    background: var(--surface-raised);
 
     & h3 {
       margin-top: var(--space-2);

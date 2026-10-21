@@ -14,8 +14,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: stretch;
-    gap: var(--hairline);
+    overflow: hidden;
     border: var(--hairline) solid var(--line);
-    background: var(--line);
+    background: var(--surface);
   }
 </style>

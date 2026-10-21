@@ -287,7 +287,7 @@
     }
 
     & .focus {
-      box-shadow: inset 3px 0 0 var(--accent);
+      background: var(--accent-soft);
     }
   }
 

@@ -16,17 +16,24 @@
 
   let result = $state<Lookup>();
   let info = $state<PackageInfo>();
+  let gap = $state<string>();
   let attempt = $state(0);
   let showAll = $state(false);
   const shown = 20;
 
+  // only the newest lookup gets to write, and it starts from a clean slate
   $effect(() => {
     void attempt;
-    result = undefined;
+    let live = true;
+    [result, info, gap] = [undefined, undefined, undefined];
     lookup(ecosystem, name).then(async (answer) => {
+      if (!live) return;
       result = answer;
-      if (answer.status === 'ok') info = await details(ecosystem, answer.data);
+      if (answer.status !== 'ok') return;
+      const enriched = await details(ecosystem, answer.data);
+      if (live) [info, gap] = [enriched.info, enriched.gap];
     });
+    return () => (live = false);
   });
 
   const problem = $derived(ecosystem.check(name));
@@ -75,13 +82,16 @@
             )}{/if}
         </dd>
       {/if}
-      {#if info.licenses.length}
+      {#if info.licenses}
         <dt>Licence</dt>
-        <dd>{info.licenses.join(', ')}</dd>
+        <dd>{info.licenses.join(', ') || 'None declared'}</dd>
       {/if}
       {#if info.repo}
         <dt>Repository</dt>
         <dd><a href={info.repo} rel="external">{info.repo.replace(/^https?:\/\//, '')}</a></dd>
+      {:else if !gap}
+        <dt>Repository</dt>
+        <dd>None listed</dd>
       {/if}
       {#if info.homepage && info.homepage !== info.repo}
         <dt>Homepage</dt>
@@ -97,6 +107,13 @@
       >
     </dd>
   </dl>
+
+  {#if gap}
+    <p class="problem" role="status">
+      {gap}
+      <button type="button" class="button" onclick={() => attempt++}>Try again</button>
+    </p>
+  {/if}
 
   <Interchange
     links={[
@@ -181,13 +198,18 @@
   }
 
   .problem {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
     padding: var(--space-1) var(--space-2);
-    border-left: 3px solid var(--warn);
+    border: var(--hairline) solid var(--warn);
     background: var(--warn-soft);
     font-size: var(--text-sm);
 
     &.error {
-      border-left-color: var(--bad);
+      border-color: var(--bad);
       background: var(--bad-soft);
     }
   }

@@ -108,7 +108,8 @@ export function parseNvdPage(json: unknown): NvdPage | null {
   const body = json as Json;
   if (typeof body?.totalResults !== 'number') return null;
   const items = list<Json>(body.vulnerabilities).map(parseNvdCve);
-  return { total: body.totalResults, items: items.filter((item) => item !== null) };
+  if (items.some((item) => item === null)) return null;
+  return { total: body.totalResults, items: items as NvdCve[] };
 }
 
 // NVD answers a busy client with a bare 403, so name the limit rather than a status code
@@ -127,14 +128,21 @@ function explain<T>(outcome: Outcome<T>): Outcome<T> {
   return outcome;
 }
 
+const unreadable = {
+  status: 'failed',
+  reason: 'bad-data',
+  message: 'said it had a record but sent nothing we could read'
+} as const;
+
 const get = async (query: string) =>
   explain(parsed(await getJson(`${base}?${query}`), parseNvdPage));
 
 export async function lookupNvd(id: string): Promise<Outcome<NvdCve>> {
   const outcome = await get(`cveId=${encodeURIComponent(id)}`);
   if (outcome.status !== 'ok') return outcome;
-  const item = outcome.data.items[0];
-  return item ? { status: 'ok', data: item } : { status: 'missing' };
+  const { total, items } = outcome.data;
+  if (total === 0) return { status: 'missing' };
+  return items[0] ? { status: 'ok', data: items[0] } : unreadable;
 }
 
 /** NVD only sorts oldest first, so count the matches and then read pages off the far end */

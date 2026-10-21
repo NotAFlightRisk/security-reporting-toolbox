@@ -74,9 +74,10 @@ export const lookupAdvisory = async (ghsa: string) =>
 
 /** a CVE can have several GHSAs (one per ecosystem, say), and none is a missing, not a failure */
 export async function advisoriesForCve(cve: string): Promise<Outcome<Advisory[]>> {
-  const outcome = parsed(await getJson(`${base}?cve_id=${cve}`), (data) =>
-    Array.isArray(data) ? data.map(parseAdvisory).filter((item) => item !== null) : null
-  );
+  const outcome = parsed(await getJson(`${base}?cve_id=${cve}`), (data) => {
+    const advisories = Array.isArray(data) ? data.map(parseAdvisory) : [null];
+    return advisories.some((item) => item === null) ? null : (advisories as Advisory[]);
+  });
   if (outcome.status === 'ok' && outcome.data.length === 0) return { status: 'missing' };
   return outcome;
 }

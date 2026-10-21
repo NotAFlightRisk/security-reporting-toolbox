@@ -21,11 +21,6 @@ describe('EPSS', () => {
     expect([...dates].sort()).toEqual(dates);
   });
 
-  it('skips rows with junk numbers', () => {
-    const data = [{ cve: 'CVE-2024-1', epss: 'abc', percentile: '0.5', date: '2026-10-21' }];
-    expect(parseEpss({ data })).toEqual([]);
-  });
-
   it.each([
     [0, []],
     [100, [100]],

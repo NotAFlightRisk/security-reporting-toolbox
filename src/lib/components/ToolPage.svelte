@@ -138,7 +138,7 @@
 
     & :global(dl) {
       display: grid;
-      grid-template-columns: max-content 1fr;
+      grid-template-columns: minmax(0, 11rem) 1fr;
       gap: var(--space-1) var(--space-4);
       margin: 0;
 
@@ -148,6 +148,15 @@
 
       & :global(dd) {
         margin: 0;
+      }
+
+      @media (max-width: 40rem) {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 0;
+
+        & :global(dd) {
+          margin-bottom: var(--space-2);
+        }
       }
     }
   }

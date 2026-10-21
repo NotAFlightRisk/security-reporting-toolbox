@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { groupNames, isUnset, type Metric } from '#lib/cvss/metrics.ts';
+  import { isUnset, type Metric } from '#lib/cvss/metrics.ts';
 
   let { metric, chosen }: { metric: Metric; chosen: string | undefined } = $props();
 </script>
 
 <aside class="help panel" aria-live="polite" aria-label="About this metric">
-  <p class="label">{groupNames[metric.group]} metric</p>
-  <h3>{metric.name} <span class="mono">{metric.key}</span></h3>
+  <h2>{metric.name} <span class="mono">{metric.key}</span></h2>
   <p class="about">{metric.about}</p>
   <dl>
     {#each metric.values.filter((value) => value.about) as value (value.key)}
@@ -27,7 +26,7 @@
     padding: var(--space-3);
     font-size: var(--text-sm);
 
-    & h3 {
+    & h2 {
       font-size: var(--text-md);
     }
 
@@ -48,10 +47,10 @@
 
     & div {
       padding: var(--space-1) var(--space-2);
-      border-left: 3px solid var(--line);
+      border: var(--hairline) solid transparent;
 
       &.active {
-        border-left-color: var(--accent);
+        border-color: var(--accent);
         background: var(--accent-soft);
       }
     }

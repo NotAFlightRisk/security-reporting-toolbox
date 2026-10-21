@@ -11,6 +11,7 @@
 {/if}
 
 <style>
+  /* plain when it's fine to map, colour only for the exceptions */
   .usage {
     --tone: var(--text-muted);
     display: inline-block;
@@ -22,10 +23,6 @@
     font-weight: 650;
     line-height: 1.5;
     white-space: nowrap;
-  }
-
-  .allowed {
-    --tone: var(--good);
   }
 
   .allowed-with-review,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from 'svelte';
+  import { untrack } from 'svelte';
   import ToolPage from '#lib/components/ToolPage.svelte';
   import { ecosystem, ecosystems, type EcosystemId } from '#lib/ecosystems.ts';
   import EcosystemPicker from '#lib/packages/EcosystemPicker.svelte';
@@ -13,6 +13,7 @@
     validate,
     type Range
   } from '#lib/versions/range.ts';
+  import { urlSync } from '#lib/versions/sync.ts';
   import Guide from './Guide.svelte';
   import Output from './Output.svelte';
   import Published from './Published.svelte';
@@ -24,7 +25,6 @@
   let picked = $state<EcosystemId | ''>('npm');
   let name = $state('');
   let ranges = $state<Range[]>([blank()]);
-  let ready = $state(false);
 
   const current = $derived(ecosystems.find((entry) => entry.id === picked) ?? ecosystems[0]);
   const scheme = $derived(schemeOf(current));
@@ -44,26 +44,31 @@
     filled.length > 0 && !problems.some((problem) => problem.level === 'error')
   );
 
-  onMount(() => {
-    picked = ecosystem(param('ecosystem'))?.id ?? 'npm';
-    name = param('package');
-    const saved = decodeRanges(param('r'));
-    if (saved.length) ranges = saved;
-    ready = true;
+  const asked = $derived([param('ecosystem'), param('package'), param('r')]);
+  const shown = $derived([picked, name.trim(), encodeRanges(filled)]);
+  const sync = urlSync();
+
+  $effect(() => {
+    const [wantedEcosystem, wantedName, wantedRanges] = asked;
+    untrack(() =>
+      sync.url(asked.join('\n'), () => {
+        picked = ecosystem(wantedEcosystem)?.id ?? 'npm';
+        name = wantedName;
+        const saved = decodeRanges(wantedRanges);
+        ranges = saved.length ? saved : [blank()];
+        return shown.join('\n');
+      })
+    );
   });
 
-  // keep the URL in step so a range can be shared, without a history entry per keystroke
-  let timer: ReturnType<typeof setTimeout>;
   $effect(() => {
-    const values = {
-      ecosystem: picked,
-      package: name.trim() || null,
-      r: encodeRanges(filled) || null
-    };
-    if (!ready) return;
-    clearTimeout(timer);
-    timer = setTimeout(() => setParams(values, { replace: true }), 400);
-    return () => clearTimeout(timer);
+    const [nextEcosystem, nextName, nextRanges] = shown;
+    return sync.state(shown.join('\n'), () =>
+      setParams(
+        { ecosystem: nextEcosystem, package: nextName || null, r: nextRanges || null },
+        { replace: true }
+      )
+    );
   });
 
   const nameId = $props.id();

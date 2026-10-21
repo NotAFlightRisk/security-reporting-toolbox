@@ -19,7 +19,7 @@
 <article class="entry panel">
   <header>
     <span class="verdict">In KEV</span>
-    <h3><code>{entry.cve}</code></h3>
+    <h2><code>{entry.cve}</code></h2>
     <CopyButton text={citation} label="Copy a citation" compact />
   </header>
   <p class="name">{entry.name}</p>
@@ -65,7 +65,7 @@
     display: grid;
     gap: var(--space-3);
     padding: var(--space-3) var(--space-4);
-    border-left: 3px solid var(--bad);
+    border: var(--hairline) solid var(--bad);
 
     & header {
       display: flex;
@@ -74,7 +74,7 @@
       gap: var(--space-2) var(--space-3);
     }
 
-    & h3 {
+    & h2 {
       font-size: var(--text-md);
     }
   }

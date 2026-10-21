@@ -21,6 +21,8 @@ export interface AffectedProduct {
   vendor: string;
   product: string;
   versions: AffectedVersion[];
+  /** what every version not listed is: affected, unaffected or unknown */
+  defaultStatus: string | null;
 }
 
 export interface Ssvc {
@@ -124,7 +126,8 @@ function affected(entries: unknown): AffectedProduct[] {
   return list<Json>(entries).map((entry) => ({
     vendor: text(entry?.vendor) || text(entry?.collectionURL) || 'Unknown vendor',
     product: text(entry?.product) || text(entry?.packageName) || 'Unknown product',
-    versions: list<Json>(entry?.versions).flatMap(describeVersion)
+    versions: list<Json>(entry?.versions).flatMap(describeVersion),
+    defaultStatus: text(entry?.defaultStatus) || null
   }));
 }
 

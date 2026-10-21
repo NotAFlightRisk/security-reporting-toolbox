@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { untrack } from 'svelte';
-  import { goto } from '$app/navigation';
+  import { afterNavigate, goto } from '$app/navigation';
   import QueryField from '#lib/components/QueryField.svelte';
   import Severity from '#lib/components/Severity.svelte';
   import ToolGroup from '#lib/components/ToolGroup.svelte';
@@ -10,7 +9,7 @@
   import { groupNames, isUnset, metricsFor, type Metric, type Version } from '#lib/cvss/metrics.ts';
   import { parseVector, toVector } from '#lib/cvss/parse.ts';
   import { score } from '#lib/cvss/score.ts';
-  import { param, setParams } from '#lib/query.svelte.ts';
+  import { setParams } from '#lib/query.svelte.ts';
   import { tool } from '#lib/tools.ts';
   import Guide, { faq } from './Guide.svelte';
   import MetricHelp from './MetricHelp.svelte';
@@ -18,14 +17,15 @@
   import ScorePanel from './ScorePanel.svelte';
 
   const editable: Version[] = ['3.1', '4.0'];
-
-  let version = $state<Version>('3.1');
-  let chosen = $state<Record<Version, Record<string, string>>>({
+  const blank = (): Record<Version, Record<string, string>> => ({
     '2.0': {},
     '3.0': {},
     '3.1': {},
     '4.0': {}
   });
+
+  let version = $state<Version>('3.1');
+  let chosen = $state(blank());
   let draft = $state('');
   let problem = $state<string | null>(null);
   let notes = $state<string[]>([]);
@@ -93,9 +93,16 @@
     writeUrl();
   }
 
-  function clear() {
-    chosen[version] = {};
+  function reset() {
+    chosen = blank();
+    problem = null;
+    notes = [];
     converted = null;
+  }
+
+  function clear() {
+    reset();
+    draft = '';
     writeUrl();
   }
 
@@ -114,14 +121,18 @@
     setParams({ vector: toVector(version, values) });
   }
 
-  // follow real navigations: links from other tools, and back/forward
-  $effect(() => {
-    const fromUrl = param('vector');
-    untrack(() => {
-      if (!fromUrl || fromUrl === vector) return;
-      draft = fromUrl;
-      load(fromUrl);
-    });
+  // a blank or broken vector in the URL means a blank calculator, never the last score
+  function follow(fromUrl: string) {
+    if (fromUrl === vector) return;
+    reset();
+    draft = fromUrl;
+    if (fromUrl) load(fromUrl);
+  }
+
+  // our own clicks are shallow gotos, everything else (links, back, forward) gets followed
+  afterNavigate(({ type, shallow }) => {
+    if (type === 'goto' && shallow) return;
+    follow(new URL(location.href).searchParams.get('vector') ?? '');
   });
 </script>
 
@@ -144,7 +155,7 @@
 
   <Toolbar label="Calculator controls">
     <ToolGroup caption="Version">
-      <div class="versions">
+      <div class="segments versions">
         {#each editable.includes(version) ? editable : [version, ...editable] as option (option)}
           <button
             type="button"
@@ -250,24 +261,15 @@
   .notes {
     margin: 0;
     padding: var(--space-2) var(--space-3) var(--space-2) var(--space-5);
-    border-left: 3px solid var(--accent);
+    border: var(--hairline) solid var(--accent);
     background: var(--accent-soft);
     font-size: var(--text-sm);
   }
 
-  .versions {
-    display: flex;
-    gap: var(--hairline);
-    background: var(--line);
-    border: var(--hairline) solid var(--line);
-
-    & .cell {
-      width: auto;
-      min-width: 3.5rem;
-      font-family: var(--font-mono);
-      text-align: center;
-      box-shadow: none;
-    }
+  .versions .cell {
+    min-width: 3.5rem;
+    font-family: var(--font-mono);
+    text-align: center;
   }
 
   .notice {
@@ -277,7 +279,7 @@
     justify-content: space-between;
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
-    border-left: 3px solid var(--warn);
+    border: var(--hairline) solid var(--warn);
     background: var(--warn-soft);
     font-size: var(--text-sm);
 
@@ -327,7 +329,8 @@
     display: grid;
     gap: var(--space-2);
     padding: var(--space-3);
-    border-left: 3px solid var(--accent);
+    border: var(--hairline) solid var(--line);
+    background: var(--surface);
     font-size: var(--text-sm);
 
     & h2 {

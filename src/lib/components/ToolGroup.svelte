@@ -21,10 +21,10 @@
     gap: var(--space-1);
     flex: 1 1 auto;
     padding: var(--space-2) var(--space-2) var(--space-1);
-    background: var(--surface);
+    outline: var(--hairline) solid var(--line);
 
     &.grow {
-      flex-basis: 18rem;
+      flex: 1 1 18rem;
     }
   }
 

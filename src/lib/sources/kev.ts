@@ -1,4 +1,5 @@
-import { getJson } from '#lib/net/fetch.ts';
+import { getJson, type Outcome } from '#lib/net/fetch.ts';
+import type { NvdCve, NvdKev } from './nvd.ts';
 import { list, parsed, text } from './types.ts';
 
 export interface KevNote {
@@ -98,4 +99,17 @@ export function filterKev(entries: KevEntry[], filter: KevFilter, today = new Da
       `${item.cve} ${item.vendor} ${item.product} ${item.name} ${item.description}`.toLowerCase();
     return words.every((word) => haystack.includes(word));
   });
+}
+
+export type CrossCheck =
+  | { kind: 'listed'; kev: NvdKev }
+  | { kind: 'agrees' }
+  | { kind: 'unknown' }
+  | { kind: 'failed'; message: string };
+
+/** what NVD's copy of a CVE says about KEV, when the catalogue copy didn't have it */
+export function crossCheck(outcome: Outcome<NvdCve>): CrossCheck {
+  if (outcome.status === 'failed') return { kind: 'failed', message: outcome.message };
+  if (outcome.status === 'missing') return { kind: 'unknown' };
+  return outcome.data.kev ? { kind: 'listed', kev: outcome.data.kev } : { kind: 'agrees' };
 }

@@ -124,6 +124,7 @@
         {/each}
       </p>
     {/if}
+    <Interchange {links} />
   </header>
 
   <div class="states">
@@ -176,8 +177,8 @@
             <span class="cell dim">Waiting...</span>
           {:else if epss}
             <a class="cell" href="/epss?cve={lookup.cve}">
-              <b class="mono">{percent(epss.probability)}</b> chance,
-              <span class="mono">{percent(epss.percentile, 1)}</span> percentile
+              <span><b class="figure">{percent(epss.probability)}</b> chance</span>
+              <span><b class="figure">{percent(epss.percentile, 1)}</b> percentile</span>
               <small>as of {formatDate(epss.date)}</small>
             </a>
           {:else}
@@ -203,11 +204,14 @@
         {#if cisa?.ssvc}
           <div class="column">
             <div class="column-head">SSVC <small>CISA's triage call</small></div>
-            <span class="cell">
-              Exploitation: <b>{cisa.ssvc.exploitation || '?'}</b><br />
-              Automatable: <b>{cisa.ssvc.automatable || '?'}</b><br />
-              Technical impact: <b>{cisa.ssvc.impact || '?'}</b>
-            </span>
+            <dl class="cell ssvc">
+              <dt>Exploitation</dt>
+              <dd>{cisa.ssvc.exploitation || 'not given'}</dd>
+              <dt>Automatable</dt>
+              <dd>{cisa.ssvc.automatable || 'not given'}</dd>
+              <dt>Technical impact</dt>
+              <dd>{cisa.ssvc.impact || 'not given'}</dd>
+            </dl>
           </div>
         {/if}
       </div>
@@ -283,12 +287,13 @@
         <div class="scroll">
           <table>
             <caption>Products, from the CNA</caption>
-            <thead
-              ><tr
-                ><th scope="col">Vendor</th><th scope="col">Product</th><th scope="col">Versions</th
-                ></tr
-              ></thead
-            >
+            <thead>
+              <tr>
+                <th scope="col">Vendor</th>
+                <th scope="col">Product</th>
+                <th scope="col">Versions</th>
+              </tr>
+            </thead>
             <tbody>
               {#each record.affected as product, index (index)}
                 <tr>
@@ -301,6 +306,11 @@
                       {:else}
                         <li class="dim">No versions given</li>
                       {/each}
+                      {#if product.defaultStatus}
+                        <li class={product.defaultStatus}>
+                          Every other version: <b>{product.defaultStatus}</b>
+                        </li>
+                      {/if}
                     </ul>
                   </td>
                 </tr>
@@ -337,8 +347,6 @@
       </div>
     </section>
   {/if}
-
-  <Interchange {links} />
 </article>
 
 <style>
@@ -431,6 +439,27 @@
 
   .exploit {
     --column: 15rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--column)), 1fr));
+
+    & .figure {
+      font-family: var(--font-mono);
+      font-size: var(--text-md);
+    }
+
+    & .cell.ssvc {
+      grid-template-columns: max-content 1fr;
+      gap: 2px var(--space-3);
+      margin: 0;
+
+      & dt {
+        color: var(--text-muted);
+      }
+
+      & dd {
+        margin: 0;
+        font-weight: 650;
+      }
+    }
 
     & .cell {
       display: grid;

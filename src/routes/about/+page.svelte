@@ -16,7 +16,7 @@
       name: 'CVE Program (CVE Services)',
       url: 'https://www.cve.org/',
       used: 'CVE lookup, CNA directory',
-      fresh: 'Live. The CNA list comes from the CVE Program’s own website data.'
+      fresh: "Live. The CNA list comes from the CVE Program's own website data."
     },
     {
       name: 'NVD',
@@ -38,7 +38,7 @@
     },
     {
       name: 'FIRST EPSS',
-      url: 'https://www.first.org/epss/api',
+      url: 'https://api.first.org/epss/',
       used: 'EPSS lookup, CVE lookup',
       fresh: 'Live. Scores update once a day.'
     },
@@ -53,7 +53,7 @@
       url: 'https://www.cisa.gov/known-exploited-vulnerabilities-catalog',
       used: 'KEV checker, CVE lookup',
       fresh:
-        'CISA’s GitHub copy, usually a day behind cisa.gov. Single lookups also check NVD, which carries the KEV fields too.'
+        "CISA's GitHub copy, usually a day behind cisa.gov. Single lookups also check NVD, which carries the KEV fields too."
     },
     {
       name: 'deps.dev and the registries',

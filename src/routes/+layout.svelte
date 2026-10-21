@@ -113,6 +113,23 @@
     overflow-x: auto;
     scrollbar-width: thin;
 
+    /* too narrow for one row, so all eight sit in a 4x2 grid instead of hiding off-screen */
+    @media (max-width: 35rem) {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      overflow: visible;
+      padding-bottom: var(--space-2);
+
+      & a {
+        margin-bottom: 0;
+        text-align: center;
+
+        &[aria-current='page'] {
+          border-bottom-color: var(--line-strong);
+        }
+      }
+    }
+
     & a {
       flex: none;
       margin-bottom: calc(var(--hairline) * -1);

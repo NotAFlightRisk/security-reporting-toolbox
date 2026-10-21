@@ -111,7 +111,7 @@
 
   .warn {
     padding: var(--space-1) var(--space-2);
-    border-left: 3px solid var(--warn);
+    border: var(--hairline) solid var(--warn);
     background: var(--warn-soft);
   }
 
