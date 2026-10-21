@@ -70,7 +70,6 @@
     padding: 0 var(--space-1);
     border: var(--hairline) solid var(--line-strong);
     color: var(--text-muted);
-    font-family: var(--font-mono);
     font-size: var(--text-xs);
     font-weight: 700;
     letter-spacing: 0.06em;

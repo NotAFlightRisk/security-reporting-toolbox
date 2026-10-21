@@ -96,11 +96,10 @@
 
   .found {
     font-weight: 600;
-    box-shadow: inset 3px 0 0 var(--good);
+    background: var(--good-soft);
   }
 
   .failed {
-    box-shadow: inset 3px 0 0 var(--warn);
     background: var(--warn-soft);
   }
 

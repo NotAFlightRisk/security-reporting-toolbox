@@ -11,7 +11,6 @@
 </svelte:head>
 
 <article class="error">
-  <p class="label">{page.status}</p>
   <h1>{lost ? "There's nothing at this address" : 'Something broke on our end'}</h1>
   <p>
     {lost
@@ -36,7 +35,7 @@
       font-size: var(--text-xl);
     }
 
-    & p:not(.label) {
+    & p {
       color: var(--text-muted);
     }
   }

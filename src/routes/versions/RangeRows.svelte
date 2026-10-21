@@ -141,7 +141,7 @@
     background: var(--surface);
 
     &.bad {
-      box-shadow: inset 3px 0 0 var(--bad);
+      background: var(--bad-soft);
     }
   }
 
