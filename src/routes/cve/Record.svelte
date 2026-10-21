@@ -446,7 +446,7 @@
       font-size: var(--text-md);
     }
 
-    & .ssvc {
+    & .cell.ssvc {
       grid-template-columns: max-content 1fr;
       gap: 2px var(--space-3);
       margin: 0;

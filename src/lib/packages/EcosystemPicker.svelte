@@ -50,6 +50,14 @@
     border: 0;
   }
 
+  /* equal cells on a phone, so the rows end flush instead of trailing one name */
+  .segments {
+    @media (max-width: 40rem) {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
   .cell {
     display: flex;
     align-items: center;

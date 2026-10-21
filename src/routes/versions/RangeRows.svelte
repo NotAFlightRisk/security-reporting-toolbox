@@ -67,7 +67,7 @@
               <input
                 class="mono"
                 bind:value={range.version}
-                placeholder={scheme.example.split(' ')[0]}
+                placeholder={scheme.example.split(/[ ,]/)[0]}
                 spellcheck="false"
                 autocomplete="off"
               />

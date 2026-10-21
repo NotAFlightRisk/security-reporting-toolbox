@@ -46,7 +46,7 @@
             {/if}
           </dd>
         </dl>
-        <p class="sentence">{describe(range)}</p>
+        {#if ranges.length > 1}<p class="sentence">{describe(range)}</p>{/if}
       </article>
     {/each}
   </div>
