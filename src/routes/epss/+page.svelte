@@ -12,6 +12,7 @@
   import { param, setParams } from '#lib/query.svelte.ts';
   import { epssHistory, lookupEpss, type EpssScore } from '#lib/sources/epss.ts';
   import { tool } from '#lib/tools.ts';
+  import Guide from './Guide.svelte';
   import History from './History.svelte';
 
   const asked = $derived(param('cve'));
@@ -212,49 +213,7 @@
     {/if}
   {/if}
 
-  {#snippet guide()}
-    <h2>Reading the numbers</h2>
-    <p>
-      EPSS (the Exploit Prediction Scoring System) is a model run by FIRST. Every day it gives each
-      published CVE a probability that someone will try exploiting it in the next 30 days, trained
-      on real attack data from sensors and honeypots.
-    </p>
-    <dl>
-      <dt>Probability</dt>
-      <dd>
-        The actual chance, from 0 to 100%. Most CVEs sit well under 1%, so 10% is already a lot.
-      </dd>
-      <dt>Percentile</dt>
-      <dd>
-        How it ranks against every other scored CVE. 95% means it's more likely to be exploited than
-        95% of them. Handy when the raw probability looks tiny but is still near the top.
-      </dd>
-    </dl>
-    <p>
-      For a sense of scale, <a href="/epss?cve=CVE-2021-44228">Log4Shell</a> currently sits at 99.999%
-      with a percentile of 100%. A typical bug in a niche plugin will be a fraction of a percent.
-    </p>
-
-    <h2>What it isn't</h2>
-    <p>
-      It's not a severity score. CVSS tells you how bad a bug is if it's exploited, EPSS tells you
-      how likely that is, and they don't track each other much - plenty of 9.8s never get touched.
-      It also isn't proof of exploitation. If you want "this is being exploited right now", that's
-      <a href="/kev">CISA's KEV catalogue</a>.
-    </p>
-    <p>
-      A sensible order for triage is KEV first, then high EPSS, then high CVSS. In a report, quote
-      EPSS with its date (it changes daily) and don't use it to argue a bug is harmless.
-    </p>
-
-    <h2>Gaps</h2>
-    <p>
-      Brand new CVEs can take a day or two to get a score, and rejected ones never do. FIRST
-      retrains the model now and then, so a jump across every CVE on the same day is usually a new
-      model version rather than a sudden wave of attacks. The methodology and history are on
-      <a href="https://www.first.org/epss/" target="_blank" rel="external">first.org/epss</a>.
-    </p>
-  {/snippet}
+  {#snippet guide()}<Guide />{/snippet}
 </ToolPage>
 
 <style>

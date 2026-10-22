@@ -8,6 +8,7 @@
   import { Lookup } from '#lib/sources/lookup.svelte.ts';
   import { searchNvd, type NvdPage } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
+  import Guide from './Guide.svelte';
   import Record from './Record.svelte';
   import Results from './Results.svelte';
 
@@ -113,69 +114,5 @@
     />
   {/if}
 
-  {#snippet guide()}
-    <h2>Where the answers come from</h2>
-    <p>
-      Every lookup asks four places at once and shows what each one said, because they don't always
-      agree and you'll want to know who said what before it goes in a report.
-    </p>
-    <dl>
-      <dt>CVE.org</dt>
-      <dd>
-        The official record, written by the CNA that assigned the ID (often the vendor). It has
-        their description, affected versions and usually their CVSS score. CISA's "vulnrichment"
-        (shown as CISA-ADP) adds a score, CWE and SSVC triage where the CNA didn't.
-      </dd>
-      <dt>NVD</dt>
-      <dd>
-        NIST's copy of the record plus its own analysis. It's been behind since early 2024, so
-        plenty of CVEs sit at "Awaiting Analysis" with no NVD score at all.
-      </dd>
-      <dt>GitHub</dt>
-      <dd>
-        GitHub's advisory database (GHSA IDs) covers open-source packages. Reviewed advisories list
-        the exact package name, the vulnerable range and the first patched version, which CVE
-        records often skip.
-      </dd>
-      <dt>OSV</dt>
-      <dd>
-        Google's aggregator, handy for the other IDs a bug goes by: PYSEC, GO, RUSTSEC and distro
-        advisories.
-      </dd>
-    </dl>
-
-    <h2>Why the scores disagree</h2>
-    <p>
-      Each source scores the bug for itself. The CNA scores its own product, NVD scores
-      independently and leans towards the worst case, and GitHub scores the package. Storybook's
-      <a href="/cve?id=CVE-2026-114125">CVE-2026-114125</a> is a good example - 8.6 from the CNA,
-      9.4 from GitHub, because GitHub reckons it hits other systems too (<code>SC:H/SI:H/SA:H</code
-      >).
-    </p>
-    <p>
-      Neither is wrong as such. The CNA's score is the one on the record. If you're the one
-      reporting, put your own vector in the report and explain it - the
-      <a href="/cvss">CVSS calculator</a> will check it for you.
-    </p>
-
-    <h2>Quoting IDs in a report</h2>
-    <ul>
-      <li>
-        Use the CVE if there is one and add the GHSA in brackets, e.g.
-        <code>CVE-2021-44228 (GHSA-jfh8-c2jp-5v3q)</code>.
-      </li>
-      <li>Search before asking for a CVE. Two IDs for one bug get one of them rejected later.</li>
-      <li>
-        Never quote a rejected ID. The rejection reason usually names the right one to use instead.
-      </li>
-      <li>A withdrawn GHSA is often a duplicate. Check "Also known as" for the one that stayed.</li>
-    </ul>
-
-    <h2>Limits</h2>
-    <p>
-      Your browser talks to each source directly, so their limits are your limits: NVD allows 5
-      requests every 30 seconds and GitHub 60 an hour without an API key. If one says no, the others
-      still answer, and "couldn't be reached" never means "doesn't exist".
-    </p>
-  {/snippet}
+  {#snippet guide()}<Guide />{/snippet}
 </ToolPage>

@@ -376,6 +376,113 @@ table {
   white-space: nowrap;
 }
 
+/* guides: headings in a rail to the left of the text */
+.doc {
+  display: grid;
+  gap: var(--space-7);
+
+  & > section {
+    display: grid;
+    gap: var(--space-3);
+    max-width: calc(var(--measure) + 17rem);
+
+    @media (width >= 60rem) {
+      position: relative;
+      padding-left: 17rem;
+
+      & > h2 {
+        position: absolute;
+        left: 0;
+        width: 14rem;
+      }
+    }
+  }
+
+  & h2 {
+    font-size: var(--text-lg);
+  }
+
+  & h3 {
+    margin-top: var(--space-2);
+    font-size: var(--text-base);
+  }
+
+  & :is(ul, ol):not([class]) {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+    padding-left: var(--space-5);
+  }
+
+  /* not anywhere, which squashes table columns */
+  & code {
+    overflow-wrap: break-word;
+  }
+
+  & pre {
+    margin: 0;
+    padding: var(--space-3);
+    overflow-x: auto;
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+
+  & figure {
+    display: grid;
+    gap: var(--space-2);
+    margin: 0;
+  }
+
+  & figcaption {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+  }
+
+  & dl {
+    display: grid;
+    grid-template-columns: max-content minmax(0, 1fr);
+    margin: 0;
+
+    & :is(dt, dd) {
+      padding-block: var(--space-2);
+      border-bottom: var(--hairline) solid var(--line);
+    }
+
+    & dt {
+      padding-right: var(--space-5);
+      font-weight: 700;
+    }
+
+    & dd {
+      margin: 0;
+    }
+
+    @media (width < 40rem) {
+      grid-template-columns: minmax(0, 1fr);
+
+      & dt {
+        padding-bottom: 0;
+        border: 0;
+      }
+    }
+  }
+
+  & details {
+    border-bottom: var(--hairline) solid var(--line);
+
+    & summary {
+      padding-block: var(--space-2);
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    & p {
+      padding-bottom: var(--space-3);
+    }
+  }
+}
+
 .steps {
   display: grid;
   gap: var(--space-4);
@@ -418,6 +525,70 @@ table {
 
   & b {
     display: block;
+  }
+}
+
+.icons {
+  display: grid;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & li {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  & svg {
+    flex: none;
+    margin-top: 0.2em;
+    color: var(--accent);
+  }
+}
+
+.flow {
+  display: flex;
+  gap: var(--space-5);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  & > li {
+    position: relative;
+    flex: 1;
+    padding: var(--space-2) var(--space-3);
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--radius);
+    background: var(--surface);
+    font-size: var(--text-sm);
+
+    & + li::before {
+      content: '→';
+      position: absolute;
+      top: 50%;
+      right: 100%;
+      width: var(--space-5);
+      translate: 0 -50%;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  }
+
+  & b {
+    display: block;
+    font-size: var(--text-base);
+  }
+
+  @media (width < 40rem) {
+    flex-direction: column;
+
+    & > li + li::before {
+      content: '↓';
+      inset: auto 0 100%;
+      width: auto;
+      translate: none;
+    }
   }
 }
 
