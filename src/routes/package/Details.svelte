@@ -54,7 +54,7 @@
   );
 </script>
 
-<article class="details">
+<article class="details panel">
   <header>
     <h2><code>{canonical}</code></h2>
     <p class="via">{ecosystem.name} package{via ? `, going by the ${via}` : ''}</p>
@@ -88,7 +88,11 @@
       {/if}
       {#if info.repo}
         <dt>Repository</dt>
-        <dd><a href={info.repo} rel="external">{info.repo.replace(/^https?:\/\//, '')}</a></dd>
+        <dd>
+          <a href={info.repo} target="_blank" rel="external"
+            >{info.repo.replace(/^https?:\/\//, '')}</a
+          >
+        </dd>
       {:else if !gap}
         <dt>Repository</dt>
         <dd>None listed</dd>
@@ -96,13 +100,15 @@
       {#if info.homepage && info.homepage !== info.repo}
         <dt>Homepage</dt>
         <dd>
-          <a href={info.homepage} rel="external">{info.homepage.replace(/^https?:\/\//, '')}</a>
+          <a href={info.homepage} target="_blank" rel="external"
+            >{info.homepage.replace(/^https?:\/\//, '')}</a
+          >
         </dd>
       {/if}
     {/if}
     <dt>Registry</dt>
     <dd>
-      <a href={ecosystem.page(canonical)} rel="external"
+      <a href={ecosystem.page(canonical)} target="_blank" rel="external"
         >{ecosystem.page(canonical).replace(/^https?:\/\//, '')}</a
       >
     </dd>
@@ -124,8 +130,8 @@
     ]}
   />
   <p class="external">
-    Advisories for it on <a href={advisories} rel="external">GitHub</a> and
-    <a href={osv} rel="external">OSV</a>
+    Advisories for it on <a href={advisories} target="_blank" rel="external">GitHub</a> and
+    <a href={osv} target="_blank" rel="external">OSV</a>
   </p>
 
   {#if result?.status === 'unsupported'}
@@ -140,30 +146,33 @@
   {:else if info}
     <section class="releases" aria-label="Releases">
       <h3 class="label">{plural(info.releases.length, 'release')}, newest first</h3>
-      <table>
-        <thead
-          ><tr
-            ><th scope="col">Version</th><th scope="col">Released</th><th scope="col">Notes</th></tr
-          ></thead
-        >
-        <tbody>
-          {#each releases as release (release.version)}
-            <tr>
-              <td><code>{release.version}</code></td>
-              <td>{formatDate(release.published) || 'Unknown'}</td>
-              <td>
-                {[
-                  release.version === info.latest && 'latest',
-                  release.deprecated && 'deprecated',
-                  release.pulled
-                ]
-                  .filter(Boolean)
-                  .join(', ')}
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
+      <div class="scroll">
+        <table>
+          <thead
+            ><tr
+              ><th scope="col">Version</th><th scope="col">Released</th><th scope="col">Notes</th
+              ></tr
+            ></thead
+          >
+          <tbody>
+            {#each releases as release (release.version)}
+              <tr>
+                <td><code>{release.version}</code></td>
+                <td>{formatDate(release.published) || 'Unknown'}</td>
+                <td>
+                  {[
+                    release.version === info.latest && 'latest',
+                    release.deprecated && 'deprecated',
+                    release.pulled
+                  ]
+                    .filter(Boolean)
+                    .join(', ')}
+                </td>
+              </tr>
+            {/each}
+          </tbody>
+        </table>
+      </div>
       {#if info.releases.length > shown}
         <button type="button" class="button" onclick={() => (showAll = !showAll)}>
           {showAll
@@ -171,7 +180,9 @@
             : `Show all ${plural(info.releases.length, 'release')}`}
         </button>
       {/if}
-      <p class="note">From <a href={info.source.url} rel="external">{info.source.name}</a>.</p>
+      <p class="note">
+        From <a href={info.source.url} target="_blank" rel="external">{info.source.name}</a>.
+      </p>
     </section>
   {/if}
 </article>
@@ -181,8 +192,6 @@
     display: grid;
     gap: var(--space-3);
     padding: var(--space-4);
-    border: var(--hairline) solid var(--line);
-    background: var(--surface);
 
     & h2 {
       font-size: var(--text-lg);
@@ -205,6 +214,7 @@
     gap: var(--space-2);
     padding: var(--space-1) var(--space-2);
     border: var(--hairline) solid var(--warn);
+    border-radius: var(--radius);
     background: var(--warn-soft);
     font-size: var(--text-sm);
 
@@ -243,25 +253,9 @@
     display: grid;
     justify-items: start;
     gap: var(--space-2);
-    max-width: 100%;
-    overflow-x: auto;
-  }
 
-  table {
-    border-collapse: collapse;
-    font-size: var(--text-sm);
-
-    & th,
-    & td {
-      padding: var(--space-1) var(--space-3) var(--space-1) 0;
-      border-bottom: var(--hairline) solid var(--line);
-      text-align: start;
-    }
-
-    & th {
-      color: var(--text-muted);
-      font-size: var(--text-xs);
-      font-weight: 600;
+    & .scroll {
+      justify-self: stretch;
     }
   }
 

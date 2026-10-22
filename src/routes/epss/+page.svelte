@@ -114,22 +114,24 @@
   {#if ids.length}
     <Toolbar label="Results">
       <ToolGroup caption="Sort">
-        <button
-          type="button"
-          class="cell"
-          aria-pressed={order === 'yours'}
-          onclick={() => (order = 'yours')}
-        >
-          Your order
-        </button>
-        <button
-          type="button"
-          class="cell"
-          aria-pressed={order === 'highest'}
-          onclick={() => (order = 'highest')}
-        >
-          Most likely first
-        </button>
+        <div class="segments">
+          <button
+            type="button"
+            class="cell"
+            aria-pressed={order === 'yours'}
+            onclick={() => (order = 'yours')}
+          >
+            Your order
+          </button>
+          <button
+            type="button"
+            class="cell"
+            aria-pressed={order === 'highest'}
+            onclick={() => (order = 'highest')}
+          >
+            Most likely first
+          </button>
+        </div>
       </ToolGroup>
       <ToolGroup caption="Export">
         <CopyButton text={csv} label="Copy as CSV" />
@@ -250,7 +252,7 @@
       Brand new CVEs can take a day or two to get a score, and rejected ones never do. FIRST
       retrains the model now and then, so a jump across every CVE on the same day is usually a new
       model version rather than a sudden wave of attacks. The methodology and history are on
-      <a href="https://www.first.org/epss/" rel="external">first.org/epss</a>.
+      <a href="https://www.first.org/epss/" target="_blank" rel="external">first.org/epss</a>.
     </p>
   {/snippet}
 </ToolPage>
@@ -260,35 +262,8 @@
     font-size: var(--text-sm);
   }
 
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: middle;
-    }
-
-    & thead th {
-      background: var(--surface-raised);
-    }
-
-    & tbody th {
-      font-weight: 450;
-      white-space: nowrap;
-    }
-
-    & .focus {
-      background: var(--accent-soft);
-    }
+  .focus {
+    background: var(--accent-soft);
   }
 
   /* a bar behind the number, so a column of them reads at a glance */
@@ -296,6 +271,7 @@
     display: inline-block;
     min-width: 7rem;
     padding: 0 var(--space-1);
+    border-radius: 3px;
     background: linear-gradient(
       to right,
       var(--accent-soft) calc(var(--level) * 100%),

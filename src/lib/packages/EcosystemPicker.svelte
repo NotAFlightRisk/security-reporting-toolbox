@@ -22,7 +22,7 @@
   <legend class="label">{label}</legend>
   <div class="segments">
     {#each options as option (option.id)}
-      <label class="cell" class:on={value === option.id}>
+      <label class="cell">
         <input
           class="visually-hidden"
           type="radio"
@@ -58,27 +58,8 @@
     }
   }
 
-  .cell {
-    display: flex;
-    align-items: center;
-    box-shadow: none;
-    cursor: pointer;
-
-    &:hover {
-      background: var(--surface-sunk);
-    }
-
-    &.on {
-      position: relative;
-      border-color: var(--accent);
-      background: var(--accent);
-      color: var(--accent-text);
-      font-weight: 600;
-    }
-
-    &:has(input:focus-visible) {
-      outline: 2px solid var(--focus);
-      outline-offset: -2px;
-    }
+  .cell:has(input:focus-visible) {
+    outline: 2px solid var(--focus);
+    outline-offset: -2px;
   }
 </style>

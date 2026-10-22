@@ -22,7 +22,7 @@
     GitHub takes one range per affected product, so add one product per block below
     {ranges.length > 1 ? `(${ranges.length} of them)` : ''}.
   </p>
-  <div class="blocks">
+  <div class="blocks ruled">
     {#each ranges as range, index (index)}
       <article class="block">
         <h3>Affected product {index + 1}</h3>
@@ -52,14 +52,14 @@
   </div>
 
   <div class="extras">
-    <div class="extra">
+    <div class="extra panel">
       <div class="extra-head">
         <h3>In plain English</h3>
         <CopyButton text={summary} compact />
       </div>
       <p>{summary}</p>
     </div>
-    <div class="extra">
+    <div class="extra panel">
       <div class="extra-head">
         <h3>OSV <code>affected</code> entry</h3>
         <CopyButton text={osv} compact />
@@ -80,16 +80,15 @@
     font-size: var(--text-sm);
   }
 
+  /* flex, so a short last row stretches instead of leaving a hole */
   .blocks {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
-    gap: var(--hairline);
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
+    display: flex;
+    flex-wrap: wrap;
   }
 
   .block {
     display: grid;
+    flex: 1 1 20rem;
     align-content: start;
     gap: var(--space-2);
     padding: var(--space-3);
@@ -142,8 +141,6 @@
     align-content: start;
     gap: var(--space-2);
     padding: var(--space-3);
-    border: var(--hairline) solid var(--line);
-    background: var(--surface);
     font-size: var(--text-sm);
 
     & pre {

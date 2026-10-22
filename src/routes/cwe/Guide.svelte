@@ -75,13 +75,17 @@
   by the area of a project they turn up in.
 </p>
 <p>
-  MITRE's own <a href="https://cwe.mitre.org/documents/cwe_usage/guidance.html" rel="external"
-    >root cause mapping guidance</a
+  MITRE's own <a
+    href="https://cwe.mitre.org/documents/cwe_usage/guidance.html"
+    target="_blank"
+    rel="external">root cause mapping guidance</a
   > goes into far more depth, and it's worth a read if you file reports regularly.
 </p>
 <p class="credit">
   CWE content is © The MITRE Corporation, reproduced under the
-  <a href="https://cwe.mitre.org/about/termsofuse.html" rel="external">CWE terms of use</a>.
+  <a href="https://cwe.mitre.org/about/termsofuse.html" target="_blank" rel="external"
+    >CWE terms of use</a
+  >.
 </p>
 
 <style>

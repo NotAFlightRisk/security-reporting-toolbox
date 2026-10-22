@@ -216,7 +216,7 @@
     <MetricHelp metric={focused} chosen={values[focused.key]} />
   </div>
 
-  <details class="more">
+  <details class="more panel">
     <summary>More metrics: {extras.map((group) => groupNames[group]).join(', ')}</summary>
     {#each extras as group (group)}
       <section class="extra" aria-label="{groupNames[group]} metrics">
@@ -262,6 +262,7 @@
     margin: 0;
     padding: var(--space-2) var(--space-3) var(--space-2) var(--space-5);
     border: var(--hairline) solid var(--accent);
+    border-radius: var(--radius);
     background: var(--accent-soft);
     font-size: var(--text-sm);
   }
@@ -269,7 +270,6 @@
   .versions .cell {
     min-width: 3.5rem;
     font-family: var(--font-mono);
-    text-align: center;
   }
 
   .notice {
@@ -300,9 +300,6 @@
   }
 
   .more {
-    border: var(--hairline) solid var(--line);
-    background: var(--surface);
-
     & summary {
       padding: var(--space-2) var(--space-3);
       font-size: var(--text-sm);
@@ -329,8 +326,6 @@
     display: grid;
     gap: var(--space-2);
     padding: var(--space-3);
-    border: var(--hairline) solid var(--line);
-    background: var(--surface);
     font-size: var(--text-sm);
 
     & h2 {

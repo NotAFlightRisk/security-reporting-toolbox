@@ -71,7 +71,7 @@
 
   ul {
     display: grid;
-    gap: var(--hairline);
+    gap: 2px;
     margin: 0;
     padding: 0;
     list-style: none;
@@ -84,6 +84,7 @@
     gap: var(--space-2);
     padding: var(--space-1) var(--space-2);
     border: var(--hairline) solid var(--line);
+    border-radius: var(--radius);
     background: var(--surface-sunk);
 
     &.affected {

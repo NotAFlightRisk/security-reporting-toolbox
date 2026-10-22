@@ -9,13 +9,14 @@
 </div>
 
 <style>
-  /* groups sit side by side, each with its tiny caption underneath */
+  /* groups sit side by side, each labelled above its controls */
   .toolbar {
     display: flex;
     flex-wrap: wrap;
-    align-items: stretch;
-    overflow: hidden;
+    gap: var(--space-3) var(--space-6);
+    padding: var(--space-3) var(--space-4);
     border: var(--hairline) solid var(--line);
+    border-radius: var(--radius-lg);
     background: var(--surface);
   }
 </style>

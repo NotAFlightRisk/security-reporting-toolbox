@@ -1,11 +1,18 @@
 <script lang="ts">
   import { onMount } from 'svelte';
+  import Moon from '@lucide/svelte/icons/moon';
+  import Sun from '@lucide/svelte/icons/sun';
+  import SunMoon from '@lucide/svelte/icons/sun-moon';
 
   type Theme = 'system' | 'light' | 'dark';
   const order: Theme[] = ['system', 'light', 'dark'];
   const key = 'theme';
 
+  const icons = { system: SunMoon, light: Sun, dark: Moon };
+  const names = { system: 'Auto', light: 'Light', dark: 'Dark' };
+
   let theme = $state<Theme>('system');
+  const Icon = $derived(icons[theme]);
 
   function apply(next: Theme) {
     theme = next;
@@ -34,13 +41,6 @@
 </script>
 
 <button type="button" class="button" onclick={cycle} aria-label="Theme: {theme}. Change theme">
-  <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
-    <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3" />
-    {#if theme === 'system'}
-      <path d="M8 1.5a6.5 6.5 0 0 1 0 13z" fill="currentColor" />
-    {:else if theme === 'dark'}
-      <circle cx="8" cy="8" r="6.5" fill="currentColor" />
-    {/if}
-  </svg>
-  <span>{theme === 'system' ? 'Auto' : theme === 'light' ? 'Light' : 'Dark'}</span>
+  <Icon size={16} />
+  <span>{names[theme]}</span>
 </button>

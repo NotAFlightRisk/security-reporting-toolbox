@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import Seo from '#lib/components/Seo.svelte';
+  import ToolIcon from '#lib/components/ToolIcon.svelte';
   import { absolute, schemaIds } from '#lib/site.ts';
   import type { Tool } from '#lib/tools.ts';
 
@@ -42,7 +43,7 @@
 />
 
 <header class="head">
-  <h1>{tool.title}</h1>
+  <h1><ToolIcon id={tool.id} size={30} /> {tool.title}</h1>
   <p>{tool.lede}</p>
 </header>
 
@@ -60,16 +61,25 @@
   .head {
     display: grid;
     gap: var(--space-2);
-    padding-block: var(--space-5) var(--space-4);
+    padding-block: var(--space-6) var(--space-5);
 
     & h1 {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
       font-size: var(--text-xl);
-      letter-spacing: -0.01em;
+      letter-spacing: -0.015em;
+
+      & :global(svg) {
+        flex: none;
+        color: var(--accent);
+      }
     }
 
     & p {
       max-width: var(--measure);
       color: var(--text-muted);
+      font-size: var(--text-md);
     }
   }
 

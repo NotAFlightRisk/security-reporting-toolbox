@@ -10,7 +10,7 @@
   const shown = $derived(results.slice(0, limit));
 </script>
 
-<ol class="results">
+<ol class="ruled">
   {#each shown as entry (entry.id)}
     <li>
       <a href="/cwe/{entry.id}">
@@ -34,16 +34,6 @@
 {/if}
 
 <style>
-  .results {
-    display: grid;
-    gap: var(--hairline);
-    margin: 0;
-    padding: 0;
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
-    list-style: none;
-  }
-
   a {
     display: grid;
     grid-template-columns: 5.5rem 1fr auto;

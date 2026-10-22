@@ -81,7 +81,7 @@
             <dt>{label}</dt>
             <dd>
               {#each items as item (item.url)}
-                <a href={item.url} rel="external noopener">{item.label}</a>
+                <a href={item.url} target="_blank" rel="external noopener">{item.label}</a>
               {/each}
             </dd>
           {/if}
@@ -95,7 +95,7 @@
           <dd><code>{cna.id}</code></dd>
         {/if}
       </dl>
-      <a class="button" href={partnerPage(cna.shortName)} rel="external noopener">
+      <a class="button" href={partnerPage(cna.shortName)} target="_blank" rel="external noopener">
         Partner page on cve.org
       </a>
     </div>
@@ -159,7 +159,7 @@
       {/if}
     </p>
 
-    <div class="results">
+    <div class="ruled">
       {#each results.slice(0, shown) as cna (cna.shortName)}
         {@render record(cna)}
       {:else}
@@ -168,7 +168,7 @@
             No CNA mentions that. A CNA that doesn't list a product in its scope can't assign for
             it, so try the vendor's name, or go to one of these:
           </p>
-          <div class="results">
+          <div class="ruled">
             {#each fallbacks as cna (cna.shortName)}{@render record(cna)}{/each}
           </div>
         </div>
@@ -206,9 +206,9 @@
       </li>
       <li>
         <b>The root or CNA of last resort.</b> Nobody else fits? MITRE handles most things via
-        <a href="https://cveform.mitre.org/" rel="external">the CVE request form</a>, and CISA
-        covers industrial control systems and medical devices. Filter by "Last resort" above to see
-        them.
+        <a href="https://cveform.mitre.org/" target="_blank" rel="external">the CVE request form</a
+        >, and CISA covers industrial control systems and medical devices. Filter by "Last resort"
+        above to see them.
       </li>
     </ol>
     <p>
@@ -241,7 +241,7 @@
     </dl>
     <p>
       The data comes straight from the
-      <a href="https://www.cve.org/PartnerInformation/ListofPartners" rel="external"
+      <a href="https://www.cve.org/PartnerInformation/ListofPartners" target="_blank" rel="external"
         >CVE Program's partner list</a
       >, fetched fresh every time you open this page.
     </p>
@@ -268,13 +268,6 @@
     color: var(--accent);
     text-decoration: underline;
     cursor: pointer;
-  }
-
-  .results {
-    display: grid;
-    gap: var(--hairline);
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
   }
 
   .cna {
@@ -323,6 +316,7 @@
 
   .tag {
     padding: 0 var(--space-1);
+    border-radius: 3px;
     border: var(--hairline) solid var(--line);
     background: var(--surface-sunk);
   }

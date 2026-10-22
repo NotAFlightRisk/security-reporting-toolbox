@@ -79,15 +79,20 @@
   <li>
     <a
       href="https://docs.github.com/en/code-security/tutorials/fix-reported-vulnerabilities/write-security-advisories"
+      target="_blank"
       rel="external">GitHub: best practices for writing security advisories</a
     >
   </li>
-  <li><a href="https://ossf.github.io/osv-schema/" rel="external">The OSV schema</a></li>
   <li>
-    <a href="https://maven.apache.org/pom.html#Version_Order_Specification" rel="external"
-      >Maven version order</a
+    <a href="https://ossf.github.io/osv-schema/" target="_blank" rel="external">The OSV schema</a>
+  </li>
+  <li>
+    <a
+      href="https://maven.apache.org/pom.html#Version_Order_Specification"
+      target="_blank"
+      rel="external">Maven version order</a
     >,
-    <a href="https://peps.python.org/pep-0440/" rel="external">PEP 440</a> and
-    <a href="https://semver.org/" rel="external">SemVer 2.0</a>
+    <a href="https://peps.python.org/pep-0440/" target="_blank" rel="external">PEP 440</a> and
+    <a href="https://semver.org/" target="_blank" rel="external">SemVer 2.0</a>
   </li>
 </ul>

@@ -60,11 +60,11 @@
   .packed {
     display: block;
     columns: var(--column);
-    column-gap: var(--hairline);
+    column-gap: var(--space-2);
 
     & .column {
       break-inside: avoid;
-      margin-bottom: var(--hairline);
+      margin-bottom: var(--space-2);
     }
   }
 
@@ -90,10 +90,6 @@
       display: block;
       color: var(--text-muted);
       font-size: var(--text-xs);
-    }
-
-    &.hit {
-      background: var(--accent-soft);
     }
   }
 </style>

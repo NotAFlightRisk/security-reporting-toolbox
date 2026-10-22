@@ -1,9 +1,19 @@
 <script lang="ts">
   import Seo from '#lib/components/Seo.svelte';
   import { site } from '#lib/site.ts';
+  import { tool, type ToolId } from '#lib/tools.ts';
 
   const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT);
   const errors = Boolean(import.meta.env.PUBLIC_SENTRY_DSN);
+
+  const steps: { id: ToolId; text: string }[] = [
+    { id: 'cwe', text: 'Pin down the weakness. Name the root cause, not the impact.' },
+    { id: 'cvss', text: 'Score it. CVSS 4.0 if the place you report to takes it, 3.1 if not.' },
+    { id: 'package', text: 'Get the package name exactly right, plus its PURL.' },
+    { id: 'versions', text: 'Write the affected and patched versions in the format GitHub wants.' },
+    { id: 'cna', text: "Work out who can give it a CVE, if it hasn't got one." },
+    { id: 'cve', text: 'Already public? Check what NVD, GitHub and OSV say, plus EPSS and KEV.' }
+  ];
 
   const sources = [
     {
@@ -79,6 +89,14 @@
     goes to that source and nowhere else.
   </p>
 
+  <h2>A report, start to finish</h2>
+  <ol class="steps">
+    {#each steps as { id, text } (id)}
+      {@const { path, title } = tool(id)}
+      <li><b><a href={path}>{title}</a></b> {text}</li>
+    {/each}
+  </ol>
+
   <h2>Where the data comes from</h2>
   <div class="scroll">
     <table>
@@ -90,7 +108,9 @@
       <tbody>
         {#each sources as source (source.name)}
           <tr>
-            <th scope="row"><a href={source.url} rel="external">{source.name}</a></th>
+            <th scope="row"
+              ><a href={source.url} target="_blank" rel="external">{source.name}</a></th
+            >
             <td>{source.used}</td>
             <td>{source.fresh}</td>
           </tr>
@@ -127,10 +147,12 @@
 
   <h2>Spotted something wrong?</h2>
   <p>
-    It's open source under MIT. <a href="{site.repo}/issues/new/choose" rel="external"
-      >Open an issue</a
+    It's open source under MIT. <a
+      href="{site.repo}/issues/new/choose"
+      target="_blank"
+      rel="external">Open an issue</a
     >
-    or send a fix on <a href={site.repo} rel="external">GitHub</a>.
+    or send a fix on <a href={site.repo} target="_blank" rel="external">GitHub</a>.
   </p>
 </article>
 
@@ -158,25 +180,7 @@
     }
   }
 
-  .scroll {
-    overflow-x: auto;
-  }
-
   table {
     min-width: 36rem;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & thead th {
-      background: var(--surface-raised);
-    }
   }
 </style>

@@ -89,7 +89,8 @@
       </p>
     {/if}
     <p class="note">
-      From <a href={result.data.source.url} rel="external">{result.data.source.name}</a
+      From <a href={result.data.source.url} target="_blank" rel="external"
+        >{result.data.source.name}</a
       >{#if result.data.latest}, latest
         <code>{result.data.latest}</code>{/if}.
     </p>
@@ -112,6 +113,7 @@
   .warn {
     padding: var(--space-1) var(--space-2);
     border: var(--hairline) solid var(--warn);
+    border-radius: var(--radius);
     background: var(--warn-soft);
   }
 
@@ -132,6 +134,7 @@
     & li {
       padding: 1px var(--space-1);
       border: var(--hairline) solid var(--line);
+      border-radius: 3px;
       background: var(--surface-sunk);
       font-size: var(--text-xs);
     }

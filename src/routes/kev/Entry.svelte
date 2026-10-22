@@ -53,7 +53,9 @@
   {#if entry.notes.length}
     <ul class="notes">
       {#each entry.notes as note (note.url)}
-        <li><a href={note.url} rel="external noreferrer">{note.label || note.url}</a></li>
+        <li>
+          <a href={note.url} target="_blank" rel="external noreferrer">{note.label || note.url}</a>
+        </li>
       {/each}
     </ul>
   {/if}

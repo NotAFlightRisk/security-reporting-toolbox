@@ -1,4 +1,7 @@
 <script lang="ts">
+  import Check from '@lucide/svelte/icons/check';
+  import Copy from '@lucide/svelte/icons/copy';
+
   let {
     text,
     label = 'Copy',
@@ -25,24 +28,14 @@
 </script>
 
 <button type="button" class="button" class:compact onclick={copy} disabled={!text}>
-  <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
-    {#if state === 'copied'}
-      <path d="M3 8.5 6.5 12 13 4.5" fill="none" stroke="currentColor" stroke-width="1.8" />
-    {:else}
-      <path
-        d="M5.5 5.5h7v8h-7zM3.5 10.5V2.5h7"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.4"
-      />
-    {/if}
-  </svg>
+  {#if state === 'copied'}<Check size={14} />{:else}<Copy size={14} />{/if}
   <span aria-live="polite">{shown}</span>
 </button>
 
 <style>
   .compact {
-    min-height: 1.5rem;
+    gap: var(--space-1);
+    min-height: 1.75rem;
     padding: 0 var(--space-2);
     font-size: var(--text-xs);
   }

@@ -98,25 +98,39 @@
 <h2>The source material</h2>
 <ul>
   <li>
-    <a href="https://www.first.org/cvss/v4.0/specification-document" rel="external">
+    <a href="https://www.first.org/cvss/v4.0/specification-document" target="_blank" rel="external">
       CVSS 4.0 specification
     </a>
-    and its <a href="https://www.first.org/cvss/v4.0/user-guide" rel="external">user guide</a>
+    and its
+    <a href="https://www.first.org/cvss/v4.0/user-guide" target="_blank" rel="external"
+      >user guide</a
+    >
   </li>
   <li>
-    <a href="https://www.first.org/cvss/v3.1/specification-document" rel="external">
+    <a href="https://www.first.org/cvss/v3.1/specification-document" target="_blank" rel="external">
       CVSS 3.1 specification
     </a>
-    and its <a href="https://www.first.org/cvss/v3.1/user-guide" rel="external">user guide</a>
+    and its
+    <a href="https://www.first.org/cvss/v3.1/user-guide" target="_blank" rel="external"
+      >user guide</a
+    >
   </li>
   <li>
-    Worked examples for <a href="https://www.first.org/cvss/v4.0/examples" rel="external">4.0</a>
-    and <a href="https://www.first.org/cvss/v3.1/examples" rel="external">3.1</a>, which is what
-    this calculator is tested against
+    Worked examples for <a
+      href="https://www.first.org/cvss/v4.0/examples"
+      target="_blank"
+      rel="external">4.0</a
+    >
+    and <a href="https://www.first.org/cvss/v3.1/examples" target="_blank" rel="external">3.1</a>,
+    which is what this calculator is tested against
   </li>
   <li>
     Scores are worked out with the open source
-    <a href="https://github.com/org-metaeffekt/metaeffekt-universal-cvss-calculator" rel="external">
+    <a
+      href="https://github.com/org-metaeffekt/metaeffekt-universal-cvss-calculator"
+      target="_blank"
+      rel="external"
+    >
       metaeffekt CVSS calculator
     </a>
   </li>

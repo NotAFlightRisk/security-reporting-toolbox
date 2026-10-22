@@ -118,7 +118,12 @@
       <p class="aliases">
         <span class="label">Also known as</span>
         {#each otherIds as alias (alias)}
-          <a href={idLink(alias)} rel={alias.match(/^(CVE|GHSA)-/i) ? undefined : 'external'}>
+          {@const away = !/^(CVE|GHSA)-/i.test(alias)}
+          <a
+            href={idLink(alias)}
+            target={away ? '_blank' : undefined}
+            rel={away ? 'external' : undefined}
+          >
             <code>{alias}</code>
           </a>
         {/each}
@@ -250,7 +255,10 @@
       {#each sources.advisories.filter((item) => item.packages.length) as item (item.ghsa)}
         <div class="scroll">
           <table>
-            <caption>Packages, from <a href={item.url} rel="external">{item.ghsa}</a></caption>
+            <caption
+              >Packages, from <a href={item.url} target="_blank" rel="external">{item.ghsa}</a
+              ></caption
+            >
             <thead>
               <tr>
                 <th scope="col">Ecosystem</th><th scope="col">Package</th>
@@ -324,7 +332,7 @@
 
   {#snippet refItems(list: (typeof references)[number]['references'])}
     {#each list as ref (ref.url)}
-      <li><a href={ref.url} rel="external noreferrer">{ref.name || ref.url}</a></li>
+      <li><a href={ref.url} target="_blank" rel="external noreferrer">{ref.name || ref.url}</a></li>
     {/each}
   {/snippet}
 
@@ -472,33 +480,8 @@
     }
   }
 
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & caption {
-      padding-block: var(--space-1);
-      color: var(--text-muted);
-      text-align: start;
-    }
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & th {
-      background: var(--surface-raised);
-      font-weight: 650;
-    }
+  .scroll + .scroll {
+    margin-top: var(--space-3);
   }
 
   .versions {

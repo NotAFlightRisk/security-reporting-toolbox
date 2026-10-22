@@ -54,18 +54,25 @@
 </p>
 <p>
   Versions, release dates, licences and repo links come from
-  <a href="https://deps.dev/" rel="external">deps.dev</a> (Google's Open Source Insights), or from pub.dev
-  and hex.pm directly.
+  <a href="https://deps.dev/" target="_blank" rel="external">deps.dev</a> (Google's Open Source Insights),
+  or from pub.dev and hex.pm directly.
 </p>
 
 <h2>Further reading</h2>
 <ul>
-  <li><a href="https://github.com/package-url/purl-spec" rel="external">The purl spec</a></li>
+  <li>
+    <a href="https://github.com/package-url/purl-spec" target="_blank" rel="external"
+      >The purl spec</a
+    >
+  </li>
   <li>
     <a
       href="https://packaging.python.org/en/latest/specifications/name-normalization/"
+      target="_blank"
       rel="external">Python package name normalisation</a
     >
   </li>
-  <li><a href="https://go.dev/ref/mod#module-path" rel="external">Go module paths</a></li>
+  <li>
+    <a href="https://go.dev/ref/mod#module-path" target="_blank" rel="external">Go module paths</a>
+  </li>
 </ul>

@@ -1,18 +1,18 @@
 :root {
   color-scheme: light dark;
 
-  --page: light-dark(#eceef1, #0d1014);
-  --surface: light-dark(#ffffff, #161a20);
-  --surface-sunk: light-dark(#f4f5f7, #11151a);
-  --surface-raised: light-dark(#e3e6ea, #1f242c);
-  --line: light-dark(#cfd4da, #2b323c);
-  --line-strong: light-dark(#9aa3ad, #46505c);
-  --text: light-dark(#14181d, #e4e8ec);
-  --text-muted: light-dark(#56606b, #9aa4af);
-  --text-faint: light-dark(#6c7680, #7d8893);
-  --accent: light-dark(#2251c7, #7ea2ff);
-  --accent-text: light-dark(#ffffff, #0d1014);
-  --accent-soft: light-dark(#e3eafc, #1c2a4a);
+  --page: light-dark(#f5f6f8, #0e1116);
+  --surface: light-dark(#ffffff, #161a21);
+  --surface-sunk: light-dark(#eff1f4, #12161c);
+  --surface-raised: light-dark(#e6e9ee, #1f242d);
+  --line: light-dark(#dce0e5, #2a313b);
+  --line-strong: light-dark(#b3bbc5, #454e5a);
+  --text: light-dark(#161a20, #e6e9ee);
+  --text-muted: light-dark(#545e69, #a1aab5);
+  --text-faint: light-dark(#66707b, #808b97);
+  --accent: light-dark(#2251c7, #8aabff);
+  --accent-text: light-dark(#ffffff, #0e1116);
+  --accent-soft: light-dark(#e4ebfc, #1c2a4a);
   --focus: light-dark(#2251c7, #9db8ff);
   --good: light-dark(#1d7a4c, #5ccf91);
   --good-soft: light-dark(#e2f3ea, #15301f);
@@ -21,22 +21,24 @@
   --warn: light-dark(#8a5a00, #f0c067);
   --warn-soft: light-dark(#fbf1dc, #33280f);
 
-  --sev-none: light-dark(#7a848f, #7d8893);
+  --sev-none: light-dark(#666e78, #7d8893);
   --sev-low: light-dark(#1f7a74, #4fc4bb);
-  --sev-medium: light-dark(#9a6b00, #e8b949);
-  --sev-high: light-dark(#c2501a, #ff9459);
+  --sev-medium: light-dark(#926500, #e8b949);
+  --sev-high: light-dark(#b84c18, #ff9459);
   --sev-critical: light-dark(#b01f3a, #ff6b85);
 
-  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  /* Atkinson tells 0/O and 1/l/I apart, handy for IDs */
+  --font-ui:
+    'Atkinson Hyperlegible Next Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-mono:
     ui-monospace, 'SFMono-Regular', 'Cascadia Mono', Menlo, Consolas, 'Liberation Mono', monospace;
 
-  --text-xs: 0.6875rem;
-  --text-sm: 0.8125rem;
-  --text-base: 0.9375rem;
-  --text-md: 1.0625rem;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-md: 1.125rem;
   --text-lg: 1.375rem;
-  --text-xl: 1.75rem;
+  --text-xl: 2rem;
 
   --space-1: 0.25rem;
   --space-2: 0.5rem;
@@ -48,10 +50,11 @@
   --space-8: 4.5rem;
 
   --hairline: 1px;
-  --radius: 2px;
-  --control: 2rem;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --control: 2.25rem;
   --page-width: 78rem;
-  --measure: 68ch;
+  --measure: 44rem;
   --pad: clamp(1rem, 3vw, 2rem);
 
   accent-color: var(--accent);
@@ -78,7 +81,11 @@ html {
   text-size-adjust: 100%;
 }
 
+/* keeps the footer at the bottom of short pages */
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   margin: 0;
   background: var(--page);
   color: var(--text);
@@ -92,18 +99,30 @@ h3,
 h4 {
   margin: 0;
   line-height: 1.2;
-  font-weight: 650;
+  font-weight: 700;
   text-wrap: balance;
 }
 
 p {
   margin: 0;
-  text-wrap: pretty;
 }
 
 a {
   color: var(--accent);
-  text-underline-offset: 0.15em;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 0.2em;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+
+  &[target='_blank']::after {
+    content: '↗';
+    content: '↗' / ' (opens in a new tab)';
+    display: inline-block;
+    margin-left: 0.15em;
+    font-size: 0.8em;
+  }
 }
 
 code,
@@ -112,7 +131,7 @@ samp,
 pre,
 .mono {
   font-family: var(--font-mono);
-  font-size: 0.92em;
+  font-size: 0.9em;
 }
 
 :focus-visible {
@@ -156,12 +175,11 @@ textarea {
   resize: vertical;
 }
 
-/* a control in the Navigator sense: square, hairline, tight */
 .button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1);
+  gap: var(--space-2);
   min-height: var(--control);
   padding: 0 var(--space-3);
   border: var(--hairline) solid var(--line-strong);
@@ -169,17 +187,17 @@ textarea {
   background: var(--surface);
   color: var(--text);
   font-size: var(--text-sm);
-  font-weight: 550;
+  font-weight: 600;
   line-height: 1;
   text-decoration: none;
   white-space: nowrap;
   cursor: pointer;
 
   &:hover {
-    background: var(--surface-raised);
+    background: var(--surface-sunk);
   }
 
-  &.primary {
+  &:is(.primary, [aria-pressed='true']) {
     border-color: var(--accent);
     background: var(--accent);
     color: var(--accent-text);
@@ -191,16 +209,15 @@ textarea {
   }
 }
 
-/* the matrix: columns of tight cells under a grey header cell, ruled so empty slots stay page */
 .matrix {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--column, 10rem)), 1fr));
-  border-top: var(--hairline) solid var(--line);
-  border-left: var(--hairline) solid var(--line);
+  gap: var(--space-2);
 
   & > :is(.column, .cell) {
-    border-right: var(--hairline) solid var(--line);
-    border-bottom: var(--hairline) solid var(--line);
+    overflow: hidden;
+    border: var(--hairline) solid var(--line);
+    border-radius: var(--radius);
   }
 }
 
@@ -208,8 +225,11 @@ textarea {
   display: grid;
   grid-auto-rows: min-content;
   align-content: start;
-  gap: var(--hairline);
   background: var(--surface);
+
+  & > * + * {
+    border-top: var(--hairline) solid var(--line);
+  }
 }
 
 .column-head {
@@ -217,9 +237,9 @@ textarea {
   flex-direction: column;
   gap: 2px;
   padding: var(--space-2);
-  background: var(--surface-raised);
+  background: var(--surface-sunk);
   font-size: var(--text-sm);
-  font-weight: 650;
+  font-weight: 700;
   line-height: 1.25;
 
   & small {
@@ -229,6 +249,7 @@ textarea {
   }
 }
 
+/* via variables, so containers can recolour cells without beating the states */
 .cell {
   display: block;
   width: 100%;
@@ -236,28 +257,12 @@ textarea {
   padding: var(--space-1) var(--space-2);
   border: 0;
   border-radius: 0;
-  background: var(--surface);
+  background: var(--cell, var(--surface));
   color: var(--text);
   font-size: var(--text-sm);
   line-height: 1.35;
   text-align: start;
   text-decoration: none;
-  box-shadow: 0 var(--hairline) 0 var(--line);
-
-  &:is(a, button) {
-    cursor: pointer;
-
-    &:hover {
-      background: var(--surface-sunk);
-    }
-  }
-
-  &[aria-pressed='true'],
-  &[aria-current='true'],
-  &[aria-checked='true'] {
-    background: var(--accent);
-    color: var(--accent-text);
-  }
 
   &.hit {
     background: var(--accent-soft);
@@ -267,41 +272,153 @@ textarea {
   &.dim {
     color: var(--text-faint);
   }
-}
 
-/* joined toggle cells for toolbars, ruled by overlapping borders so wrapping never leaves a slab */
-.segments {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 var(--hairline) var(--hairline) 0;
+  &:where(a, button, label):hover {
+    background: var(--cell-hover, var(--surface-sunk));
+  }
 
-  & .cell {
-    width: auto;
-    margin: 0 calc(var(--hairline) * -1) calc(var(--hairline) * -1) 0;
-    border: var(--hairline) solid var(--line);
-    box-shadow: none;
-    white-space: nowrap;
-
-    &[aria-pressed='true'] {
-      position: relative;
-      border-color: var(--accent);
-    }
+  /* after hover, so a chosen cell keeps its colours */
+  &:is([aria-pressed='true'], [aria-current='true'], [aria-checked='true'], :has(:checked)) {
+    background: var(--accent);
+    color: var(--accent-text);
+    font-weight: 600;
   }
 }
 
-/* a quiet box for results, notes and anything boxed */
-.panel {
+.segments {
+  --cell: transparent;
+  --cell-hover: var(--surface);
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 2px;
   border: var(--hairline) solid var(--line);
   border-radius: var(--radius);
+  background: var(--surface-sunk);
+
+  & .cell {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    width: auto;
+    min-height: calc(var(--control) - 6px);
+    padding-inline: var(--space-3);
+    border-radius: calc(var(--radius) - 2px);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+}
+
+.ruled {
+  display: grid;
+  gap: var(--hairline);
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--line);
+  list-style: none;
+}
+
+.panel {
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-lg);
   background: var(--surface);
+}
+
+/* .scroll draws the outer edge, so tables hide theirs */
+.scroll {
+  overflow-x: auto;
+  border: var(--hairline) solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border-style: hidden;
+  font-size: var(--text-sm);
+
+  & caption {
+    padding: var(--space-2) var(--space-3);
+    border-bottom: var(--hairline) solid var(--line);
+    color: var(--text-muted);
+    text-align: start;
+  }
+
+  & :is(th, td) {
+    padding: var(--space-2) var(--space-3);
+    border: var(--hairline) solid var(--line);
+    text-align: start;
+    vertical-align: baseline;
+  }
+
+  & thead {
+    background: var(--surface-sunk);
+  }
+
+  & tbody th {
+    font-weight: inherit;
+    white-space: nowrap;
+  }
 }
 
 .label {
   color: var(--text-muted);
-  font-size: var(--text-xs);
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: var(--text-sm);
+  font-weight: 650;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.steps {
+  display: grid;
+  gap: var(--space-4);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+
+  & > li {
+    position: relative;
+    min-height: 1.75rem;
+    padding-left: 2.75rem;
+    counter-increment: step;
+
+    &::before {
+      content: counter(step);
+      position: absolute;
+      top: -0.1rem;
+      left: 0;
+      display: grid;
+      place-items: center;
+      width: 1.75rem;
+      aspect-ratio: 1;
+      border: var(--hairline) solid var(--line-strong);
+      border-radius: 50%;
+      background: var(--surface);
+      font-size: var(--text-sm);
+      font-weight: 700;
+    }
+
+    &:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 1.65rem;
+      bottom: calc(var(--space-4) * -1 - 0.1rem);
+      left: calc(0.875rem - 0.5px);
+      border-left: var(--hairline) solid var(--line-strong);
+    }
+  }
+
+  & b {
+    display: block;
+  }
 }
 
 /* the parent contains it, or it sits at its static spot and can widen the page */

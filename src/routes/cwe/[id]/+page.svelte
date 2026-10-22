@@ -73,11 +73,11 @@
     {#if retired(entry)}<Stamp word={entry.status} />{/if}
     <CopyButton text={label} label="Copy ID" />
     <CopyButton text={full} label="Copy ID and name" />
-    <a class="button" href={mitre} rel="external">On cwe.mitre.org</a>
+    <a class="button" href={mitre} target="_blank" rel="external">On cwe.mitre.org</a>
   </div>
 </header>
 
-<dl class="facts">
+<dl class="facts ruled">
   <div>
     <dt>Type</dt>
     <dd>{weakness?.abstraction ?? 'Category'}</dd>
@@ -279,7 +279,9 @@
 
     <p class="credit">
       From CWE {data.version}. CWE content is © The MITRE Corporation, reproduced under the
-      <a href="https://cwe.mitre.org/about/termsofuse.html" rel="external">CWE terms of use</a>.
+      <a href="https://cwe.mitre.org/about/termsofuse.html" target="_blank" rel="external"
+        >CWE terms of use</a
+      >.
     </p>
   </aside>
 </div>
@@ -315,20 +317,17 @@
     gap: var(--space-2);
   }
 
-  /* one row of fact cells, like the matrix header strip */
+  /* flex, so a short last row stretches instead of leaving a hole */
   .facts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
-    margin: 0 0 var(--space-5);
-    border-top: var(--hairline) solid var(--line);
-    border-left: var(--hairline) solid var(--line);
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
 
     & div {
       display: grid;
+      flex: 1 1 9rem;
       gap: 2px;
       padding: var(--space-2) var(--space-3);
-      border-right: var(--hairline) solid var(--line);
-      border-bottom: var(--hairline) solid var(--line);
       background: var(--surface);
     }
 
@@ -336,8 +335,6 @@
       color: var(--text-muted);
       font-size: var(--text-xs);
       font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
     }
 
     & dd {
@@ -349,7 +346,8 @@
 
   .layout {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(16rem, 22rem);
+    grid-template-columns: minmax(0, 48rem) minmax(16rem, 24rem);
+    justify-content: space-between;
     gap: var(--space-6);
     align-items: start;
   }
@@ -366,11 +364,6 @@
 
     & h2 {
       font-size: var(--text-md);
-    }
-
-    & :global(p),
-    & :global(li) {
-      max-width: var(--measure);
     }
 
     & :global(ul:not(.links, .plain)) {
@@ -455,35 +448,6 @@
       margin: 0;
       color: var(--text-muted);
     }
-  }
-
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & th {
-      background: var(--surface-raised);
-    }
-
-    & td {
-      background: var(--surface);
-    }
-  }
-
-  .nowrap {
-    white-space: nowrap;
   }
 
   .mitigations {

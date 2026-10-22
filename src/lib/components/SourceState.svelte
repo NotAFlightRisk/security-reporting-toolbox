@@ -42,6 +42,7 @@
     gap: var(--space-2);
     padding: var(--space-2) var(--space-3);
     border: var(--hairline) solid var(--line);
+    border-radius: var(--radius);
     background: var(--surface);
     font-size: var(--text-sm);
   }
@@ -68,6 +69,7 @@
   .tag {
     margin-right: var(--space-1);
     padding: 0 var(--space-1);
+    border-radius: 3px;
     border: var(--hairline) solid var(--line-strong);
     color: var(--text-muted);
     font-size: var(--text-xs);

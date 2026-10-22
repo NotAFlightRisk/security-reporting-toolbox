@@ -184,8 +184,8 @@
                   <th scope="row"><a href="/kev?cve={entry.cve}"><code>{entry.cve}</code></a></th>
                   <td>{entry.vendor} {entry.product}</td>
                   <td>{entry.name}</td>
-                  <td class="date">{formatDate(entry.added)}</td>
-                  <td class="date">{formatDate(entry.due)}</td>
+                  <td class="nowrap">{formatDate(entry.added)}</td>
+                  <td class="nowrap">{formatDate(entry.due)}</td>
                   <td>{entry.ransomware ? 'Known' : 'Unknown'}</td>
                 </tr>
               {/each}
@@ -257,8 +257,10 @@
       This tool reads CISA's own GitHub copy of the catalogue, since the cisa.gov feed can't be read
       from a browser. That copy runs about a day behind, so for anything not found it also asks NVD,
       which carries the KEV date on each CVE. The official list is at
-      <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="external"
-        >cisa.gov</a
+      <a
+        href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
+        target="_blank"
+        rel="external">cisa.gov</a
       >.
     </p>
   {/snippet}
@@ -279,13 +281,14 @@
     display: grid;
     gap: var(--space-1);
     padding: var(--space-3) var(--space-4);
-    border: var(--hairline) solid var(--good);
+    border-color: var(--good);
     background: var(--good-soft);
   }
 
   .verdict {
     margin-right: var(--space-2);
     padding: 1px var(--space-2);
+    border-radius: 3px;
     background: var(--good);
     color: var(--surface);
     font-size: var(--text-xs);
@@ -307,37 +310,6 @@
   .tally {
     color: var(--text-muted);
     font-size: var(--text-sm);
-  }
-
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & thead th {
-      background: var(--surface-raised);
-    }
-
-    & tbody th {
-      font-weight: 450;
-      white-space: nowrap;
-    }
-  }
-
-  .date {
-    white-space: nowrap;
   }
 
   .pager {
