@@ -95,12 +95,12 @@
   }
 
   .found {
+    --cell: var(--good-soft);
     font-weight: 600;
-    background: var(--good-soft);
   }
 
   .failed {
-    background: var(--warn-soft);
+    --cell: var(--warn-soft);
   }
 
   .note {

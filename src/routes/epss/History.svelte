@@ -52,21 +52,23 @@
   </div>
   <details>
     <summary>Daily values</summary>
-    <table>
-      <thead
-        ><tr><th scope="col">Date</th><th scope="col">EPSS</th><th scope="col">Percentile</th></tr
-        ></thead
-      >
-      <tbody>
-        {#each [...points].reverse() as point (point.date)}
-          <tr>
-            <th scope="row">{formatDate(point.date)}</th>
-            <td>{fmt(point.probability)}</td>
-            <td>{percent(point.percentile, 1)}</td>
-          </tr>
-        {/each}
-      </tbody>
-    </table>
+    <div class="scroll">
+      <table>
+        <thead
+          ><tr><th scope="col">Date</th><th scope="col">EPSS</th><th scope="col">Percentile</th></tr
+          ></thead
+        >
+        <tbody>
+          {#each [...points].reverse() as point (point.date)}
+            <tr>
+              <th scope="row">{formatDate(point.date)}</th>
+              <td>{fmt(point.probability)}</td>
+              <td>{percent(point.percentile, 1)}</td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+    </div>
   </details>
 </figure>
 
@@ -139,18 +141,10 @@
       color: var(--accent);
     }
 
-    & table {
+    & .scroll {
+      width: fit-content;
+      max-width: 100%;
       margin-top: var(--space-2);
-      border-collapse: collapse;
-      font-family: var(--font-mono);
-      font-size: var(--text-xs);
-
-      & :is(th, td) {
-        padding: 2px var(--space-2);
-        border: var(--hairline) solid var(--line);
-        text-align: start;
-        font-weight: 450;
-      }
     }
   }
 </style>

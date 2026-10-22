@@ -75,14 +75,16 @@
 
   <Toolbar label="Browse and filter">
     <ToolGroup caption="View">
-      {#each data.views as option (option.id)}
-        <button
-          type="button"
-          class="button"
-          aria-pressed={option.id === view.id}
-          onclick={() => pickView(option.id)}>{option.label}</button
-        >
-      {/each}
+      <div class="segments">
+        {#each data.views as option (option.id)}
+          <button
+            type="button"
+            class="cell"
+            aria-pressed={option.id === view.id}
+            onclick={() => pickView(option.id)}>{option.label}</button
+          >
+        {/each}
+      </div>
     </ToolGroup>
     <ToolGroup caption="Abstraction">
       <select bind:value={filters.kind} aria-label="Abstraction">
@@ -135,12 +137,6 @@
 {#snippet guide()}<Guide />{/snippet}
 
 <style>
-  .button[aria-pressed='true'] {
-    border-color: var(--accent);
-    background: var(--accent);
-    color: var(--accent-text);
-  }
-
   .check {
     display: inline-flex;
     align-items: center;

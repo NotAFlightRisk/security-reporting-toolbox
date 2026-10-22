@@ -37,7 +37,7 @@
 
 <section class="ranges" aria-labelledby="{id}-title">
   <h2 id="{id}-title" class="label">Affected ranges</h2>
-  <ol>
+  <ol class="ruled">
     {#each ranges as range, index (index)}
       {@const own = problems.filter((problem) => problem.range === index)}
       <li class="row" class:bad={own.some((problem) => problem.level === 'error')}>
@@ -120,16 +120,6 @@
   .ranges {
     display: grid;
     gap: var(--space-2);
-  }
-
-  ol {
-    display: grid;
-    gap: var(--hairline);
-    margin: 0;
-    padding: 0;
-    border: var(--hairline) solid var(--line);
-    background: var(--line);
-    list-style: none;
   }
 
   .row {

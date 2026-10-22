@@ -6,39 +6,35 @@
     grow = false,
     children
   }: { caption: string; grow?: boolean; children: Snippet } = $props();
+
+  const id = $props.id();
 </script>
 
-<div class="group" class:grow>
+<div class="group" class:grow role="group" aria-labelledby={id}>
+  <span class="label" {id}>{caption}</span>
   <div class="controls">{@render children()}</div>
-  <span class="caption">{caption}</span>
 </div>
 
 <style>
   .group {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    display: grid;
+    align-content: start;
     gap: var(--space-1);
-    flex: 1 1 auto;
-    padding: var(--space-2) var(--space-2) var(--space-1);
-    outline: var(--hairline) solid var(--line);
 
     &.grow {
       flex: 1 1 18rem;
     }
   }
 
+  .label {
+    font-size: var(--text-xs);
+  }
+
   .controls {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: var(--space-1);
-  }
-
-  .caption {
-    color: var(--text-faint);
-    font-size: var(--text-xs);
-    line-height: 1.2;
-    text-align: center;
+    gap: var(--space-2);
+    min-height: var(--control);
   }
 </style>

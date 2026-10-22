@@ -13,6 +13,7 @@
   import { lookupNvd, type NvdCve } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
   import Entry from './Entry.svelte';
+  import Guide from './Guide.svelte';
 
   const perPage = 50;
   // NVD allows 5 requests per 30 seconds, so only cross-check a handful
@@ -184,8 +185,8 @@
                   <th scope="row"><a href="/kev?cve={entry.cve}"><code>{entry.cve}</code></a></th>
                   <td>{entry.vendor} {entry.product}</td>
                   <td>{entry.name}</td>
-                  <td class="date">{formatDate(entry.added)}</td>
-                  <td class="date">{formatDate(entry.due)}</td>
+                  <td class="nowrap">{formatDate(entry.added)}</td>
+                  <td class="nowrap">{formatDate(entry.due)}</td>
                   <td>{entry.ransomware ? 'Known' : 'Unknown'}</td>
                 </tr>
               {/each}
@@ -221,47 +222,7 @@
     {/if}
   {/if}
 
-  {#snippet guide()}
-    <h2>What KEV is</h2>
-    <p>
-      CISA's Known Exploited Vulnerabilities catalogue lists CVEs it has solid evidence are being
-      exploited in the wild. It's short on purpose - a couple of thousand entries out of hundreds of
-      thousands of CVEs - so being in it means a lot more than a high CVSS score.
-    </p>
-    <p>
-      To get in, a bug needs a CVE ID, reliable evidence of active exploitation, and clear
-      remediation guidance (usually a patch). That last rule means some exploited bugs wait outside
-      until a fix exists.
-    </p>
-
-    <h2>Due dates</h2>
-    <p>
-      Each entry has a due date for US federal agencies to fix it, set by a Binding Operational
-      Directive - BOD 22-01 for the older entries, and newer ones point at BOD 26-04 in their notes.
-      Nobody else is bound by them, but they're a decent sanity check for your own patch deadlines.
-    </p>
-
-    <h2>Known ransomware use</h2>
-    <p>
-      "Known" means CISA has seen the bug used in a ransomware campaign. "Unknown" doesn't mean it
-      hasn't been - just that CISA can't confirm it. Never quote Unknown as a no.
-    </p>
-
-    <h2>Not in KEV?</h2>
-    <p>
-      That only means CISA hasn't confirmed exploitation, not that nobody's tried. Check
-      <a href="/epss">EPSS</a> for the odds of exploitation, and vendor advisories for "exploited in the
-      wild" notes, which often land before KEV does.
-    </p>
-    <p>
-      This tool reads CISA's own GitHub copy of the catalogue, since the cisa.gov feed can't be read
-      from a browser. That copy runs about a day behind, so for anything not found it also asks NVD,
-      which carries the KEV date on each CVE. The official list is at
-      <a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="external"
-        >cisa.gov</a
-      >.
-    </p>
-  {/snippet}
+  {#snippet guide()}<Guide />{/snippet}
 </ToolPage>
 
 <style>
@@ -279,13 +240,14 @@
     display: grid;
     gap: var(--space-1);
     padding: var(--space-3) var(--space-4);
-    border: var(--hairline) solid var(--good);
+    border-color: var(--good);
     background: var(--good-soft);
   }
 
   .verdict {
     margin-right: var(--space-2);
     padding: 1px var(--space-2);
+    border-radius: 3px;
     background: var(--good);
     color: var(--surface);
     font-size: var(--text-xs);
@@ -307,37 +269,6 @@
   .tally {
     color: var(--text-muted);
     font-size: var(--text-sm);
-  }
-
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & thead th {
-      background: var(--surface-raised);
-    }
-
-    & tbody th {
-      font-weight: 450;
-      white-space: nowrap;
-    }
-  }
-
-  .date {
-    white-space: nowrap;
   }
 
   .pager {

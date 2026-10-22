@@ -53,7 +53,7 @@
               )}
               <tr class:rejected={item.status === 'Rejected'}>
                 <th scope="row"><a href="/cve?id={item.id}"><code>{item.id}</code></a></th>
-                <td class="date">{formatDate(item.published)}</td>
+                <td class="nowrap">{formatDate(item.published)}</td>
                 <td>
                   {#if best}
                     <Severity score={best.score} label="CVSS {best.version}" />
@@ -107,37 +107,6 @@
   .empty {
     max-width: var(--measure);
     font-size: var(--text-sm);
-  }
-
-  .scroll {
-    overflow-x: auto;
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    background: var(--surface);
-    font-size: var(--text-sm);
-
-    & :is(th, td) {
-      padding: var(--space-1) var(--space-2);
-      border: var(--hairline) solid var(--line);
-      text-align: start;
-      vertical-align: top;
-    }
-
-    & thead th {
-      background: var(--surface-raised);
-    }
-
-    & tbody th {
-      font-weight: 450;
-      white-space: nowrap;
-    }
-  }
-
-  .date {
-    white-space: nowrap;
   }
 
   .summary {

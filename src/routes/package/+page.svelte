@@ -36,7 +36,7 @@
   {:else if found?.kind === 'choose'}
     <section class="choose" aria-label="Which ecosystem">
       <p>{found.why} Which one?</p>
-      <div class="options">
+      <div class="matrix options">
         {#each found.options as option (option.ecosystem.id)}
           <button type="button" class="cell" onclick={() => pick(option.ecosystem.id, option.name)}>
             <b>{option.ecosystem.name}</b>
@@ -67,18 +67,12 @@
   }
 
   .options {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 16rem), 1fr));
-    border-top: var(--hairline) solid var(--line);
-    border-left: var(--hairline) solid var(--line);
+    --column: 16rem;
 
     & .cell {
-      border-right: var(--hairline) solid var(--line);
-      border-bottom: var(--hairline) solid var(--line);
       display: grid;
       gap: 2px;
       padding: var(--space-2) var(--space-3);
-      box-shadow: none;
     }
   }
 </style>
