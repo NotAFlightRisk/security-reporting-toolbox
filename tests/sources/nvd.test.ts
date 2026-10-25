@@ -33,6 +33,16 @@ describe('parseNvdPage', () => {
     expect([page.total, page.items.length]).toEqual([total, items]);
   });
 
+  it('keeps one copy of a CVE that NVD sends twice', () => {
+    const page = fixture('nvd-keyword');
+    const twice = { ...page, vulnerabilities: [...page.vulnerabilities, page.vulnerabilities[1]] };
+    expect(parseNvdPage(twice)!.items.map((item) => item.id)).toEqual([
+      'CVE-2021-44228',
+      'CVE-2021-4104',
+      'CVE-2021-45046'
+    ]);
+  });
+
   it('keeps rejected CVEs, with their status', () => {
     expect(parseNvdPage(fixture('nvd-rejected'))!.items[0].status).toBe('Rejected');
   });
