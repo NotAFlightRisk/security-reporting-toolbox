@@ -109,7 +109,9 @@ export function parseNvdPage(json: unknown): NvdPage | null {
   if (typeof body?.totalResults !== 'number') return null;
   const items = list<Json>(body.vulnerabilities).map(parseNvdCve);
   if (items.some((item) => item === null)) return null;
-  return { total: body.totalResults, items: items as NvdCve[] };
+  // NVD sometimes sends the same CVE twice in one page
+  const unique = new Map((items as NvdCve[]).map((item) => [item.id, item]));
+  return { total: body.totalResults, items: [...unique.values()] };
 }
 
 // NVD answers a busy client with a bare 403, so name the limit rather than a status code
