@@ -13,7 +13,7 @@ from pathlib import Path
 
 SOURCE = "https://cwe.mitre.org/data/xml/cwec_latest.xml.zip"
 OUT = Path(__file__).resolve().parent.parent / "src/lib/data/cwe.json"
-NS = "{http://cwe.mitre.org/cwe-7}"
+NS = "{http://cwe.mitre.org/cwe-8}"
 HTML = "{http://www.w3.org/1999/xhtml}"
 RESEARCH = "1000"
 
@@ -112,6 +112,10 @@ def platforms(el):
     return found
 
 
+def phases(el):
+    return texts(el, f"{NS}Phase") + texts(el, f"{NS}Custom_Phase")
+
+
 def weakness(el):
     related = [
         {"nature": r.get("Nature"), "id": int(r.get("CWE_ID")), "view": r.get("View_ID")}
@@ -123,7 +127,7 @@ def weakness(el):
         "abstraction": el.get("Abstraction"),
         "status": el.get("Status"),
         "description": text(el, f"{NS}Description"),
-        "extended": flatten(el.find(f"{NS}Extended_Description")),
+        "extended": flatten(el.find(f"{NS}Extended_Description")) + flatten(el.find(f"{NS}Technical_Nuance")),
         "terms": [
             {"term": text(t, f"{NS}Term"), "description": text(t, f"{NS}Description")}
             for t in el.iterfind(f"{NS}Alternate_Terms/{NS}Alternate_Term")
@@ -138,13 +142,13 @@ def weakness(el):
             for c in el.iterfind(f"{NS}Common_Consequences/{NS}Consequence")
         ],
         "introduced": [
-            {"phase": text(i, f"{NS}Phase"), "note": text(i, f"{NS}Note")}
+            {"phases": phases(i), "note": text(i, f"{NS}Note")}
             for i in el.iterfind(f"{NS}Modes_Of_Introduction/{NS}Introduction")
         ],
         "platforms": platforms(el),
         "mitigations": [
             {
-                "phases": texts(m, f"{NS}Phase"),
+                "phases": phases(m),
                 "strategy": text(m, f"{NS}Strategy"),
                 "description": flatten(m.find(f"{NS}Description")),
                 "effectiveness": text(m, f"{NS}Effectiveness"),
@@ -226,7 +230,7 @@ def build_view(el, weaknesses, categories):
 
 def convert(root):
     weaknesses = {w["id"]: w for w in map(weakness, root.iterfind(f"{NS}Weaknesses/{NS}Weakness"))}
-    categories = {c["id"]: c for c in map(category, root.iterfind(f"{NS}Categories/{NS}Category"))}
+    categories = {c["id"]: c for c in map(category, root.iterfind(f"{NS}Groupings/{NS}Grouping"))}
     view_els = list(root.iterfind(f"{NS}Views/{NS}View"))
     views = [build_view(el, weaknesses, categories) for el in view_els if el.get("ID") in VIEWS]
     views.sort(key=lambda v: list(VIEWS).index(str(v["id"])))

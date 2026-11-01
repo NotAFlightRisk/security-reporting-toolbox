@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<Weakness_Catalog xmlns="http://cwe.mitre.org/cwe-7" xmlns:html="http://www.w3.org/1999/xhtml" Name="CWE" Version="4.20" Date="2026-04-30">
+<Weakness_Catalog xmlns="http://cwe.mitre.org/cwe-8" xmlns:html="http://www.w3.org/1999/xhtml" Name="CWE" Version="5.0" Date="2026-10-28">
   <Weaknesses>
     <Weakness ID="1187" Name="DEPRECATED: Use of Uninitialized Resource" Abstraction="Base" Structure="Simple" Status="Deprecated">
       <Description>This entry has been deprecated because it was a duplicate of CWE-908. All content has been transferred to CWE-908.</Description>
@@ -13,18 +13,7 @@
       </Mapping_Notes>
     </Weakness>
     <Weakness ID="707" Name="Improper Neutralization" Abstraction="Pillar" Structure="Simple" Status="Incomplete">
-      <Description>The product does not ensure or incorrectly ensures that structured messages or data are well-formed and that certain security properties are met before being read from an upstream component or sent to a downstream component.</Description>
-      <Extended_Description>
-        <html:p>If a message is malformed, it may cause the message to be incorrectly interpreted.</html:p>
-        <html:p>Neutralization is an abstract term for any technique that ensures that input (and output) conforms with expectations and is "safe."  This can be done by:</html:p>
-        <html:ul>
-          <html:li>checking that the input/output is already "safe" (e.g. validation)</html:li>
-          <html:li>transformation of the input/output to be "safe" using techniques such as filtering, encoding/decoding, escaping/unescaping, quoting/unquoting, or canonicalization</html:li>
-          <html:li>preventing the input/output from being directly provided by an attacker (e.g. "indirect selection" that maps externally-provided values to internally-controlled values)</html:li>
-          <html:li>preventing the input/output from being processed at all</html:li>
-        </html:ul>
-        <html:p>This weakness typically applies in cases where the product prepares a control message that another process must act on, such as a command or query, and malicious input that was intended as data, can enter the control plane instead. However, this weakness also applies to more general cases where there are not always control implications.</html:p>
-      </Extended_Description>
+      <Description>The product does not ensure or incorrectly ensures that structured messages or data are well-formed and that certain security properties are met before being used when received from an upstream component, or before being sent to a downstream component.</Description>
       <Applicable_Platforms>
         <Language Class="Not Language-Specific" Prevalence="Undetermined" />
         <Operating_System Class="Not OS-Specific" Prevalence="Undetermined" />
@@ -34,13 +23,15 @@
       <Modes_Of_Introduction>
         <Introduction>
           <Phase>Implementation</Phase>
-          <Note>REALIZATION: This weakness is caused during implementation of an architectural security tactic.</Note>
+          <Note>This weakness typically applies in cases where the product prepares a control message that another process must act on, such as a command or query, and malicious input that was intended as data, can enter the control plane instead. However, this weakness also applies to more general cases where there are not always control implications.</Note>
         </Introduction>
       </Modes_Of_Introduction>
       <Common_Consequences>
         <Consequence>
           <Scope>Other</Scope>
-          <Impact>Other</Impact>
+          <Impact>Varies by Context</Impact>
+          <Impact>Unexpected State</Impact>
+          <Note>If a message is malformed, it may cause the message to be incorrectly interpreted.</Note>
         </Consequence>
       </Common_Consequences>
       <Mapping_Notes>
@@ -52,7 +43,7 @@
         </Reasons>
       </Mapping_Notes>
     </Weakness>
-    <Weakness ID="74" Name="Improper Neutralization of Special Elements in Output Used by a Downstream Component ('Injection')" Abstraction="Class" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-74-Diagram.png">
+    <Weakness ID="74" Name="Improper Neutralization of Special Elements in Output Used by a Downstream Component" Abstraction="Class" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-74-Diagram.png">
       <Description>The product constructs all or part of a command, data structure, or record using externally-influenced input from an upstream component, but it does not neutralize or incorrectly neutralizes special elements that could modify how it is parsed or interpreted when it is sent to a downstream component.</Description>
       <Related_Weaknesses>
         <Related_Weakness Nature="ChildOf" CWE_ID="707" View_ID="1000" Ordinal="Primary" />
@@ -83,7 +74,12 @@
       <Observed_Examples>
         <Observed_Example>
           <Reference>CVE-2024-5184</Reference>
-          <Description>API service using a large generative AI model allows direct prompt injection to leak hard-coded system prompts or execute other prompts.</Description>
+          <Description>ML-based email analysis product uses an
+			  API service that allows a malicious user to inject a
+			  direct prompt and take over the service logic, forcing
+			  it to leak the standard hard-coded system prompts
+			  and/or execute unwanted prompts to leak sensitive
+			  data.</Description>
           <Link>https://www.cve.org/CVERecord?id=CVE-2024-5184</Link>
         </Observed_Example>
         <Observed_Example>
@@ -102,13 +98,35 @@
         </Reasons>
       </Mapping_Notes>
     </Weakness>
-    <Weakness ID="79" Name="Improper Neutralization of Input During Web Page Generation ('Cross-site Scripting')" Abstraction="Base" Structure="Simple" Status="Stable" Diagram="/data/images/CWE-79-Diagram.png">
+    <Weakness ID="79" Name="Improper Neutralization of Input During Web Page Generation" Abstraction="Base" Structure="Simple" Status="Stable" Diagram="/data/images/CWE-79-Diagram.png">
       <Description>The product does not neutralize or incorrectly neutralizes user-controllable input before it is placed in output that is used as a web page that is served to other users.</Description>
-      <Extended_Description>
+      <Technical_Nuance>
         <html:p>There are many variants of cross-site scripting, characterized by a variety of terms or involving different attack topologies. However, they all indicate the same fundamental weakness: improper neutralization of dangerous input between the adversary and a victim.</html:p>
-      </Extended_Description>
+        <html:p>The attack methods for XSS can vary depending on the type of XSS and the attacker's goal.</html:p>
+        <html:ul>
+          <html:li>
+            <html:p>
+              <html:b>Reflected XSS exploits (Type 1)</html:b> occur when an attacker causes a victim to supply dangerous content to a vulnerable web application, which is then reflected back to the victim and executed by the web browser. The most common mechanism for delivering malicious content is to include it as a parameter in a URL that is posted publicly or e-mailed directly to the victim. URLs constructed in this manner constitute the core of many phishing schemes, whereby an attacker convinces a victim to visit a URL that refers to a vulnerable site. After the site reflects the attacker's content back to the victim, the content is executed by the victim's browser.</html:p>
+          </html:li>
+          <html:li>
+            <html:p>In a <html:b>Stored XSS exploit (Type 2)</html:b>, the optimal place to inject malicious content is in an area that is displayed to either many users or particularly interesting users. Interesting users typically have elevated privileges in the application or interact with sensitive data that is valuable to the attacker. If one of these users executes malicious content, the attacker may be able to perform privileged operations on behalf of the user or gain access to sensitive data belonging to the user. For example, the attacker might inject XSS into a log message, which might not be handled properly when an administrator views the logs.</html:p>
+          </html:li>
+          <html:li>
+            <html:p>
+              <html:b>DOM-based XSS (Type 0)</html:b> generally involves server-controlled, trusted script that is sent to the client, such as JavaScript that performs sanity checks on a form before the user submits it. If the server-supplied script processes user-supplied data and then injects it back into the web page (such as with dynamic HTML), then DOM-based XSS is possible.</html:p>
+          </html:li>
+        </html:ul>
+      </Technical_Nuance>
       <Related_Weaknesses>
-        <Related_Weakness Nature="ChildOf" CWE_ID="74" View_ID="1000" Ordinal="Primary" />
+        <Related_Weakness Nature="ChildOf" CWE_ID="74" View_ID="1000" Ordinal="Primary">
+          <Dimensions>
+            <Dimension Type="Input-Type">Input</Dimension>
+            <Dimension Type="Technology">Web</Dimension>
+            <Dimension Type="Resource-Type">Page</Dimension>
+            <Dimension Type="Behavior-Type">Generation</Dimension>
+            <Dimension Type="Common-Name">Cross-site Scripting</Dimension>
+          </Dimensions>
+        </Related_Weakness>
         <Related_Weakness Nature="ChildOf" CWE_ID="74" View_ID="1003" Ordinal="Primary" />
         <Related_Weakness Nature="CanPrecede" CWE_ID="494" View_ID="1000" />
         <Related_Weakness Nature="PeerOf" CWE_ID="352" View_ID="1000" />
@@ -122,11 +140,13 @@
       <Alternate_Terms>
         <Alternate_Term>
           <Term>XSS</Term>
-          <Description>A common abbreviation for Cross-Site Scripting.</Description>
+          <Role>Acronym</Role>
+          <Description>A common abbreviation/acronym for Cross-Site Scripting.</Description>
         </Alternate_Term>
         <Alternate_Term>
           <Term>HTML Injection</Term>
-          <Description>Used as a synonym of stored (Type 2) XSS.</Description>
+          <Role>Attack-Focused</Role>
+          <Description>A general term for an attack that inserts HTML into a web page, often involving stored XSS, although the term may be used for other XSS variants</Description>
         </Alternate_Term>
       </Alternate_Terms>
       <Modes_Of_Introduction>
@@ -176,7 +196,7 @@
         </Reasons>
       </Mapping_Notes>
     </Weakness>
-    <Weakness ID="80" Name="Improper Neutralization of Script-Related HTML Tags in a Web Page (Basic XSS)" Abstraction="Variant" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-80-Diagram.png">
+    <Weakness ID="80" Name="Improper Neutralization of Script-Related HTML Tags in a Web Page" Abstraction="Variant" Structure="Simple" Status="Incomplete" Diagram="/data/images/CWE-80-Diagram.png">
       <Description>The product receives input from an upstream component, but it does not neutralize or incorrectly neutralizes special characters such as "&lt;", "&gt;", and "&amp;" that could be interpreted as web-scripting elements when they are sent to a downstream component that processes web pages.</Description>
       <Related_Weaknesses>
         <Related_Weakness Nature="ChildOf" CWE_ID="79" View_ID="1000" Ordinal="Primary" />
@@ -230,8 +250,8 @@
       </Mapping_Notes>
     </Weakness>
   </Weaknesses>
-  <Categories>
-    <Category ID="1347" Name="OWASP Top Ten 2021 Category A03:2021 - Injection" Status="Incomplete">
+  <Groupings>
+    <Grouping ID="1347" Name="OWASP Top Ten 2021 Category A03:2021 - Injection" Status="Incomplete">
       <Summary>Weaknesses in this category are related to the A03 category "Injection" in the OWASP Top Ten 2021.</Summary>
       <Relationships>
         <Has_Member CWE_ID="74" View_ID="1344" />
@@ -240,14 +260,14 @@
       </Relationships>
       <Mapping_Notes>
         <Usage>Prohibited</Usage>
-        <Rationale>This entry is a Category. Using categories for mapping has been discouraged since 2019. Categories are informal organizational groupings of weaknesses that can help CWE users with data aggregation, navigation, and browsing. However, they are not weaknesses in themselves.</Rationale>
+        <Rationale>This entry is a Grouping. Using groupings for mapping has been discouraged since 2019. They are informal organizational groupings of weaknesses that can help CWE users with data aggregation, navigation, and browsing. However, they are not weaknesses in themselves.</Rationale>
         <Comments>See member weaknesses of this category.</Comments>
         <Reasons>
-          <Reason Type="Category" />
+          <Reason Type="Grouping" />
         </Reasons>
       </Mapping_Notes>
-    </Category>
-  </Categories>
+    </Grouping>
+  </Groupings>
   <Views>
     <View ID="1344" Name="Weaknesses in OWASP Top Ten (2021)" Type="Graph" Status="Incomplete">
       <Objective>CWE entries in this view (graph) are associated with the OWASP Top Ten, as released in 2021.</Objective>

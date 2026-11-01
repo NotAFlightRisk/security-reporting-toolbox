@@ -21,23 +21,21 @@ function convert(): Catalogue {
   return JSON.parse(readFileSync(out, 'utf8'));
 }
 
-describe('scripts/cwe.py on a real excerpt of CWE 4.20', () => {
+describe('scripts/cwe.py on a real excerpt of CWE 5.0', () => {
   const data = convert();
   const byId = new Map(data.weaknesses.map((entry) => [entry.id, entry]));
 
   it('keeps the catalogue version and date', () => {
-    expect([data.version, data.date]).toEqual(['4.20', '2026-04-30']);
+    expect([data.version, data.date]).toEqual(['5.0', '2026-10-28']);
   });
 
   it('flattens xhtml into paragraphs and lists', () => {
-    const extended = byId.get(707)!.extended;
-    expect(extended[0]).toBe(
-      'If a message is malformed, it may cause the message to be incorrectly interpreted.'
+    const extended = byId.get(79)!.extended;
+    expect(extended[1]).toBe(
+      "The attack methods for XSS can vary depending on the type of XSS and the attacker's goal."
     );
-    expect(extended[2]).toHaveLength(4);
-    expect((extended[2] as string[])[0]).toBe(
-      'checking that the input/output is already "safe" (e.g. validation)'
-    );
+    expect(extended[2]).toHaveLength(3);
+    expect((extended[2] as string[])[0]).toMatch(/^Reflected XSS exploits \(Type 1\) occur when/);
   });
 
   it('strips reference markers out of prose', () => {
@@ -88,7 +86,7 @@ describe('the shipped catalogue', () => {
     const page = cweEntry(1187)!;
     expect(page.names[908]).toBe('Use of Uninitialized Resource');
     const xss = cweEntry(79)!;
-    expect(xss.names[74]).toMatch(/Injection/);
+    expect(xss.names[74]).toMatch(/Downstream Component/);
     expect(xss.views.map((view) => view.id)).toContain(1435);
   });
 

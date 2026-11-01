@@ -263,7 +263,7 @@
       <section>
         <h2>Where it turns up</h2>
         <ul class="plain">
-          {#each [...new Set(weakness.introduced.map(({ phase }) => phase))] as phase (phase)}
+          {#each [...new Set(weakness.introduced.flatMap(({ phases }) => phases))] as phase (phase)}
             <li>Introduced during {phase.toLowerCase()}</li>
           {/each}
           {#each weakness.platforms as { type, name, prevalence }, index (index)}

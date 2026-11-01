@@ -5,6 +5,7 @@ const labels: [string, string][] = [
   ['children', 'Children'],
   ['PeerOf', 'Peers'],
   ['CanAlsoBe', 'Can also be'],
+  ['Overlaps', 'Overlaps'],
   ['CanPrecede', 'Can lead to'],
   ['CanFollow', 'Can follow from'],
   ['Requires', 'Requires'],

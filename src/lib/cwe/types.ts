@@ -21,7 +21,7 @@ export interface Weakness {
   terms: { term: string; description: string }[];
   likelihood: string;
   consequences: { scopes: string[]; impacts: string[]; note: string }[];
-  introduced: { phase: string; note: string }[];
+  introduced: { phases: string[]; note: string }[];
   platforms: { type: string; name: string; prevalence: string }[];
   mitigations: {
     phases: string[];
