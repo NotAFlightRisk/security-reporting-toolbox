@@ -192,7 +192,7 @@ export const ecosystems: Ecosystem[] = [
     example: 'guzzlehttp/guzzle',
     normalise: (name) => name.trim().toLowerCase(),
     check: rule(
-      /^[a-z0-9]([_.-]?[a-z0-9]+)*\/[a-z0-9](([_.]|-{1,2})?[a-z0-9]+)*$/i,
+      /^[a-z0-9]+([_.-][a-z0-9]+)*\/[a-z0-9]+(([_.]|-{1,2})[a-z0-9]+)*$/i,
       'Composer packages are "vendor/package", like guzzlehttp/guzzle.'
     ),
     page: (name) => `https://packagist.org/packages/${name}`
