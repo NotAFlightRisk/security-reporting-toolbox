@@ -32,7 +32,7 @@
   "dependencies": {
     "@fontsource-variable/atkinson-hyperlegible-next": "^5.3.0",
     "@lucide/svelte": "^1.66.0",
-    "@renovatebot/pep440": "^5.0.1",
+    "@renovatebot/pep440": "^6.0.0",
     "ae-cvss-calculator": "^1.0.13",
     "semver": "^7.8.5"
   },
