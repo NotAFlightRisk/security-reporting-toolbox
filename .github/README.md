@@ -1,6 +1,8 @@
 <h1 align="center">Security Reporting Toolbox</h1>
 <p align="center">
-<i>The fiddly bits of writing a security report, in one place</i>
+<img src="https://raw.githubusercontent.com/NotAFlightRisk/peng.ly/refs/heads/main/src/lib/assets/security-reporting-toolbox.svg" width="64" />
+<br />
+<i>All-in-one toolbox for writing security reports</i>
 <br />
 <b>🌐 <a href="https://security-reporting-toolbox.peng.ly/">security-reporting-toolbox.peng.ly</a></b><br />
 </p>
@@ -18,7 +20,7 @@
 
 ## About
 
-Writing up a vulnerability means a dozen small side quests - which CWE, what's the CVSS score, is it in KEV, what's the exact package name, how do I write "everything before 2.4.1" so GitHub understands it, and who do I even ask for a CVE. This puts all of those in one place, with each tool talking straight to the official source.
+Writing up a vulnerability means a dozen small side quests - which CWE, what's the CVSS score, is it in KEV, what's the exact package name, how do I write "everything before 2.4.1" so that a CVE can be requested. This puts all of those in one place, with each tool talking straight to the official source.
 
 | Tool                                                                    | What it does                                                                            | Source                    |
 | ----------------------------------------------------------------------- | --------------------------------------------------------------------------------------- | ------------------------- |
@@ -31,7 +33,7 @@ Writing up a vulnerability means a dozen small side quests - which CWE, what's t
 | [Package lookup](https://security-reporting-toolbox.peng.ly/package)    | Find a package across ecosystems, check its name, get versions and its PURL             | deps.dev, registries      |
 | [CNA directory](https://security-reporting-toolbox.peng.ly/cna)         | Who can assign a CVE for a product, and how to ask them                                 | CVE Program               |
 
-There's no backend and no accounts. Everything runs in your browser, and "not found" never gets mixed up with "the source is down".
+Everything works offline, locally in the browser. There's no accounts, ads, tracking and the app is easily self-hostable :)
 
 ---
 
@@ -54,17 +56,18 @@ Every tool keeps its state in the URL, so you can link straight to a result:
 
 It's a static site, so it'll run anywhere that can serve a folder of files.
 
-### Option 1: Vercel or Cloudflare
+### Option 1: Static Host
 
-Fork the repo, then import it into Vercel. Or use the button 👇
+The app can be imported into Vercel, Netlify or any other static host. 
+For Cloudflare Pages, run `npm run build && npx wrangler deploy`.
+The quickest way to get started is by clicking the button below 👇
 
-[![1-Click Deploy to Vercel](https://img.shields.io/badge/Deploy-Vercel-ffffff?style=for-the-badge&logo=vercel&labelColor=1b2744)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fsecurity-reporting-toolbox&demo-title=Security%20Reporting%20Toolbox&demo-url=https%3A%2F%2Fsecurity-reporting-toolbox.peng.ly)
+[![1-Click Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fsecurity-reporting-toolbox&demo-title=Security%20Reporting%20Toolbox&demo-url=https%3A%2F%2Fsecurity-reporting-toolbox.peng.ly)
 
-For Cloudflare, change the domain in `wrangler.jsonc` to your own, then run `npm run build && npx wrangler deploy`.
 
 ### Option 2: Docker
 
-There's a multi-arch image on DockerHub ([`notaflightrisk/security-reporting-toolbox`](https://hub.docker.com/r/notaflightrisk/security-reporting-toolbox)) and GHCR ([`ghcr.io/notaflightrisk/security-reporting-toolbox`](https://github.com/NotAFlightRisk/security-reporting-toolbox/pkgs/container/security-reporting-toolbox)). It's nginx serving the built site on port 8080:
+There's a multi-arch image on DockerHub and GHCR ([`ghcr.io/notaflightrisk/security-reporting-toolbox`](https://github.com/NotAFlightRisk/security-reporting-toolbox/pkgs/container/security-reporting-toolbox)).
 
 ```shell
 docker run -p 8080:8080 notaflightrisk/security-reporting-toolbox
