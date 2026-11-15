@@ -58,12 +58,11 @@ It's a static site, so it'll run anywhere that can serve a folder of files.
 
 ### Option 1: Static Host
 
-The app can be imported into Vercel, Netlify or any other static host. 
+The app can be imported into Vercel, Netlify or any other static host.
 For Cloudflare Pages, run `npm run build && npx wrangler deploy`.
 The quickest way to get started is by clicking the button below 👇
 
 [![1-Click Deploy to Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2FNotAFlightRisk%2Fsecurity-reporting-toolbox&demo-title=Security%20Reporting%20Toolbox&demo-url=https%3A%2F%2Fsecurity-reporting-toolbox.peng.ly)
-
 
 ### Option 2: Docker
 
