@@ -1,5 +1,5 @@
 import type { Ecosystem } from '#lib/ecosystems.ts';
-import { schemes, type Scheme } from '#lib/versions/schemes.ts';
+import { schemes, stripV, type Scheme } from '#lib/versions/schemes.ts';
 
 /** from introduced ('' = the dawn of time) to a fix, a last bad version, forever, or one version */
 export interface Range {
@@ -113,14 +113,22 @@ export function parseGithub(text: string): { range: Range } | { error: string } 
   };
 }
 
+/** the range as it goes in an advisory, without stray spaces or a leading v */
+export const tidyRange = (range: Range): Range => ({
+  ...range,
+  introduced: stripV(range.introduced),
+  version: stripV(range.version)
+});
+
 /** a row nobody has typed in yet, which validation and output skip */
 export const isBlank = (range: Range) =>
   range.end !== 'open' && !range.introduced.trim() && !range.version.trim();
 
 const versionsIn = (range: Range) =>
-  range.end === 'exact'
+  (range.end === 'exact'
     ? [range.version]
-    : [range.introduced, range.end === 'open' ? '' : range.version].filter(Boolean);
+    : [range.introduced, range.end === 'open' ? '' : range.version]
+  ).filter(Boolean);
 
 /** true when version falls inside the range, using the ecosystem's own ordering */
 export function inRange(range: Range, version: string, scheme: Scheme) {
@@ -153,7 +161,8 @@ function overlaps(a: Range, b: Range, scheme: Scheme) {
   return !below(aHigh, bLow, a) && !below(bHigh, aLow, b);
 }
 
-export function validate(ranges: Range[], scheme: Scheme): Problem[] {
+export function validate(raw: Range[], scheme: Scheme): Problem[] {
+  const ranges = raw.map(tidyRange);
   const problems: Problem[] = [];
   const add = (range: number, level: Problem['level'], message: string) =>
     problems.push({ range, level, message });
@@ -171,9 +180,10 @@ export function validate(ranges: Range[], scheme: Scheme): Problem[] {
         );
       }
     }
-    if (range.end !== 'open' && !range.version.trim()) {
+    if (range.end !== 'open' && !range.version) {
       const missing = { fixed: 'fixed', last: 'last affected', exact: 'affected' }[range.end];
-      add(index, 'error', `Fill in the ${missing} version, or pick "no fix yet".`);
+      const otherwise = range.end === 'exact' ? '' : ', or pick "no fix yet"';
+      add(index, 'error', `Fill in the ${missing} version${otherwise}.`);
     }
     const valid = versionsIn(range).every((version) => scheme.clean(version));
     if (
@@ -217,6 +227,7 @@ export function validate(ranges: Range[], scheme: Scheme): Problem[] {
 /** ranges as a compact URL value: "1.0.0,1.2.3;,2.0.0;=3.1.0;2.5.0,=2.6.1;4.0.0," */
 export function encodeRanges(ranges: Range[]) {
   return ranges
+    .filter((range) => range.end === 'open' || range.version)
     .map((range) => {
       if (range.end === 'exact') return `=${range.version}`;
       const end =

@@ -31,32 +31,55 @@ export type Identified =
 
 const by = (id: EcosystemId) => ecosystems.find((entry) => entry.id === id)!;
 
-// registry pages people paste, mapped to the name they describe
+// registry pages people paste, mapped to the name they describe and any version in them
 const pages: { pattern: RegExp; id: EcosystemId; name: (match: RegExpMatchArray) => string }[] = [
-  { pattern: /npmjs\.com\/package\/((?:@[^/]+\/)?[^/?#]+)/, id: 'npm', name: (m) => m[1] },
-  { pattern: /pypi\.org\/project\/([^/?#]+)/, id: 'pip', name: (m) => m[1] },
-  { pattern: /crates\.io\/crates\/([^/?#]+)/, id: 'rust', name: (m) => m[1] },
   {
-    pattern: /mvnrepository\.com\/artifact\/([^/?#]+)\/([^/?#]+)/,
+    pattern: /npmjs\.com\/package\/((?:(?:@|%40)[^/]+\/)?[^/?#]+)(?:\/v\/(?<version>\d[^/?#]*))?/,
+    id: 'npm',
+    name: (m) => m[1]
+  },
+  {
+    pattern: /pypi\.org\/project\/([^/?#]+)(?:\/(?<version>\d[^/?#]*))?/,
+    id: 'pip',
+    name: (m) => m[1]
+  },
+  {
+    pattern: /crates\.io\/crates\/([^/?#]+)(?:\/(?<version>\d[^/?#]*))?/,
+    id: 'rust',
+    name: (m) => m[1]
+  },
+  {
+    pattern:
+      /(?:mvnrepository\.com|central\.sonatype\.com|search\.maven\.org)\/artifact\/([^/?#]+)\/([^/?#]+)(?:\/(?<version>\d[^/?#]*))?/,
     id: 'maven',
     name: (m) => `${m[1]}:${m[2]}`
   },
   {
-    pattern: /central\.sonatype\.com\/artifact\/([^/?#]+)\/([^/?#]+)/,
-    id: 'maven',
-    name: (m) => `${m[1]}:${m[2]}`
+    pattern: /rubygems\.org\/gems\/([^/?#]+)(?:\/versions\/(?<version>\d[^/?#]*))?/,
+    id: 'rubygems',
+    name: (m) => m[1]
   },
   {
-    pattern: /search\.maven\.org\/artifact\/([^/?#]+)\/([^/?#]+)/,
-    id: 'maven',
-    name: (m) => `${m[1]}:${m[2]}`
+    pattern: /nuget\.org\/packages\/([^/?#]+)(?:\/(?<version>\d[^/?#]*))?/i,
+    id: 'nuget',
+    name: (m) => m[1]
   },
-  { pattern: /rubygems\.org\/gems\/([^/?#]+)/, id: 'rubygems', name: (m) => m[1] },
-  { pattern: /nuget\.org\/packages\/([^/?#]+)/i, id: 'nuget', name: (m) => m[1] },
   { pattern: /packagist\.org\/packages\/([^/?#]+\/[^/?#]+)/, id: 'composer', name: (m) => m[1] },
-  { pattern: /pkg\.go\.dev\/([^?#@]+)/, id: 'go', name: (m) => m[1].replace(/\/+$/, '') },
-  { pattern: /pub\.dev\/packages\/([^/?#]+)/, id: 'pub', name: (m) => m[1] },
-  { pattern: /hex\.pm\/packages\/([^/?#]+)/, id: 'erlang', name: (m) => m[1] },
+  {
+    pattern: /pkg\.go\.dev\/([^?#@]+)(?:@(?<version>[^/?#]+))?/,
+    id: 'go',
+    name: (m) => m[1].replace(/\/+$/, '')
+  },
+  {
+    pattern: /pub\.dev\/packages\/([^/?#]+)(?:\/versions\/(?<version>\d[^/?#]*))?/,
+    id: 'pub',
+    name: (m) => m[1]
+  },
+  {
+    pattern: /hex\.pm\/packages\/([^/?#]+)(?:\/(?<version>\d[^/?#]*))?/,
+    id: 'erlang',
+    name: (m) => m[1]
+  },
   {
     pattern: /swiftpackageindex\.com\/([^/?#]+)\/([^/?#]+)/,
     id: 'swift',
@@ -97,6 +120,7 @@ function fromUrl(text: string): Identified {
         kind: 'known',
         ecosystem: by(id),
         name: decodeURIComponent(name(match)),
+        version: match.groups?.version,
         via: 'registry URL'
       };
   }

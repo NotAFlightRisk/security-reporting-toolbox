@@ -11,20 +11,25 @@ describe('working out what was pasted', () => {
   it.each([
     ['https://www.npmjs.com/package/@sveltejs/kit', ['npm', '@sveltejs/kit', undefined]],
     ['npmjs.com/package/express?activeTab=versions', ['npm', 'express', undefined]],
+    ['https://www.npmjs.com/package/%40angular/core', ['npm', '@angular/core', undefined]],
+    ['https://www.npmjs.com/package/express/v/4.18.2', ['npm', 'express', '4.18.2']],
     ['https://pypi.org/project/Django/', ['pip', 'Django', undefined]],
+    ['https://pypi.org/project/Flask/2.0.1/', ['pip', 'Flask', '2.0.1']],
     ['https://crates.io/crates/serde', ['rust', 'serde', undefined]],
+    ['https://crates.io/crates/serde/versions', ['rust', 'serde', undefined]],
     [
       'https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core/2.17.1',
-      ['maven', 'org.apache.logging.log4j:log4j-core', undefined]
+      ['maven', 'org.apache.logging.log4j:log4j-core', '2.17.1']
     ],
     [
       'https://central.sonatype.com/artifact/com.google.guava/guava',
       ['maven', 'com.google.guava:guava', undefined]
     ],
     ['https://rubygems.org/gems/rails', ['rubygems', 'rails', undefined]],
+    ['https://rubygems.org/gems/rails/versions/7.1.3', ['rubygems', 'rails', '7.1.3']],
     [
       'https://www.nuget.org/packages/Newtonsoft.Json/13.0.3',
-      ['nuget', 'Newtonsoft.Json', undefined]
+      ['nuget', 'Newtonsoft.Json', '13.0.3']
     ],
     [
       'https://packagist.org/packages/guzzlehttp/guzzle',
@@ -32,7 +37,7 @@ describe('working out what was pasted', () => {
     ],
     [
       'https://pkg.go.dev/github.com/gin-gonic/gin@v1.9.1',
-      ['go', 'github.com/gin-gonic/gin', undefined]
+      ['go', 'github.com/gin-gonic/gin', 'v1.9.1']
     ],
     ['https://pub.dev/packages/http', ['pub', 'http', undefined]],
     ['https://hex.pm/packages/phoenix', ['erlang', 'phoenix', undefined]],

@@ -6,6 +6,7 @@
   import { formatDate, plural } from '#lib/format.ts';
   import { purlFor } from '#lib/packages/identify.ts';
   import { details, lookup, type Lookup, type PackageInfo } from '#lib/packages/registry.ts';
+  import { isPrerelease, sameVersion, schemes } from '#lib/versions/schemes.ts';
 
   let {
     ecosystem,
@@ -36,12 +37,29 @@
     return () => (live = false);
   });
 
+  const scheme = $derived(schemes[ecosystem.scheme]);
   const problem = $derived(ecosystem.check(name));
   const canonical = $derived(info?.name ?? name);
-  const purl = $derived(purlFor(ecosystem, canonical));
+  const purl = $derived(purlFor(ecosystem, name));
   const pinned = $derived(version ?? info?.latest);
-  const pinnedPurl = $derived(pinned ? purlFor(ecosystem, canonical, pinned) : null);
+  const pinnedPurl = $derived(pinned ? purlFor(ecosystem, name, pinned) : null);
+  const unpublished = $derived(
+    version &&
+      info &&
+      !info.releases.some((release) => sameVersion(scheme, release.version, version))
+  );
   const latest = $derived(info?.releases.find((release) => release.version === info?.latest));
+  const prerelease = $derived(!!info?.latest && isPrerelease(scheme, info.latest));
+  const stable = $derived(
+    prerelease
+      ? info?.releases.find(
+          (release) =>
+            !release.pulled &&
+            scheme.clean(release.version) &&
+            !isPrerelease(scheme, release.version)
+        )
+      : undefined
+  );
   const releases = $derived(info ? (showAll ? info.releases : info.releases.slice(0, shown)) : []);
   const advisories = $derived(
     `https://github.com/advisories?query=${encodeURIComponent(`ecosystem:${ecosystem.id} ${canonical}`)}`
@@ -63,6 +81,11 @@
   {#if problem}
     <p class="problem {problem.level}" role="status">{problem.message}</p>
   {/if}
+  {#if unpublished}
+    <p class="problem" role="status">
+      {source} has no record of {version} ever being released, so check the version.
+    </p>
+  {/if}
 
   <dl class="facts">
     {#if purl}
@@ -79,7 +102,9 @@
         <dd>
           <code>{info.latest}</code>{#if latest?.published}, released {formatDate(
               latest.published
-            )}{/if}
+            )}{/if}{#if prerelease}, but that's a pre-release{#if stable}. The newest stable one is <code
+                >{stable.version}</code
+              >{/if}{/if}
         </dd>
       {/if}
       {#if info.licenses}
