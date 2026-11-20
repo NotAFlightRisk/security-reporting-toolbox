@@ -10,6 +10,7 @@ import {
   osvAffected,
   parseGithub,
   schemeOf,
+  tidyRange,
   validate,
   type Range
 } from '#lib/versions/range.ts';
@@ -111,6 +112,15 @@ describe('validation', () => {
     expect(messages(ranges).join(' ')).toContain(hint);
   });
 
+  it('asks for the one version when an only-one-version row has none', () => {
+    expect(messages([span('1.0.0', 'exact', '')])).toEqual(['Fill in the affected version.']);
+  });
+
+  it('drops a leading v and stray spaces before checking', () => {
+    expect(validate([span('v0.17.0', 'fixed', ' 4.17.21')], npm)).toEqual([]);
+    expect(tidyRange(span(' v1.0.0', 'last', 'v2.0.0 '))).toEqual(span('1.0.0', 'last', '2.0.0'));
+  });
+
   it('ignores a row nobody has filled in yet', () => {
     expect(validate([span('', 'fixed', '1.2.0'), span('', 'fixed', '')], npm)).toEqual([]);
   });
@@ -153,6 +163,11 @@ describe('plain English and URL round trips', () => {
 
   it('survives a trip through the URL', () => {
     expect(decodeRanges(encodeRanges(ranges))).toEqual(ranges);
+  });
+
+  it("leaves a row out of the URL until it's got its end version", () => {
+    const waiting = [span('4.0.0', 'fixed'), span('', 'exact'), ranges[0]];
+    expect(decodeRanges(encodeRanges(waiting))).toEqual([ranges[0]]);
   });
 
   it.each([

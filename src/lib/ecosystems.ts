@@ -25,6 +25,8 @@ export interface NameProblem {
 export interface Ecosystem {
   id: EcosystemId;
   name: string;
+  /** what GitHub's advisory form calls it, when that's different */
+  github?: string;
   osv: string;
   purl: string;
   depsDev?: DepsDevSystem;
@@ -80,6 +82,7 @@ export const ecosystems: Ecosystem[] = [
   {
     id: 'pip',
     name: 'PyPI',
+    github: 'Pip',
     osv: 'PyPI',
     purl: 'pypi',
     depsDev: 'PYPI',
@@ -153,6 +156,7 @@ export const ecosystems: Ecosystem[] = [
   {
     id: 'rust',
     name: 'crates.io',
+    github: 'Rust',
     osv: 'crates.io',
     purl: 'cargo',
     depsDev: 'CARGO',
@@ -213,6 +217,7 @@ export const ecosystems: Ecosystem[] = [
   {
     id: 'erlang',
     name: 'Hex',
+    github: 'Erlang',
     osv: 'Hex',
     purl: 'hex',
     registry: 'hex',

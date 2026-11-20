@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { schemes, type SchemeId } from '#lib/versions/schemes.ts';
+import { isPrerelease, sameVersion, schemes, type SchemeId } from '#lib/versions/schemes.ts';
 
 const sign = (scheme: SchemeId, a: string, b: string) => Math.sign(schemes[scheme].compare(a, b));
 
@@ -146,5 +146,36 @@ describe('numbers past 2^53 still order exactly', () => {
   ] as [SchemeId, string, string][])('%s: %s < %s', (scheme, a, b) => {
     expect(sign(scheme, a, b)).toBe(-1);
     expect(sign(scheme, b, a)).toBe(1);
+  });
+});
+
+describe('spotting pre-releases', () => {
+  it.each([
+    ['maven', '3.0.0-beta3', true],
+    ['maven', '2.26.1', false],
+    ['maven', '5.3.20.RELEASE', false],
+    ['maven', '32.0.0-jre', false],
+    ['semver', '2.0.0-rc.1', true],
+    ['go', 'v1.10.0-rc.2', true],
+    ['pep440', '1.0rc1', true],
+    ['pep440', '1.0.post1', false],
+    ['pep440', '1!3.0rc1', true],
+    ['rubygems', '7.2.0.beta1', true],
+    ['nuget', '4.0.0.1', false],
+    ['semver', 'latest', false]
+  ] as const)('%s %s is %s', (scheme, version, expected) => {
+    expect(isPrerelease(schemes[scheme], version)).toBe(expected);
+  });
+});
+
+describe('matching a version to a release', () => {
+  it.each([
+    ['pep440', '1.0', '1.0.0', true],
+    ['nuget', '1.0.0+build', '1.0.0', true],
+    ['semver', '1.0.0', '1.0.1', false],
+    ['semver', 'nightly', 'nightly', true],
+    ['semver', 'nightly', '1.0.0', false]
+  ] as const)('%s %s and %s is %s', (scheme, a, b, expected) => {
+    expect(sameVersion(schemes[scheme], a, b)).toBe(expected);
   });
 });

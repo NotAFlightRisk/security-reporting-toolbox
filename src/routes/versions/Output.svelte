@@ -28,7 +28,7 @@
         <h3>Affected product {index + 1}</h3>
         <dl>
           <dt>Ecosystem</dt>
-          <dd>{ecosystem.name}</dd>
+          <dd>{ecosystem.github ?? ecosystem.name}</dd>
           <dt>Package name</dt>
           <dd><code>{name || '(fill in above)'}</code></dd>
           <dt>Affected versions</dt>

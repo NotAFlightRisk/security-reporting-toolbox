@@ -10,17 +10,18 @@
 
   $effect(() => {
     const wanted = name;
-    results = {};
+    const next: typeof results = {};
     let stale = false;
     for (const entry of searchable) {
       if (entry.check(entry.normalise(wanted))?.level === 'error') {
-        results[entry.id] = 'invalid';
+        next[entry.id] = 'invalid';
         continue;
       }
       lookup(entry, entry.normalise(wanted)).then((answer) => {
         if (!stale) results[entry.id] = answer;
       });
     }
+    results = next;
     return () => (stale = true);
   });
 
@@ -59,7 +60,7 @@
           <button
             type="button"
             class="cell found"
-            onclick={() => onpick(entry.id, result.data.name)}
+            onclick={() => onpick(entry.id, entry.normalise(name))}
           >
             <span aria-hidden="true">✓</span> Found{#if result.data.latest}, <code
                 >{result.data.latest}</code

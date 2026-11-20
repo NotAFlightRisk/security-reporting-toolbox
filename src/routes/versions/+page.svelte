@@ -10,6 +10,7 @@
     encodeRanges,
     isBlank,
     schemeOf,
+    tidyRange,
     validate,
     type Range
   } from '#lib/versions/range.ts';
@@ -31,15 +32,7 @@
   const packageName = $derived(current.normalise(name));
   const nameProblem = $derived(name.trim() ? current.check(packageName) : null);
   const problems = $derived(validate(ranges, scheme));
-  const filled = $derived(
-    ranges
-      .filter((range) => !isBlank(range))
-      .map((range) => ({
-        ...range,
-        introduced: range.introduced.trim(),
-        version: range.version.trim()
-      }))
-  );
+  const filled = $derived(ranges.filter((range) => !isBlank(range)).map(tidyRange));
   const usable = $derived(
     filled.length > 0 && !problems.some((problem) => problem.level === 'error')
   );
@@ -110,7 +103,7 @@
 
   <div class="checks">
     <Tester ranges={usable ? filled : []} {scheme} />
-    {#if packageName && !nameProblem}
+    {#if packageName && nameProblem?.level !== 'error'}
       <Published ranges={usable ? filled : []} ecosystem={current} name={packageName} />
     {/if}
   </div>

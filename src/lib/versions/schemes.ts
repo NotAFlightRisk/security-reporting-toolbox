@@ -20,7 +20,7 @@ export interface Scheme {
   example: string;
 }
 
-const stripV = (version: string) => version.trim().replace(/^v(?=\d)/i, '');
+export const stripV = (version: string) => version.trim().replace(/^v(?=\d)/i, '');
 
 // semver's own compare turns long numeric pre-release parts into floats, so those are ours
 function compareSemver(a: string, b: string) {
@@ -82,3 +82,14 @@ export const schemes: Record<SchemeId, Scheme> = {
     example: '1.2.3'
   }
 };
+
+/** true when two spellings are the same release, like 1.0 and 1.0.0 in PEP 440 */
+export const sameVersion = (scheme: Scheme, a: string, b: string) =>
+  a === b || (!!scheme.clean(a) && !!scheme.clean(b) && scheme.compare(a, b) === 0);
+
+/** true for a version that sorts below its own release number, like 3.0.0-beta3 */
+export function isPrerelease(scheme: Scheme, version: string) {
+  const release = version.trim().match(/^(\d+!)?v?\d+(\.\d+)*/)?.[0];
+  if (!release || !scheme.clean(version) || !scheme.clean(release)) return false;
+  return scheme.compare(version, release) < 0;
+}
