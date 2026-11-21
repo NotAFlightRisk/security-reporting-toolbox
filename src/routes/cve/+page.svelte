@@ -4,7 +4,7 @@
   import ToolPage from '#lib/components/ToolPage.svelte';
   import { brokenCve, cveId, cweId, detect, ghsaId, osvId } from '#lib/ids.ts';
   import type { Outcome } from '#lib/net/fetch.ts';
-  import { param, setParams } from '#lib/query.svelte.ts';
+  import { pageIndex, param, setParams } from '#lib/query.svelte.ts';
   import { Lookup } from '#lib/sources/lookup.svelte.ts';
   import { searchNvd, type NvdPage } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
@@ -17,7 +17,7 @@
   const typed = $derived(param('q'));
   const keyword = $derived(brokenCve(typed) ? '' : typed);
   const cwe = $derived(cweId(param('cwe')));
-  const page = $derived(Math.max(0, Number(param('page')) || 0));
+  const page = $derived(pageIndex(param('page')));
 
   let input = $state('');
   let problem = $state<string | null>(null);

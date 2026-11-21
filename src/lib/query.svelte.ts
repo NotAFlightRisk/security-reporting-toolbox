@@ -17,3 +17,9 @@ export function setParams(
   }
   return goto(url, { reset: false, replace });
 }
+
+/** a ?page= value as a whole page index from 0 up to `last`, whatever got typed in */
+export function pageIndex(value: string, last = Infinity) {
+  const page = Math.floor(Number(value));
+  return Number.isFinite(page) ? Math.max(0, Math.min(page, last)) : 0;
+}
