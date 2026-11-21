@@ -37,6 +37,16 @@ function scores(severities: Json | undefined): Score[] {
   });
 }
 
+/** GitHub writes descriptions in Markdown, and we show them as plain text */
+export const plainText = (markdown: string) =>
+  markdown
+    .replace(/^ {0,3}(#{1,6}\s+|```.*$)/gm, '')
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__)(.+?)\1/g, '$2')
+    .replace(/`([^`\n]+)`/g, '$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
 export function parseAdvisory(json: unknown): Advisory | null {
   const advisory = json as Json;
   if (!text(advisory?.ghsa_id)) return null;
@@ -45,7 +55,7 @@ export function parseAdvisory(json: unknown): Advisory | null {
     cve: text(advisory.cve_id) || null,
     url: text(advisory.html_url) || `https://github.com/advisories/${text(advisory.ghsa_id)}`,
     summary: text(advisory.summary),
-    description: text(advisory.description),
+    description: plainText(text(advisory.description)),
     severity: text(advisory.severity),
     reviewed: advisory.type === 'reviewed',
     published: text(advisory.published_at),

@@ -32,7 +32,7 @@ export interface NvdCve {
   updated: string;
   description: string;
   scores: NvdScore[];
-  weaknesses: (Weakness & { source: string })[];
+  weaknesses: (Weakness & { source: string; primary: boolean })[];
   kev: NvdKev | null;
   references: Reference[];
 }
@@ -74,20 +74,24 @@ function scores(metrics: Json | undefined): NvdScore[] {
   );
 }
 
+// NVD timestamps carry no zone but are UTC, and Date would read them as local time
+const utc = (value: unknown) => text(value).replace(/T[\d:.]+$/, '$&Z');
+
 export function parseNvdCve(json: Json): NvdCve | null {
   const cve = json?.cve;
   if (!text(cve?.id)) return null;
   return {
     id: text(cve.id),
     status: text(cve.vulnStatus),
-    published: text(cve.published),
-    updated: text(cve.lastModified),
+    published: utc(cve.published),
+    updated: utc(cve.lastModified),
     description: english(cve.descriptions),
     scores: scores(cve.metrics),
     weaknesses: list<Json>(cve.weaknesses).flatMap((entry) =>
       list<Json>(entry?.description).map((item) => ({
         ...weakness(text(item?.value)),
-        source: sourceName(text(entry.source))
+        source: sourceName(text(entry.source)),
+        primary: entry.type === 'Primary'
       }))
     ),
     kev: cve.cisaExploitAdd

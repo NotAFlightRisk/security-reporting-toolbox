@@ -1,9 +1,36 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { advisoriesForCve, parseAdvisory } from '#lib/sources/github.ts';
+import { advisoriesForCve, parseAdvisory, plainText } from '#lib/sources/github.ts';
 import { lookupOsv, parseOsv } from '#lib/sources/osv.ts';
 import { fakeFetch, fixture } from './helpers.ts';
 
 afterEach(() => vi.unstubAllGlobals());
+
+describe('plainText', () => {
+  it('drops headings, fences, link targets and emphasis but keeps the words', () => {
+    const markdown = [
+      '### Summary',
+      'See [the guide](https://example.com/guide) for **why**.',
+      '```java',
+      'logger.info("${jndi:ldap://x}");',
+      '```',
+      'Call `lookup()` with care.'
+    ].join('\n');
+    expect(plainText(markdown)).toBe(
+      [
+        'Summary',
+        'See the guide for why.',
+        '',
+        'logger.info("${jndi:ldap://x}");',
+        '',
+        'Call lookup() with care.'
+      ].join('\n')
+    );
+  });
+
+  it('leaves snake_case and plain text alone', () => {
+    expect(plainText('set max_retries to 3')).toBe('set max_retries to 3');
+  });
+});
 
 describe('parseAdvisory', () => {
   it('reads packages, CWEs and drops the empty v4 slot', () => {

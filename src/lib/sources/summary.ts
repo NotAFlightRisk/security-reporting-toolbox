@@ -19,8 +19,8 @@ export interface MergedWeakness {
   sources: string[];
 }
 
-/** one row per CWE, named by whichever source bothered to give it a name */
-export function mergeWeaknesses({ record, nvd, advisories }: Sources): MergedWeakness[] {
+/** one row per CWE in the order they were first named, by whoever bothered to name it */
+function merge({ record, nvd, advisories }: Sources): MergedWeakness[] {
   const said = [
     ...(record?.cna.weaknesses.map((item) => ({ ...item, source: 'CNA' })) ?? []),
     ...(record?.adp.flatMap((adp) =>
@@ -42,7 +42,19 @@ export function mergeWeaknesses({ record, nvd, advisories }: Sources): MergedWea
     if (!seen.sources.includes(source)) seen.sources.push(source);
     merged.set(key, seen);
   }
-  return [...merged.values()].sort((a, b) => (a.id ?? Infinity) - (b.id ?? Infinity));
+  return [...merged.values()];
+}
+
+export const mergeWeaknesses = (sources: Sources) =>
+  merge(sources).sort((a, b) => (a.id ?? Infinity) - (b.id ?? Infinity));
+
+/** the CWE to lead with: NVD's primary pick, else the one most sources agree on */
+export function mainWeakness(sources: Sources): number | null {
+  const primary = sources.nvd?.weaknesses.find((item) => item.primary && item.id !== null);
+  if (primary) return primary.id;
+  const named = merge(sources).filter((item) => item.id !== null);
+  // sort is stable, so a tie goes to whoever spoke first (the CNA)
+  return named.sort((a, b) => b.sources.length - a.sources.length)[0]?.id ?? null;
 }
 
 /** every other ID this thing is known by, minus the one you looked up */

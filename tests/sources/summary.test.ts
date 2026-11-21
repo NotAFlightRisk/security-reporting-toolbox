@@ -3,7 +3,13 @@ import { parseCveRecord } from '#lib/sources/cveorg.ts';
 import { parseAdvisory } from '#lib/sources/github.ts';
 import { parseNvdPage } from '#lib/sources/nvd.ts';
 import { parseOsv } from '#lib/sources/osv.ts';
-import { aliases, allReferences, headlineScore, mergeWeaknesses } from '#lib/sources/summary.ts';
+import {
+  aliases,
+  allReferences,
+  headlineScore,
+  mainWeakness,
+  mergeWeaknesses
+} from '#lib/sources/summary.ts';
 import { fixture } from './helpers.ts';
 
 const log4shell = {
@@ -27,6 +33,24 @@ describe('mergeWeaknesses', () => {
 
   it('copes with nothing at all', () => {
     expect(mergeWeaknesses({ record: null, nvd: null, advisories: [], osv: null })).toEqual([]);
+  });
+});
+
+describe('mainWeakness', () => {
+  it('goes with the most agreed CWE, first named on a tie, not the lowest number', () => {
+    expect(mainWeakness(log4shell)).toBe(502);
+  });
+
+  it("takes NVD's primary pick over a vote", () => {
+    const weaknesses = log4shell.nvd.weaknesses.map((item) => ({
+      ...item,
+      primary: item.id === 917
+    }));
+    expect(mainWeakness({ ...log4shell, nvd: { ...log4shell.nvd, weaknesses } })).toBe(917);
+  });
+
+  it('has nothing to say without a numbered CWE', () => {
+    expect(mainWeakness({ record: null, nvd: null, advisories: [], osv: null })).toBeNull();
   });
 });
 

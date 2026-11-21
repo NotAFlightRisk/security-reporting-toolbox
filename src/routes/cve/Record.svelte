@@ -6,7 +6,14 @@
   import { formatDate, percent } from '#lib/format.ts';
   import type { Lookup } from '#lib/sources/lookup.svelte.ts';
   import { groupReferences } from '#lib/sources/references.ts';
-  import { aliases, allReferences, mergeWeaknesses, type Sources } from '#lib/sources/summary.ts';
+  import {
+    aliases,
+    allReferences,
+    mainWeakness,
+    mergeWeaknesses,
+    type Sources
+  } from '#lib/sources/summary.ts';
+  import type { Score } from '#lib/sources/types.ts';
   import Scores, { type Column } from './Scores.svelte';
 
   let { lookup }: { lookup: Lookup } = $props();
@@ -26,22 +33,42 @@
   const epss = $derived(ok(lookup.epss));
   const cisa = $derived(record?.adp.find((adp) => adp.name === 'CISA-ADP'));
 
-  const title = $derived(record?.title || advisory?.summary || '');
-  const description = $derived(record?.description || nvd?.description || advisory?.description);
+  const pick = (...options: [string | undefined, string][]) => {
+    const [text, from] = options.find(([text]) => text) ?? [];
+    return text && from ? { text, from } : null;
+  };
+  const github = $derived(advisory?.reviewed ? 'GitHub' : 'an unreviewed GitHub advisory');
+  const title = $derived(pick([record?.title, 'CVE.org'], [advisory?.summary, github]));
+  const description = $derived(
+    pick(
+      [record?.description, 'CVE.org'],
+      [nvd?.description, 'NVD'],
+      [advisory?.description, github]
+    )
+  );
+  const credit = $derived(
+    title && description && title.from !== description.from
+      ? `Title from ${title.from}, description from ${description.from}`
+      : `From ${(title ?? description)?.from}`
+  );
   const published = $derived(record?.published || nvd?.published || advisory?.published);
   const updated = $derived(record?.updated || nvd?.updated || advisory?.updated);
   const otherIds = $derived(aliases(lookup.id, sources));
   const weaknesses = $derived(mergeWeaknesses(sources));
+  const mainCwe = $derived(mainWeakness(sources));
   const references = $derived(groupReferences(allReferences(sources)));
   // the big ones have hundreds, so each group shows a handful and folds the rest
   const shownRefs = 8;
   const kevAdded = $derived(nvd?.kev?.added ?? cisa?.kevAdded ?? null);
   const pending = (outcome: unknown) => outcome === undefined;
+  const failed = (outcome: { status: string } | undefined) => outcome?.status === 'failed';
+  const scored = (outcome: { status: string } | undefined, scores: Score[] = []) =>
+    pending(outcome) ? undefined : failed(outcome) ? null : scores;
 
   const cveColumns: Column[] = $derived([
     {
       name: record ? `CNA (${record.cna.name})` : 'CNA',
-      scores: pending(lookup.record) ? undefined : (record?.cna.scores ?? [])
+      scores: scored(lookup.record, record?.cna.scores)
     },
     ...(record?.adp ?? [])
       .filter((adp) => adp.scores.length)
@@ -49,19 +76,24 @@
     {
       name: 'NVD',
       note: nvd?.status ? `Status: ${nvd.status}` : undefined,
-      scores: pending(lookup.nvd)
-        ? undefined
-        : (nvd?.scores.filter((score) => score.source === 'NVD') ?? [])
+      scores: scored(
+        lookup.nvd,
+        nvd?.scores.filter((score) => score.source === 'NVD')
+      )
     }
   ]);
   const githubColumns: Column[] = $derived(
     sources.advisories.length
-      ? sources.advisories.map((item) => ({ name: `GitHub ${item.ghsa}`, scores: item.scores }))
+      ? sources.advisories.map((item) => ({
+          name: `GitHub ${item.ghsa}`,
+          note: item.reviewed ? undefined : 'Unreviewed',
+          scores: item.scores
+        }))
       : [
           {
             name: 'GitHub',
             note: lookup.github?.status === 'missing' ? 'No advisory' : undefined,
-            scores: pending(lookup.github) ? undefined : []
+            scores: scored(lookup.github)
           }
         ]
   );
@@ -73,7 +105,7 @@
       firstVector && { href: `/cvss?vector=${encodeURIComponent(firstVector)}`, label: 'CVSS' },
       lookup.cve && { href: `/epss?cve=${lookup.cve}`, label: 'EPSS' },
       lookup.cve && { href: `/kev?cve=${lookup.cve}`, label: 'KEV' },
-      weaknesses[0]?.id && { href: `/cwe/${weaknesses[0].id}`, label: `CWE-${weaknesses[0].id}` },
+      mainCwe !== null && { href: `/cwe/${mainCwe}`, label: `CWE-${mainCwe}` },
       advisory?.packages[0] && {
         href: `/versions?ecosystem=${advisory.packages[0].ecosystem}&package=${encodeURIComponent(advisory.packages[0].name)}`,
         label: 'Versions'
@@ -99,7 +131,8 @@
         />
       {/if}
     </div>
-    {#if title}<p class="name">{title}</p>{/if}
+    {#if title}<p class="name">{title.text}</p>{/if}
+    {#if title || description}<p class="credit">{credit}</p>{/if}
     <dl class="facts">
       {#if published}<div>
           <dt>Published</dt>
@@ -156,7 +189,7 @@
   {#if record?.state === 'REJECTED'}
     <p class="rejected">{record.rejectedReason || 'CVE.org rejected this ID.'}</p>
   {:else if description}
-    <p class="description">{description}</p>
+    <p class="description">{description.text}</p>
   {/if}
 
   <section aria-labelledby="scores">
@@ -199,6 +232,11 @@
             </a>
           {:else if pending(lookup.nvd) || pending(lookup.record)}
             <span class="cell dim">Waiting...</span>
+          {:else if failed(lookup.nvd) || (failed(lookup.record) && !nvd)}
+            <a class="cell" href="/kev?cve={lookup.cve}">
+              KEV status unknown
+              <small>A source didn't answer, so check the catalogue itself</small>
+            </a>
           {:else}
             <a class="cell" href="/kev?cve={lookup.cve}">
               Not listed by NVD or CISA-ADP
@@ -388,6 +426,11 @@
   .name {
     font-size: var(--text-md);
     font-weight: 600;
+  }
+
+  .credit {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
   }
 
   .facts {
