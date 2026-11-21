@@ -4,6 +4,7 @@
   import SourceState from '#lib/components/SourceState.svelte';
   import Stamp from '#lib/components/Stamp.svelte';
   import { formatDate, percent } from '#lib/format.ts';
+  import { cveId, ghsaId, osvId } from '#lib/ids.ts';
   import type { Lookup } from '#lib/sources/lookup.svelte.ts';
   import { groupReferences } from '#lib/sources/references.ts';
   import {
@@ -114,8 +115,16 @@
   );
 
   const retry = () => lookup.run();
+  const ours = (id: string) => Boolean(cveId(id) ?? ghsaId(id) ?? osvId(id));
   const idLink = (id: string) =>
-    /^(CVE|GHSA)-/i.test(id) ? `/cve?id=${id}` : `https://osv.dev/vulnerability/${id}`;
+    ours(id) ? `/cve?id=${id}` : `https://osv.dev/vulnerability/${id}`;
+  const recordMissing = $derived(
+    lookup.idState === 'reserved'
+      ? "has this ID reserved, but nothing's been published under it yet"
+      : lookup.idState === 'unassigned'
+        ? 'has never assigned this ID'
+        : 'has no record of this CVE'
+  );
 </script>
 
 <article class="record">
@@ -151,7 +160,7 @@
       <p class="aliases">
         <span class="label">Also known as</span>
         {#each otherIds as alias (alias)}
-          {@const away = !/^(CVE|GHSA)-/i.test(alias)}
+          {@const away = !ours(alias)}
           <a
             href={idLink(alias)}
             target={away ? '_blank' : undefined}
@@ -173,12 +182,7 @@
       {retry}
     />
     {#if lookup.cve}
-      <SourceState
-        source="CVE.org"
-        outcome={lookup.record}
-        missing="has no record of this CVE"
-        {retry}
-      />
+      <SourceState source="CVE.org" outcome={lookup.record} missing={recordMissing} {retry} />
       <SourceState source="NVD" outcome={lookup.nvd} missing="hasn't published this CVE" {retry} />
     {:else if lookup.github?.status === 'ok'}
       <p class="note">This advisory has no CVE, so there's nothing to ask CVE.org or NVD.</p>
@@ -187,7 +191,17 @@
   </div>
 
   {#if record?.state === 'REJECTED'}
-    <p class="rejected">{record.rejectedReason || 'CVE.org rejected this ID.'}</p>
+    <div class="rejection">
+      <p class="rejected">{record.rejectedReason || 'CVE.org rejected this ID.'}</p>
+      {#if record.replacedBy.length}
+        <p class="aliases">
+          <span class="label">Use instead</span>
+          {#each record.replacedBy as other (other)}
+            <a href="/cve?id={other}"><code>{other}</code></a>
+          {/each}
+        </p>
+      {/if}
+    </div>
   {:else if description}
     <p class="description">{description.text}</p>
   {/if}
@@ -475,6 +489,11 @@
   .rejected {
     max-width: var(--measure);
     white-space: pre-line;
+  }
+
+  .rejection {
+    display: grid;
+    gap: var(--space-2);
   }
 
   .rejected {

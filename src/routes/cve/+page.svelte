@@ -2,7 +2,7 @@
   import { untrack } from 'svelte';
   import QueryField from '#lib/components/QueryField.svelte';
   import ToolPage from '#lib/components/ToolPage.svelte';
-  import { cveId, cweId, detect, ghsaId } from '#lib/ids.ts';
+  import { brokenCve, cveId, cweId, detect, ghsaId, osvId } from '#lib/ids.ts';
   import type { Outcome } from '#lib/net/fetch.ts';
   import { param, setParams } from '#lib/query.svelte.ts';
   import { Lookup } from '#lib/sources/lookup.svelte.ts';
@@ -13,8 +13,9 @@
   import Results from './Results.svelte';
 
   const rawId = $derived(param('id'));
-  const id = $derived(rawId ? (cveId(rawId) ?? ghsaId(rawId)) : null);
-  const keyword = $derived(param('q'));
+  const id = $derived(rawId ? (cveId(rawId) ?? ghsaId(rawId) ?? osvId(rawId)) : null);
+  const typed = $derived(param('q'));
+  const keyword = $derived(brokenCve(typed) ? '' : typed);
   const cwe = $derived(cweId(param('cwe')));
   const page = $derived(Math.max(0, Number(param('page')) || 0));
 
@@ -49,21 +50,26 @@
   function submit(value: string) {
     problem = null;
     const found = detect(value);
-    if (!found) problem = 'Paste a CVE or GHSA ID, or type a few words to search NVD.';
-    else if (found.kind === 'cve' || found.kind === 'ghsa')
+    if (!found) problem = 'Paste a CVE, GHSA or OSV ID, or type a few words to search NVD.';
+    else if (found.kind === 'cve' || found.kind === 'ghsa' || found.kind === 'osv')
       setParams({ id: found.id, q: null, cwe: null, page: null });
     else if (found.kind === 'cwe')
       setParams({ cwe: String(found.id), id: null, q: null, page: null });
     else if (found.kind === 'cvss')
       problem = "That's a CVSS vector - the CVSS calculator can decode it.";
+    else if (brokenCve(value)) problem = cveProblem(value);
     else if (value.length < 3) problem = 'Give NVD at least three characters to search for.';
     else setParams({ q: value, id: null, cwe: null, page: null });
   }
 
+  const cveProblem = (value: string) =>
+    `"${value}" isn't a whole CVE ID, the number after the year has at least four digits.`;
   const rawProblem = $derived(
     rawId && !id
-      ? `"${rawId}" doesn't look like a CVE (CVE-2024-12345) or GHSA (GHSA-xxxx-xxxx-xxxx) ID.`
-      : null
+      ? `"${rawId}" doesn't look like a CVE (CVE-2024-12345), GHSA (GHSA-xxxx-xxxx-xxxx) or OSV (RUSTSEC-2021-0001) ID.`
+      : typed && !keyword
+        ? cveProblem(typed)
+        : null
   );
   const faq = [
     {

@@ -9,6 +9,7 @@ const tidy = (text: string) =>
 const cvePattern = /\bCVE[\s_-]*(\d{4})[\s_-]*(\d{4,})\b/i;
 const ghsaPattern = /\bGHSA((?:-[23456789cfghjmpqrvwx]{4}){3})\b/i;
 const cwePattern = /^(?:CWE[\s_-]*)?(\d{1,5})$/i;
+const osvPattern = /\b(RUSTSEC|PYSEC|GO|OSV|MAL)-(\d{4})-(\d+)\b/i;
 
 export function cveId(text: string) {
   const match = tidy(text).match(cvePattern);
@@ -19,6 +20,15 @@ export function ghsaId(text: string) {
   const match = tidy(text).match(ghsaPattern);
   return match ? `GHSA${match[1].toLowerCase()}` : null;
 }
+
+/** OSV's own IDs, like RUSTSEC-2021-0001 or GO-2022-0969 */
+export function osvId(text: string) {
+  const match = tidy(text).match(osvPattern);
+  return match ? `${match[1].toUpperCase()}-${match[2]}-${match[3]}` : null;
+}
+
+/** "CVE-2021-123" and friends, which look like a CVE but aren't one */
+export const brokenCve = (text: string) => /^CVE[\s_-]*\d/i.test(tidy(text)) && !cveId(text);
 
 /** takes "CWE-79", "cwe79" or a bare "79" */
 export function cweId(text: string) {
@@ -35,6 +45,7 @@ export function cveIds(text: string) {
 export type Detected =
   | { kind: 'cve'; id: string }
   | { kind: 'ghsa'; id: string }
+  | { kind: 'osv'; id: string }
   | { kind: 'cwe'; id: number }
   | { kind: 'cvss'; vector: string }
   | { kind: 'purl'; purl: string }
@@ -53,6 +64,8 @@ export function detect(input: string): Detected | null {
   if (cve) return { kind: 'cve', id: cve };
   const ghsa = ghsaId(text);
   if (ghsa) return { kind: 'ghsa', id: ghsa };
+  const osv = osvId(text);
+  if (osv) return { kind: 'osv', id: osv };
   if (/^CWE/i.test(text) && cweId(text) !== null) return { kind: 'cwe', id: cweId(text)! };
   if (/^https?:\/\//i.test(text)) return { kind: 'url', url: text };
   return { kind: 'text', text };

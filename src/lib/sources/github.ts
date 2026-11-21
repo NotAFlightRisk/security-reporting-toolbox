@@ -79,8 +79,15 @@ export function parseAdvisory(json: unknown): Advisory | null {
 
 const base = 'https://api.github.com/advisories';
 
+// GitHub's limit is 60 an hour without a key, so "give it a minute" would be a fib
+function hourly<T>(outcome: Outcome<T>): Outcome<T> {
+  if (outcome.status !== 'failed' || outcome.reason !== 'rate-limit') return outcome;
+  const message = 'is rate limiting us (60 requests an hour without a key), try again later';
+  return { ...outcome, message };
+}
+
 export const lookupAdvisory = async (ghsa: string) =>
-  parsed(await getJson(`${base}/${ghsa}`), parseAdvisory);
+  hourly(parsed(await getJson(`${base}/${ghsa}`), parseAdvisory));
 
 /** a CVE can have several GHSAs (one per ecosystem, say), and none is a missing, not a failure */
 export async function advisoriesForCve(cve: string): Promise<Outcome<Advisory[]>> {
@@ -89,5 +96,5 @@ export async function advisoriesForCve(cve: string): Promise<Outcome<Advisory[]>
     return advisories.some((item) => item === null) ? null : (advisories as Advisory[]);
   });
   if (outcome.status === 'ok' && outcome.data.length === 0) return { status: 'missing' };
-  return outcome;
+  return hourly(outcome);
 }

@@ -90,7 +90,10 @@ describe('advisoriesForCve', () => {
         async () => new Response('{}', { status: 403, headers: { 'x-ratelimit-remaining': '0' } })
       )
     );
-    expect(await advisoriesForCve('CVE-2021-0001')).toMatchObject({ reason: 'rate-limit' });
+    expect(await advisoriesForCve('CVE-2021-0001')).toMatchObject({
+      reason: 'rate-limit',
+      message: expect.stringContaining('60 requests an hour')
+    });
   });
 });
 

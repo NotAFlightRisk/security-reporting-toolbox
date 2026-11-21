@@ -1,4 +1,5 @@
-import { getJson } from '#lib/net/fetch.ts';
+import { cveIds } from '#lib/ids.ts';
+import { getJson, type Outcome } from '#lib/net/fetch.ts';
 import {
   cvssVersion,
   english,
@@ -48,6 +49,8 @@ export interface CveRecord {
   title: string;
   description: string;
   rejectedReason: string;
+  /** the CVEs to use instead of a rejected one */
+  replacedBy: string[];
   cna: Container;
   affected: AffectedProduct[];
   adp: (Container & { kevAdded: string | null; ssvc: Ssvc | null })[];
@@ -150,6 +153,9 @@ export function parseCveRecord(json: unknown): CveRecord | null {
   const meta = record?.cveMetadata;
   if (!meta?.cveId) return null;
   const cna = record.containers?.cna ?? {};
+  const rejectedReason = english(cna.rejectedReasons);
+  // older rejections only name the replacement in the reason text
+  const replacements = [...list<string>(cna.replacedBy), rejectedReason].join(' ');
   return {
     id: text(meta.cveId),
     state: text(meta.state) || 'UNKNOWN',
@@ -158,7 +164,8 @@ export function parseCveRecord(json: unknown): CveRecord | null {
     updated: text(meta.dateUpdated),
     title: text(cna.title),
     description: english(cna.descriptions),
-    rejectedReason: english(cna.rejectedReasons),
+    rejectedReason,
+    replacedBy: cveIds(replacements).filter((id) => id !== text(meta.cveId)),
     cna: container(cna, text(meta.assignerShortName) || 'CNA'),
     affected: affected(cna.affected),
     adp: list<Json>(record.containers?.adp).map((adp) => ({
@@ -169,5 +176,19 @@ export function parseCveRecord(json: unknown): CveRecord | null {
   };
 }
 
+const base = 'https://cveawg.mitre.org/api';
+
 export const lookupCveRecord = async (id: string) =>
-  parsed(await getJson(`https://cveawg.mitre.org/api/cve/${id}`), parseCveRecord);
+  parsed(await getJson(`${base}/cve/${id}`), parseCveRecord);
+
+/** what CVE Services says about an ID with no record: reserved, never assigned, or no idea */
+export type IdState = 'reserved' | 'unassigned' | null;
+
+export async function lookupCve(id: string): Promise<[Outcome<CveRecord>, IdState]> {
+  const record = await lookupCveRecord(id);
+  if (record.status !== 'missing') return [record, null];
+  const reservation = await getJson<Json>(`${base}/cve-id/${id}`);
+  if (reservation.status === 'missing') return [record, 'unassigned'];
+  const reserved = reservation.status === 'ok' && reservation.data?.state === 'RESERVED';
+  return [record, reserved ? 'reserved' : null];
+}
