@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { formatDate, percent } from '#lib/format.ts';
+  import { formatDate, percent, plural } from '#lib/format.ts';
   import type { EpssPoint } from '#lib/sources/epss.ts';
 
   let { cve, points }: { cve: string; points: EpssPoint[] } = $props();
@@ -14,28 +14,35 @@
   // a flat line still needs some room, or it all collapses onto the axis
   const span = $derived(high - low || Math.max(high, 0.0001) * 0.1);
 
-  const x = (index: number) => pad + (index / Math.max(points.length - 1, 1)) * (width - pad * 2);
-  const y = (value: number) => height - pad - ((value - low) / span) * (height - pad * 2);
-  const line = $derived(
-    points.map((point, index) => `${x(index)},${y(point.probability)}`).join(' ')
-  );
-
-  const fmt = (value: number) => percent(value, value < 0.01 ? 3 : 2);
   const first = $derived(points[0]);
   const last = $derived(points.at(-1)!);
-  const change = $derived(last.probability - first.probability);
+  const day = 86_400_000;
+  const days = $derived(Math.round((Date.parse(last.date) - Date.parse(first.date)) / day));
+
+  // spaced by date, so a missing day shows as a longer step rather than vanishing
+  const x = (date: string) =>
+    pad + ((Date.parse(date) - Date.parse(first.date)) / (days * day || 1)) * (width - pad * 2);
+  const y = (value: number) => height - pad - ((value - low) / span) * (height - pad * 2);
+  const line = $derived(
+    points.map((point) => `${x(point.date)},${y(point.probability)}`).join(' ')
+  );
+
+  const digits = (value: number) => (value < 0.01 ? 3 : 2);
+  const fmt = (value: number) => percent(value, digits(value));
+  const change = $derived(Math.abs(last.probability - first.probability));
+  const moved = $derived(`${(change * 100).toFixed(digits(change))} percentage points`);
   const summary = $derived(
     `${cve}: EPSS went from ${fmt(first.probability)} on ${formatDate(first.date)} to ${fmt(last.probability)} on ${formatDate(last.date)}` +
       (change === 0
         ? ', no change.'
-        : `, ${change > 0 ? 'up' : 'down'} ${fmt(Math.abs(change))}.`) +
+        : `, ${last.probability > first.probability ? 'up' : 'down'} ${moved}.`) +
       ` Percentile ${percent(first.percentile, 1)} to ${percent(last.percentile, 1)}.`
   );
 </script>
 
 <figure class="history panel">
   <figcaption>
-    <span class="label">30 days</span>
+    <span class="label">{plural(days, 'day')}</span>
     <span>{summary}</span>
   </figcaption>
   <div class="plot">

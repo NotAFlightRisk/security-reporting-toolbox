@@ -6,7 +6,7 @@
   import type { Outcome } from '#lib/net/fetch.ts';
   import { pageIndex, param, setParams } from '#lib/query.svelte.ts';
   import { Lookup } from '#lib/sources/lookup.svelte.ts';
-  import { searchNvd, type NvdPage } from '#lib/sources/nvd.ts';
+  import { pageSize, searchNvd, type NvdPage } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
   import Guide from './Guide.svelte';
   import Record from './Record.svelte';
@@ -45,6 +45,14 @@
   $effect(() => {
     const [current, at] = [filter, page];
     if (current) untrack(() => search(current, at));
+  });
+
+  // a page past the end only shows itself once NVD says how many there are
+  $effect(() => {
+    if (results?.status !== 'ok') return;
+    const last = pageIndex(String(page), Math.ceil(results.data.total / pageSize) - 1);
+    if (last !== page)
+      untrack(() => setParams({ page: last ? String(last) : null }, { replace: true }));
   });
 
   function submit(value: string) {
