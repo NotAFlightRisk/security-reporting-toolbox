@@ -34,13 +34,25 @@ type Json = Record<string, any>;
 export const kevUrl =
   'https://raw.githubusercontent.com/cisagov/kev-data/main/known_exploited_vulnerabilities.json';
 
-/** notes are "url ; label: url ; ; url", so pull out the links and any label in front */
+// prose wraps links in commas, full stops, quotes and the odd (bracket)
+function tidyUrl(raw: string) {
+  const url = raw.replace(/[,."']+$/, '');
+  return url.endsWith(')') && !url.includes('(') ? url.slice(0, -1) : url;
+}
+
+/** notes are "url, url ; label: url ; ; prose (url)", so pull out every link and its label */
 export function parseNotes(notes: string): KevNote[] {
-  return notes
-    .split(/\s*;\s*/)
-    .map((part) => part.trim().match(/^(?:(.+?):\s+)?(https?:\/\/\S+)$/))
-    .filter((match) => match !== null)
-    .map((match) => ({ label: match[1]?.trim() ?? '', url: match[2] }));
+  const found = new Map<string, string>();
+  for (const part of notes.split(';')) {
+    let from = 0;
+    for (const match of part.matchAll(/https?:\/\/\S+/g)) {
+      const before = part.slice(from, match.index).replace(/^[\s,]+|\s+$/g, '');
+      from = match.index + match[0].length;
+      const url = tidyUrl(match[0]);
+      if (!found.has(url)) found.set(url, before.endsWith(':') ? before.slice(0, -1).trim() : '');
+    }
+  }
+  return [...found].map(([url, label]) => ({ label, url }));
 }
 
 function entry(json: Json): KevEntry | null {
