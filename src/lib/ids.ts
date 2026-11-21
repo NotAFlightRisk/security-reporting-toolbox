@@ -27,9 +27,6 @@ export function osvId(text: string) {
   return match ? `${match[1].toUpperCase()}-${match[2]}-${match[3]}` : null;
 }
 
-/** "CVE-2021-123" and friends, which look like a CVE but aren't one */
-export const brokenCve = (text: string) => /^CVE[\s_-]*\d/i.test(tidy(text)) && !cveId(text);
-
 /** takes "CWE-79", "cwe79" or a bare "79" */
 export function cweId(text: string) {
   const match = tidy(text).match(cwePattern);
@@ -41,6 +38,16 @@ export function cveIds(text: string) {
   const found = tidy(text).matchAll(new RegExp(cvePattern.source, 'gi'));
   return [...new Set([...found].map((match) => `CVE-${match[1]}-${match[2]}`))];
 }
+
+/** things that had a go at being a CVE ID and missed, like CVE-2021-123 */
+export function malformedCves(text: string) {
+  const attempts = tidy(text).match(/\bCVE[\s_-]*\d+(?:[\s_-]+\d+)?/gi) ?? [];
+  return [...new Set(attempts.filter((attempt) => !cveId(attempt)))];
+}
+
+/** a lone broken ID like "CVE-2021-123", which shouldn't turn into a keyword search */
+export const brokenCve = (text: string) =>
+  malformedCves(text).some((attempt) => attempt.toLowerCase() === tidy(text).toLowerCase());
 
 export type Detected =
   | { kind: 'cve'; id: string }

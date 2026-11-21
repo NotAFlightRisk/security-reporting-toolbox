@@ -7,7 +7,7 @@
   import Toolbar from '#lib/components/Toolbar.svelte';
   import ToolPage from '#lib/components/ToolPage.svelte';
   import { formatDate, percent, plural } from '#lib/format.ts';
-  import { cveIds } from '#lib/ids.ts';
+  import { cveIds, malformedCves } from '#lib/ids.ts';
   import type { Outcome } from '#lib/net/fetch.ts';
   import { param, setParams } from '#lib/query.svelte.ts';
   import { epssHistory, lookupEpss, type EpssScore } from '#lib/sources/epss.ts';
@@ -19,7 +19,9 @@
   const ids = $derived(cveIds(asked));
 
   let input = $state('');
-  let problem = $state<string | null>(null);
+  // a complaint only stands while the list it was about is still the one showing
+  let complaint = $state({ list: '', text: '' });
+  const problem = $derived(complaint.list === ids.join(',') ? complaint.text || null : null);
   let order = $state<'yours' | 'highest'>('yours');
   let chosen = $state<string | null>(null);
   let scores = $state<Outcome<Map<string, EpssScore>>>();
@@ -71,8 +73,18 @@
 
   function submit(value: string) {
     const found = cveIds(value);
-    problem = found.length ? null : 'No CVE IDs in there. They look like CVE-2024-12345.';
-    if (found.length) setParams({ cve: found.join(',') });
+    const list = found.length ? found.join(',') : ids.join(',');
+    complaint = { list, text: complain(found.length, malformedCves(value)) };
+    if (found.length) setParams({ cve: list });
+  }
+
+  function complain(found: number, broken: string[]) {
+    const hint = 'They look like CVE-2024-12345.';
+    if (broken.length) {
+      const what = broken.length === 1 ? 'a valid CVE ID' : 'valid CVE IDs';
+      return `Skipped ${broken.join(', ')}, not ${what}. ${hint}`;
+    }
+    return found ? '' : `No CVE IDs in there. ${hint}`;
   }
 
   const faq = [
@@ -135,7 +147,7 @@
         </div>
       </ToolGroup>
       <ToolGroup caption="Export">
-        <CopyButton text={csv} label="Copy as CSV" />
+        <CopyButton text={found ? csv : ''} label="Copy as CSV" />
       </ToolGroup>
       <ToolGroup caption="Scored" grow>
         <span class="tally" role="status">
