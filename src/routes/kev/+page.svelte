@@ -47,6 +47,12 @@
       ({ cve, entry }) => entry || (nvd[cve] && crossCheck(nvd[cve]).kind === 'listed')
     ).length
   );
+  // NVD might still turn these up as newer than the catalogue
+  const unsure = $derived(
+    absent.length > crossCheckLimit
+      ? 0
+      : absent.filter((cve) => nvd[cve]?.status !== 'ok' && nvd[cve]?.status !== 'missing').length
+  );
 
   $effect(() => {
     const missing = absent;
@@ -99,7 +105,11 @@
     {#if asked.length}
       <section class="checks" aria-label="Check results">
         {#if asked.length > 1}
-          <p role="status"><b>{inKev} of {asked.length}</b> {inKev === 1 ? 'is' : 'are'} in KEV.</p>
+          <p role="status">
+            <b>{inKev} of {asked.length}</b>
+            {inKev === 1 ? 'is' : 'are'} in KEV{#if unsure}, and {unsure} couldn't be checked against
+              NVD yet{/if}.
+          </p>
         {/if}
         {#if absent.length > crossCheckLimit}
           <p class="dim">
