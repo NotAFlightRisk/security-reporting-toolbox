@@ -12,8 +12,11 @@ export function formatDate(value: string | null | undefined) {
   return Number.isNaN(date.getTime()) ? '' : dateFormat.format(date);
 }
 
-/** 0.97482 -> "97.48%" */
-export const percent = (value: number, digits = 2) => `${(value * 100).toFixed(digits)}%`;
+/** 0.97482 -> "97.48%", and nothing short of 1 gets rounded up to a sure thing */
+export function percent(value: number, digits = 2) {
+  const shown = value < 1 ? Math.min(value * 100, 100 - 10 ** -digits) : value * 100;
+  return `${shown.toFixed(digits)}%`;
+}
 
 export const count = (value: number) => value.toLocaleString('en-GB');
 
