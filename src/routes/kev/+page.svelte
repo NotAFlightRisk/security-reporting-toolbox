@@ -8,7 +8,7 @@
   import { formatDate, plural } from '#lib/format.ts';
   import { cveIds } from '#lib/ids.ts';
   import type { Outcome } from '#lib/net/fetch.ts';
-  import { param, setParams } from '#lib/query.svelte.ts';
+  import { pageIndex, param, setParams } from '#lib/query.svelte.ts';
   import { crossCheck, filterKev, loadKev, type KevCatalogue } from '#lib/sources/kev.ts';
   import { lookupNvd, type NvdCve } from '#lib/sources/nvd.ts';
   import { tool } from '#lib/tools.ts';
@@ -24,7 +24,6 @@
   const text = $derived(param('q'));
   const ransomware = $derived(param('ransomware') === '1');
   const days = $derived(windows.includes(Number(param('days'))) ? Number(param('days')) : 0);
-  const page = $derived(Math.max(0, Number(param('page')) || 0));
 
   let input = $state('');
   let catalogue = $state<Outcome<KevCatalogue>>();
@@ -43,6 +42,17 @@
   const data = $derived(catalogue?.status === 'ok' ? catalogue.data : null);
   const checked = $derived(asked.map((cve) => ({ cve, entry: data?.byCve.get(cve) ?? null })));
   const absent = $derived(data ? checked.filter((row) => !row.entry).map((row) => row.cve) : []);
+  const inKev = $derived(
+    checked.filter(
+      ({ cve, entry }) => entry || (nvd[cve] && crossCheck(nvd[cve]).kind === 'listed')
+    ).length
+  );
+  // NVD might still turn these up as newer than the catalogue
+  const unsure = $derived(
+    absent.length > crossCheckLimit
+      ? 0
+      : absent.filter((cve) => nvd[cve]?.status !== 'ok' && nvd[cve]?.status !== 'missing').length
+  );
 
   $effect(() => {
     const missing = absent;
@@ -56,6 +66,7 @@
 
   const matches = $derived(data ? filterKev(data.entries, { text, ransomware, days }) : []);
   const pages = $derived(Math.ceil(matches.length / perPage));
+  const page = $derived(pageIndex(param('page'), pages - 1));
   const shown = $derived(matches.slice(page * perPage, (page + 1) * perPage));
 
   function submit(value: string) {
@@ -93,23 +104,34 @@
 
     {#if asked.length}
       <section class="checks" aria-label="Check results">
+        {#if asked.length > 1}
+          <p role="status">
+            <b>{inKev} of {asked.length}</b>
+            {inKev === 1 ? 'is' : 'are'} in KEV{#if unsure}, and {unsure} couldn't be checked against
+              NVD yet{/if}.
+          </p>
+        {/if}
+        {#if absent.length > crossCheckLimit}
+          <p class="dim">
+            Too many missing to double-check with NVD at once (it allows 5 requests per 30 seconds).
+            Check any disclosed in the last day or two on their own.
+          </p>
+        {/if}
         {#each checked as { cve, entry } (cve)}
           {#if entry}
             <Entry {entry} />
           {:else}
             {@const cross = nvd[cve] && crossCheck(nvd[cve])}
-            <article class="absent panel">
+            {@const listed = cross?.kind === 'listed'}
+            <article class="absent panel" class:listed>
               <p>
-                <span class="verdict">Not in KEV</span>
+                <span class="verdict">{listed ? 'In KEV' : 'Not in KEV'}</span>
                 <a href="/cve?id={cve}"><code>{cve}</code></a> isn't in catalogue {data.version}.
               </p>
-              {#if absent.length > crossCheckLimit}
-                <p class="dim">
-                  Too many to double-check with NVD at once (it allows 5 requests per 30 seconds).
-                  Check this one on its own if it was disclosed in the last day or two.
-                </p>
-              {:else if !cross}
-                <p class="dim">Double-checking with NVD for anything added since...</p>
+              {#if !cross}
+                {#if absent.length <= crossCheckLimit}
+                  <p class="dim">Double-checking with NVD for anything added since...</p>
+                {/if}
               {:else if cross.kind === 'listed'}
                 <p class="newer">
                   But NVD says CISA added it on {formatDate(cross.kev.added)}, due
@@ -242,6 +264,15 @@
     padding: var(--space-3) var(--space-4);
     border-color: var(--good);
     background: var(--good-soft);
+
+    &.listed {
+      border-color: var(--bad);
+      background: var(--bad-soft);
+
+      & .verdict {
+        background: var(--bad);
+      }
+    }
   }
 
   .verdict {

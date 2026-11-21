@@ -28,6 +28,7 @@ export function route(input: string): Routed {
   switch (found.kind) {
     case 'cve':
     case 'ghsa':
+    case 'osv':
       return { href: `/cve?id=${found.id}` };
     case 'cwe':
       return { href: `/cwe/${found.id}` };

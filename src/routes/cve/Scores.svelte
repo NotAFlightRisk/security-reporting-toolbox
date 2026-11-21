@@ -4,8 +4,8 @@
   export interface Column {
     name: string;
     note?: string;
-    /** undefined while the source is still answering */
-    scores: Score[] | undefined;
+    /** undefined while the source is still answering, null when it couldn't */
+    scores: Score[] | null | undefined;
   }
 </script>
 
@@ -22,8 +22,10 @@
         <span>{column.name}</span>
         {#if column.note}<small>{column.note}</small>{/if}
       </div>
-      {#if !column.scores}
+      {#if column.scores === undefined}
         <span class="cell dim">Waiting...</span>
+      {:else if column.scores === null}
+        <span class="cell dim">Unavailable</span>
       {:else if column.scores.length === 0}
         <span class="cell dim">No score given</span>
       {:else}

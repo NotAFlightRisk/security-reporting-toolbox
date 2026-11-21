@@ -9,6 +9,8 @@ describe('route', () => {
     ['https://nvd.nist.gov/vuln/detail/CVE-2024-3094', '/cve?id=CVE-2024-3094'],
     ['GHSA-JFH8-C2JP-5V3Q', '/cve?id=GHSA-jfh8-c2jp-5v3q'],
     ['https://github.com/advisories/GHSA-jfh8-c2jp-5v3q', '/cve?id=GHSA-jfh8-c2jp-5v3q'],
+    ['RUSTSEC-2021-0001', '/cve?id=RUSTSEC-2021-0001'],
+    ['https://pkg.go.dev/vuln/go-2022-0969', '/cve?id=GO-2022-0969'],
     ['CWE-79', '/cwe/79'],
     ['cwe79', '/cwe/79'],
     ['https://cwe.mitre.org/data/definitions/918.html', '/cwe/918'],

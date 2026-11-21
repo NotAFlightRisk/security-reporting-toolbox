@@ -70,6 +70,28 @@ describe('KEV', () => {
         { label: 'BOD 26-04', url: 'https://cisa.gov/b' }
       ]
     ],
+    [
+      'https://a.example/1, https://a.example/2 ;  https://nvd.example/x',
+      [
+        { label: '', url: 'https://a.example/1' },
+        { label: '', url: 'https://a.example/2' },
+        { label: '', url: 'https://nvd.example/x' }
+      ]
+    ],
+    [
+      'Fix: https://a.example/fix More: https://a.example/more ; https://a.example/fix',
+      [
+        { label: 'Fix', url: 'https://a.example/fix' },
+        { label: 'More', url: 'https://a.example/more' }
+      ]
+    ],
+    [
+      "See CISA's ED 21-04 (https://cisa.gov/ed-21-04) and https://a.example/(cve-1).",
+      [
+        { label: '', url: 'https://cisa.gov/ed-21-04' },
+        { label: '', url: 'https://a.example/(cve-1)' }
+      ]
+    ],
     ['', []],
     ['see vendor advisory', []]
   ])('pulls links out of notes %j', (notes, expected) => {

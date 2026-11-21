@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest';
+import { formatDate } from '#lib/format.ts';
 import { lookupNvd, parseNvdPage, searchNvd } from '#lib/sources/nvd.ts';
 import { fakeFetch, fixture } from './helpers.ts';
 
@@ -15,9 +16,25 @@ describe('parseNvdPage', () => {
       ['CISA-ADP', '3.1', 10, false],
       ['NVD', '2.0', 9.3, true]
     ]);
-    expect(cve.weaknesses).toContainEqual({ id: 917, text: '', source: 'NVD' });
-    expect(cve.weaknesses).toContainEqual({ id: 502, text: '', source: 'security@apache.org' });
+    expect(cve.weaknesses).toContainEqual({ id: 917, text: '', source: 'NVD', primary: false });
+    expect(cve.weaknesses).toContainEqual({
+      id: 502,
+      text: '',
+      source: 'security@apache.org',
+      primary: false
+    });
     expect(cve.kev).toMatchObject({ added: '2021-12-10', due: '2021-12-24' });
+  });
+
+  it('reads its zoneless timestamps as UTC, wherever you are', () => {
+    const zone = process.env.TZ;
+    process.env.TZ = 'Pacific/Auckland';
+    try {
+      const [cve] = parseNvdPage(fixture('nvd-log4shell'))!.items;
+      expect(formatDate(cve.published)).toBe('10 Dec 2021');
+    } finally {
+      process.env.TZ = zone;
+    }
   });
 
   it('skips SSVC and other metrics that have no CVSS data', () => {

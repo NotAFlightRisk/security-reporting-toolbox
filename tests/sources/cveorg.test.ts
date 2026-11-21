@@ -1,6 +1,8 @@
-import { describe, expect, it } from 'vitest';
-import { describeVersion, parseCveRecord } from '#lib/sources/cveorg.ts';
-import { fixture } from './helpers.ts';
+import { afterEach, describe, expect, it, vi } from 'vitest';
+import { describeVersion, lookupCve, parseCveRecord } from '#lib/sources/cveorg.ts';
+import { fakeFetch, fixture } from './helpers.ts';
+
+afterEach(() => vi.unstubAllGlobals());
 
 describe('parseCveRecord', () => {
   it('reads a published record with CISA-ADP enrichment', () => {
@@ -28,8 +30,16 @@ describe('parseCveRecord', () => {
     const record = parseCveRecord(fixture('cveorg-rejected'))!;
     expect(record.state).toBe('REJECTED');
     expect(record.rejectedReason).toMatch(/reservation duplicate of CVE-2004-1123/);
+    expect(record.replacedBy).toEqual(['CVE-2004-1123']);
     expect(record.description).toBe('');
     expect(record.affected).toEqual([]);
+  });
+
+  it('takes the replacement from replacedBy when the reason names none', () => {
+    const json = fixture('cveorg-rejected');
+    json.containers.cna.rejectedReasons = [{ lang: 'en', value: 'Withdrawn by its CNA.' }];
+    json.containers.cna.replacedBy = ['CVE-2023-4863'];
+    expect(parseCveRecord(json)!.replacedBy).toEqual(['CVE-2023-4863']);
   });
 
   it.each([null, 'nope', {}, { cveMetadata: {} }, { containers: {} }])(
@@ -72,5 +82,25 @@ describe('describeVersion', () => {
       { status: 'unaffected', text: 'from 2.3.1' },
       { status: 'affected', text: 'from 2.4' }
     ]);
+  });
+});
+
+describe('lookupCve', () => {
+  const noRecord = [/api\/cve\//, 404, { error: 'CVE_RECORD_DNE' }] as [RegExp, number, unknown];
+
+  it.each([
+    [200, { cve_id: 'CVE-2026-70000', state: 'RESERVED' }, 'reserved'],
+    [404, { error: 'CVE_ID_NOT_FOUND' }, 'unassigned'],
+    [503, {}, null]
+  ])('tells a missing record apart by the ID service (%i)', async (status, body, state) => {
+    fakeFetch([[/cve-id\//, status, body], noRecord]);
+    expect(await lookupCve(`CVE-2026-7${status}`)).toEqual([{ status: 'missing' }, state]);
+  });
+
+  it("doesn't ask about the ID when the record is there", async () => {
+    const fetch = fakeFetch([[/api\/cve\//, 200, fixture('cveorg-log4shell')]]);
+    const [record, state] = await lookupCve('CVE-2021-44228');
+    expect([record.status, state]).toEqual(['ok', null]);
+    expect(fetch).toHaveBeenCalledTimes(1);
   });
 });

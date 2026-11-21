@@ -37,6 +37,16 @@ function scores(severities: Json | undefined): Score[] {
   });
 }
 
+/** GitHub writes descriptions in Markdown, and we show them as plain text */
+export const plainText = (markdown: string) =>
+  markdown
+    .replace(/^ {0,3}(#{1,6}\s+|```.*$)/gm, '')
+    .replace(/!?\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/(\*\*|__)(.+?)\1/g, '$2')
+    .replace(/`([^`\n]+)`/g, '$1')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+
 export function parseAdvisory(json: unknown): Advisory | null {
   const advisory = json as Json;
   if (!text(advisory?.ghsa_id)) return null;
@@ -45,7 +55,7 @@ export function parseAdvisory(json: unknown): Advisory | null {
     cve: text(advisory.cve_id) || null,
     url: text(advisory.html_url) || `https://github.com/advisories/${text(advisory.ghsa_id)}`,
     summary: text(advisory.summary),
-    description: text(advisory.description),
+    description: plainText(text(advisory.description)),
     severity: text(advisory.severity),
     reviewed: advisory.type === 'reviewed',
     published: text(advisory.published_at),
@@ -69,8 +79,15 @@ export function parseAdvisory(json: unknown): Advisory | null {
 
 const base = 'https://api.github.com/advisories';
 
+// GitHub's limit is 60 an hour without a key, so "give it a minute" would be a fib
+function hourly<T>(outcome: Outcome<T>): Outcome<T> {
+  if (outcome.status !== 'failed' || outcome.reason !== 'rate-limit') return outcome;
+  const message = 'is rate limiting us (60 requests an hour without a key), try again later';
+  return { ...outcome, message };
+}
+
 export const lookupAdvisory = async (ghsa: string) =>
-  parsed(await getJson(`${base}/${ghsa}`), parseAdvisory);
+  hourly(parsed(await getJson(`${base}/${ghsa}`), parseAdvisory));
 
 /** a CVE can have several GHSAs (one per ecosystem, say), and none is a missing, not a failure */
 export async function advisoriesForCve(cve: string): Promise<Outcome<Advisory[]>> {
@@ -79,5 +96,5 @@ export async function advisoriesForCve(cve: string): Promise<Outcome<Advisory[]>
     return advisories.some((item) => item === null) ? null : (advisories as Advisory[]);
   });
   if (outcome.status === 'ok' && outcome.data.length === 0) return { status: 'missing' };
-  return outcome;
+  return hourly(outcome);
 }
