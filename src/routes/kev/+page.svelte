@@ -98,9 +98,10 @@
             <Entry {entry} />
           {:else}
             {@const cross = nvd[cve] && crossCheck(nvd[cve])}
-            <article class="absent panel">
+            {@const listed = cross?.kind === 'listed'}
+            <article class="absent panel" class:listed>
               <p>
-                <span class="verdict">Not in KEV</span>
+                <span class="verdict">{listed ? 'In KEV' : 'Not in KEV'}</span>
                 <a href="/cve?id={cve}"><code>{cve}</code></a> isn't in catalogue {data.version}.
               </p>
               {#if absent.length > crossCheckLimit}
@@ -242,6 +243,15 @@
     padding: var(--space-3) var(--space-4);
     border-color: var(--good);
     background: var(--good-soft);
+
+    &.listed {
+      border-color: var(--bad);
+      background: var(--bad-soft);
+
+      & .verdict {
+        background: var(--bad);
+      }
+    }
   }
 
   .verdict {
