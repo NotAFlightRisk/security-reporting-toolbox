@@ -42,6 +42,11 @@
   const data = $derived(catalogue?.status === 'ok' ? catalogue.data : null);
   const checked = $derived(asked.map((cve) => ({ cve, entry: data?.byCve.get(cve) ?? null })));
   const absent = $derived(data ? checked.filter((row) => !row.entry).map((row) => row.cve) : []);
+  const inKev = $derived(
+    checked.filter(
+      ({ cve, entry }) => entry || (nvd[cve] && crossCheck(nvd[cve]).kind === 'listed')
+    ).length
+  );
 
   $effect(() => {
     const missing = absent;
@@ -93,6 +98,15 @@
 
     {#if asked.length}
       <section class="checks" aria-label="Check results">
+        {#if asked.length > 1}
+          <p role="status"><b>{inKev} of {asked.length}</b> {inKev === 1 ? 'is' : 'are'} in KEV.</p>
+        {/if}
+        {#if absent.length > crossCheckLimit}
+          <p class="dim">
+            Too many missing to double-check with NVD at once (it allows 5 requests per 30 seconds).
+            Check any disclosed in the last day or two on their own.
+          </p>
+        {/if}
         {#each checked as { cve, entry } (cve)}
           {#if entry}
             <Entry {entry} />
@@ -104,13 +118,10 @@
                 <span class="verdict">{listed ? 'In KEV' : 'Not in KEV'}</span>
                 <a href="/cve?id={cve}"><code>{cve}</code></a> isn't in catalogue {data.version}.
               </p>
-              {#if absent.length > crossCheckLimit}
-                <p class="dim">
-                  Too many to double-check with NVD at once (it allows 5 requests per 30 seconds).
-                  Check this one on its own if it was disclosed in the last day or two.
-                </p>
-              {:else if !cross}
-                <p class="dim">Double-checking with NVD for anything added since...</p>
+              {#if !cross}
+                {#if absent.length <= crossCheckLimit}
+                  <p class="dim">Double-checking with NVD for anything added since...</p>
+                {/if}
               {:else if cross.kind === 'listed'}
                 <p class="newer">
                   But NVD says CISA added it on {formatDate(cross.kev.added)}, due
