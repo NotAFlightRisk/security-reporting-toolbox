@@ -33,6 +33,17 @@ describe('normalise', () => {
     });
     expect(cna).toMatchObject({ types: [], roles: ['CNA'], root: '', emails: [], links: [] });
   });
+
+  it('keeps only the words of a scope written in HTML', () => {
+    const cna = normalise({
+      shortName: 'html',
+      organizationName: 'Html Ltd',
+      scope:
+        "<strong>Root Scope:</strong> projects at <a href='https://x.org/' target='_blank'>x.org</a> &amp; friends.<br/><br/><strong>CNA Scope:</strong> the rest"
+    });
+    expect(cna?.scope).toBe('Root Scope: projects at x.org & friends.\nCNA Scope: the rest');
+    expect(search([cna!], { query: 'href', type: '', role: '' })).toEqual([]);
+  });
 });
 
 describe('search', () => {
@@ -53,6 +64,10 @@ describe('search', () => {
 
   it('filters by role, so last resort CNAs can be listed on their own', () => {
     expect(names(search(cnas, { ...none, role: 'CNA-LR' })).sort()).toEqual(['icscert', 'mitre']);
+  });
+
+  it('counts the top-level roots as roots', () => {
+    expect(names(search(cnas, { ...none, role: 'Root' })).sort()).toEqual(['icscert', 'mitre']);
   });
 
   it('filters by type and query together', () => {

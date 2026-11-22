@@ -32,6 +32,15 @@ type Raw = Record<string, unknown>;
 const list = (value: unknown): Raw[] =>
   Array.isArray(value) ? value.filter((item) => item && typeof item === 'object') : [];
 const text = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
+const entities: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+
+// a few scopes are written in HTML, but we only want the words
+const plain = (html: string) =>
+  html
+    .replace(/(\s*<br\s*\/?>\s*)+/gi, '\n')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&(amp|lt|gt|quot|#39);/g, (_, name: string) => entities[name])
+    .trim();
 const links = (items: Raw[]) =>
   items
     .map((item) => ({ label: text(item.label) || 'Link', url: text(item.url) }))
@@ -50,7 +59,7 @@ export function normalise(raw: Raw): Cna | null {
     id: text(raw.cnaID),
     shortName,
     org,
-    scope: text(raw.scope),
+    scope: plain(text(raw.scope)),
     types: (Array.isArray(cna.type) ? cna.type : []).map(text).filter((t) => t && t !== 'N/A'),
     roles: list(cna.roles)
       .map((role) => text(role.role))
@@ -101,10 +110,14 @@ function rank(cna: Cna, words: string[]) {
   return score;
 }
 
+// the two top-level roots are roots too
+const plays = (cna: Cna, role: string) =>
+  cna.roles.includes(role) || (role === 'Root' && cna.roles.includes('Top-Level Root'));
+
 export function search(cnas: Cna[], { query, type, role }: Filters) {
   const words = fold(query).split(/\s+/).filter(Boolean);
   const kept = cnas.filter(
-    (cna) => (!type || cna.types.includes(type)) && (!role || cna.roles.includes(role))
+    (cna) => (!type || cna.types.includes(type)) && (!role || plays(cna, role))
   );
   if (!words.length) return kept;
   return kept

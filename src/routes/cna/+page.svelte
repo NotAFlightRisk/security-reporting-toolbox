@@ -271,6 +271,7 @@
 
   .cna[open] .scope {
     display: block;
+    white-space: pre-line;
     color: var(--text);
   }
 
