@@ -48,6 +48,35 @@ describe('CWE search', () => {
     expect(lastLive).toBeGreaterThan(-1);
   });
 
+  it('puts Prohibited entries after everything that can be mapped to', () => {
+    const results = search(index, 'broken access control');
+    const lastMappable = results.findLastIndex((entry) => entry.usage !== 'Prohibited');
+    const firstProhibited = results.findIndex((entry) => entry.usage === 'Prohibited');
+    expect(results[0].id).toBe(639);
+    expect(firstProhibited).toBeGreaterThan(lastMappable);
+  });
+
+  it('sinks Discouraged entries below Allowed ones that match as well', () => {
+    const ids = search(index, 'overflow').map((entry) => entry.id);
+    expect(ids.indexOf(120)).toBeLessThan(ids.indexOf(680));
+  });
+
+  it('finds the weakness behind OWASP wording', () => {
+    expect(search(index, 'insecure deserialization').map((entry) => entry.id)).toEqual([502, 1034]);
+  });
+
+  it('only matches words from the start', () => {
+    expect(search(index, 'rce')).toEqual([]);
+    expect(top('deserializ')).toBe(502);
+  });
+
+  it.each(['hardcoded password', 'hard coded password', 'hard-coded password'])(
+    'finds hard-coded passwords however %j is spelt',
+    (query) => {
+      expect(top(query)).toBe(259);
+    }
+  );
+
   it.each(['', '   ', '---', 'CWE-99999', 'zzqx flarnbit'])('finds nothing for %j', (query) => {
     expect(search(index, query)).toEqual([]);
   });
