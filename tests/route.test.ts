@@ -11,6 +11,8 @@ describe('route', () => {
     ['https://github.com/advisories/GHSA-jfh8-c2jp-5v3q', '/cve?id=GHSA-jfh8-c2jp-5v3q'],
     ['RUSTSEC-2021-0001', '/cve?id=RUSTSEC-2021-0001'],
     ['https://pkg.go.dev/vuln/go-2022-0969', '/cve?id=GO-2022-0969'],
+    ['https://osv.dev/vulnerability/PYSEC-2021-19', '/cve?id=PYSEC-2021-19'],
+    ['https://osv.dev/vulnerability/JLSEC-2025-1', '/cve?id=JLSEC-2025-1'],
     ['CWE-79', '/cwe/79'],
     ['cwe79', '/cwe/79'],
     ['https://cwe.mitre.org/data/definitions/918.html', '/cwe/918'],
@@ -23,7 +25,9 @@ describe('route', () => {
     [
       'https://pypi.org/project/requests/',
       '/package?q=https%3A%2F%2Fpypi.org%2Fproject%2Frequests%2F'
-    ]
+    ],
+    ['@angular/core', '/package?q=%40angular%2Fcore'],
+    ['org.apache.logging.log4j:log4j-core', '/package?q=org.apache.logging.log4j%3Alog4j-core']
   ])('sends %j straight to %s', (input, href) => {
     expect(route(input)).toEqual({ href });
   });
@@ -37,10 +41,13 @@ describe('route', () => {
     ]);
   });
 
-  it.each(['log4j', 'sql injection', '79'])('asks rather than guesses for %j', (input) => {
-    const routed = route(input);
-    expect(routed && 'choices' in routed && routed.choices).toHaveLength(4);
-  });
+  it.each(['log4j', 'sql injection', '79', 'AV:N', 'example.com:8080', '127.0.0.1:3000'])(
+    'asks rather than guesses for %j',
+    (input) => {
+      const routed = route(input);
+      expect(routed && 'choices' in routed && routed.choices).toHaveLength(4);
+    }
+  );
 
   it.each(['', '   ', '​'])('ignores empty input %j', (input) => {
     expect(route(input)).toBeNull();

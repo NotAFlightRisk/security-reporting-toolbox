@@ -90,11 +90,15 @@
   <dl class="facts">
     {#if purl}
       <dt>Package URL</dt>
-      <dd class="copyable"><code>{purl}</code><CopyButton text={purl} compact /></dd>
+      <dd class="copyable">
+        <code>{purl}</code><CopyButton text={purl} what="package URL" compact />
+      </dd>
     {/if}
     {#if pinnedPurl && pinnedPurl !== purl}
       <dt>Pinned to {pinned}</dt>
-      <dd class="copyable"><code>{pinnedPurl}</code><CopyButton text={pinnedPurl} compact /></dd>
+      <dd class="copyable">
+        <code>{pinnedPurl}</code><CopyButton text={pinnedPurl} what="pinned package URL" compact />
+      </dd>
     {/if}
     {#if info}
       {#if info.latest}

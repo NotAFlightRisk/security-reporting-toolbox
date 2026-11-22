@@ -9,7 +9,7 @@ const tidy = (text: string) =>
 const cvePattern = /\bCVE[\s_-]*(\d{4})[\s_-]*(\d{4,})\b/i;
 const ghsaPattern = /\bGHSA((?:-[23456789cfghjmpqrvwx]{4}){3})\b/i;
 const cwePattern = /^(?:CWE[\s_-]*)?(\d{1,5})$/i;
-const osvPattern = /\b(RUSTSEC|PYSEC|GO|OSV|MAL)-(\d{4})-(\d+)\b/i;
+const osvPattern = /\b(RUSTSEC|PYSEC|JLSEC|HSEC|RSEC|PSF|GO|OSV|MAL)-(\d{4})-(\d+)\b/i;
 
 export function cveId(text: string) {
   const match = tidy(text).match(cvePattern);

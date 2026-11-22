@@ -18,8 +18,9 @@
     </li>
     <li>
       <b>A CNA whose scope covers the product</b>
-      Plenty of CNAs cover other people's software, like WordPress plugins (Wordfence, Patchstack, WPScan)
-      or open source ecosystems. Search for the product type, not just the vendor.
+      Plenty of CNAs cover other people's software, like WordPress plugins (Wordfence, WPScan), PHP and
+      JavaScript projects (Patchstack) or open source ecosystems. Search for the product type, not just
+      the vendor.
     </li>
     <li>
       <b>GitHub, for projects hosted there</b>

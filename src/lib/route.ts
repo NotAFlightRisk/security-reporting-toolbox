@@ -10,6 +10,9 @@ export type Routed = { href: string } | { choices: Choice[] } | null;
 
 const q = (value: string) => encodeURIComponent(value);
 
+// a scoped npm name or a Maven group:artifact can't really be anything else
+const packageName = /^(@[^/\s]+\/[^/\s]+|[\w-]+(\.[\w-]+)+:[a-z_][\w.-]*)$/i;
+
 export function route(input: string): Routed {
   const many = cveIds(input);
   if (many.length > 1) {
@@ -42,6 +45,7 @@ export function route(input: string): Routed {
       return cwe ? { href: `/cwe/${cwe[1]}` } : { href: `/package?q=${q(found.url)}` };
     }
     case 'text':
+      if (packageName.test(found.text)) return { href: `/package?q=${q(found.text)}` };
       return {
         choices: [
           { href: `/cwe?q=${q(found.text)}`, label: `Weaknesses (CWE) matching "${found.text}"` },
