@@ -56,7 +56,11 @@
                 <td class="nowrap">{formatDate(item.published)}</td>
                 <td>
                   {#if best}
-                    <Severity score={best.score} label="CVSS {best.version}" />
+                    <Severity
+                      score={best.score}
+                      version={best.version}
+                      label="CVSS {best.version}"
+                    />
                   {:else}
                     <span class="dim">{item.status === 'Rejected' ? 'Rejected' : 'Unscored'}</span>
                   {/if}

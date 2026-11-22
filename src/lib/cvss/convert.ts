@@ -1,3 +1,5 @@
+import { metricsFor } from '#lib/cvss/metrics.ts';
+
 export interface Converted {
   values: Record<string, string>;
   /** every place a human needs to check our working */
@@ -88,5 +90,13 @@ export function to31(from: Record<string, string>): Converted {
     checks.push(
       "Threat metrics aren't carried over, since 3.1 Exploit Code Maturity means something different."
     );
+  const dropped = metricsFor['4.0'].some(
+    (metric) => ['environmental', 'supplemental'].includes(metric.group) && from[metric.key]
+  );
+  if (dropped) {
+    checks.push(
+      "Environmental and supplemental metrics weren't carried over. Set the environmental ones again under More metrics, 3.1 has no supplemental ones."
+    );
+  }
   return { values, checks };
 }

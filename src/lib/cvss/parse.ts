@@ -14,6 +14,20 @@ export interface Parsed {
 
 const versions: Version[] = ['2.0', '3.0', '3.1', '4.0'];
 const v4Only = ['AT', 'VC', 'VI', 'VA', 'SC', 'SI', 'SA'];
+const shownErrors = 3;
+
+// slash-separated runs, so brackets, quotes and any words around a vector fall away
+const runs = /[^\s/()[\]"'`,;]+(?:\s*\/\s*[^\s/()[\]"'`,;]*)*/g;
+const colons = (run: string) => run.split(':').length;
+
+/** the run with the most metric pairs in it, which beats labels like "Vector:" */
+const vectorIn = (input: string) =>
+  (
+    input
+      .normalize('NFKC')
+      .replace(/\b(CVSS|[A-Z]{1,3})\s*:\s*/gi, '$1:')
+      .match(runs) ?? ['']
+  ).reduce((best, run) => (colons(run) > colons(best) ? run : best));
 
 /** "N, A, L or P" */
 export const either = (items: string[]) =>
@@ -43,11 +57,9 @@ function guessVersion(pairs: string[], notes: string[]): Version {
 export function parseVector(input: string): Parsed {
   const notes: string[] = [];
   const errors: string[] = [];
-  let text = input
-    .normalize('NFKC')
+  let text = vectorIn(input)
     .replace(/\s+/g, '')
-    .replace(/^\((.*)\)$/, '$1')
-    .replace(/\/+$/, '');
+    .replace(/[./]+$/, '');
 
   let version: Version | undefined;
   const prefix = text.match(/^CVSS:([^/]*)\/?/i);
@@ -105,7 +117,14 @@ export function parseVector(input: string): Parsed {
   }
 
   const missing = metrics.filter((metric) => metric.group === 'base' && !values[metric.key]);
-  return { version, values, notes, errors, missing };
+  return { version, values, notes, errors: summarise(errors), missing };
+}
+
+/** each mistake once, and only the first few, so a mangled paste can't bury the page */
+function summarise(errors: string[]) {
+  const unique = [...new Set(errors)];
+  const extra = unique.length - shownErrors;
+  return extra > 0 ? [...unique.slice(0, shownErrors), `Plus ${extra} more.`] : unique;
 }
 
 /** the vector in the spec's own metric order, leaving out anything not set */

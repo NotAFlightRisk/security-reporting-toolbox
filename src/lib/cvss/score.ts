@@ -27,6 +27,27 @@ function nomenclature(values: Record<string, string>) {
   return `CVSS-B${threat}${environmental}`;
 }
 
+// a hair of slack so 8.265 rounds to 8.3 like the spec's working, not 8.2 like float maths
+const round1 = (value: number) => Math.round(value * 10 + 1e-6) / 10;
+
+/** 2.0 temporal and environmental, rounding each step like the spec does */
+function rescore2(vector: InstanceType<typeof lib.Cvss2>, base: number) {
+  const weight = (key: string) =>
+    (vector.getComponentByString(key) as unknown as { value: number }).value;
+  const temporalOf = (score: number) => round1(score * weight('E') * weight('RL') * weight('RC'));
+  const kept = ['C', 'I', 'A'].reduce(
+    (left, key) => left * (1 - weight(key) * weight(`${key}R`)),
+    1
+  );
+  const impact = Math.min(10, 10.41 * (1 - kept));
+  const exploitability = 20 * weight('AV') * weight('AC') * weight('Au');
+  const adjusted = temporalOf(
+    round1((0.6 * impact + 0.4 * exploitability - 1.5) * (impact ? 1.176 : 0))
+  );
+  const environmental = round1((adjusted + (10 - adjusted) * weight('CDP')) * weight('TD'));
+  return { temporal: temporalOf(base), environmental: Math.max(0, environmental) };
+}
+
 /** null until every base metric has a value */
 export function score(version: Version, values: Record<string, string>): Scores | null {
   const complete = metricsFor[version].every(
@@ -36,6 +57,13 @@ export function score(version: Version, values: Record<string, string>): Scores 
 
   const vector = new classes[version](toVector(version, values));
   const result = vector.calculateScores() as unknown as Record<string, number | undefined>;
+  const top = (['environmental', 'temporal'] as const).find((group) =>
+    used(version, values, group)
+  );
+  if (vector instanceof lib.Cvss2) {
+    Object.assign(result, rescore2(vector, result.base ?? 0));
+    result.overall = top ? result[top] : result.base;
+  }
   const overall = result.overall ?? 0;
 
   if (version === '4.0') {
@@ -56,8 +84,5 @@ export function score(version: Version, values: Record<string, string>): Scores 
       parts.push({ name: groupNames[group], score: value });
     }
   }
-  const top = (['environmental', 'temporal'] as const).find((group) =>
-    used(version, values, group)
-  );
   return { overall, label: top ? groupNames[top] : 'Base', parts };
 }

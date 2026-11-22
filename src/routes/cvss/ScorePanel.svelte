@@ -1,27 +1,32 @@
 <script lang="ts">
   import CopyButton from '#lib/components/CopyButton.svelte';
   import Severity, { rating } from '#lib/components/Severity.svelte';
+  import type { Version } from '#lib/cvss/metrics.ts';
   import type { Scores } from '#lib/cvss/score.ts';
 
   let {
     scores,
+    version,
     vector,
     left
   }: {
     scores: Scores | null;
+    version: Version;
     vector: string;
     /** names of base metrics still waiting for a value */
     left: string[];
   } = $props();
 
   const summary = $derived(
-    scores ? `${vector} (${scores.overall.toFixed(1)} ${rating(scores.overall)})` : ''
+    scores
+      ? `${vector} (${scores.label} ${scores.overall.toFixed(1)} ${rating(scores.overall, version)})`
+      : ''
   );
 </script>
 
 <div class="score panel">
   <div class="headline">
-    <Severity score={scores?.overall ?? null} label={scores?.label ?? 'CVSS'} size="lg" />
+    <Severity score={scores?.overall ?? null} {version} label={scores?.label ?? 'CVSS'} size="lg" />
     <span class="label">{scores?.label ?? 'Not scored yet'}</span>
   </div>
 
@@ -46,7 +51,7 @@
     <code>{vector}</code>
     <div class="copies">
       <CopyButton text={scores ? vector : ''} label="Copy vector" />
-      <CopyButton text={summary} label="Copy with score" />
+      <CopyButton text={summary} label="Copy with {scores?.label ?? 'the'} score" />
     </div>
   </div>
 </div>
@@ -105,6 +110,7 @@
 
   .copies {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-1);
   }
 </style>

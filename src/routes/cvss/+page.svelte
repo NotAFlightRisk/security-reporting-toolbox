@@ -49,8 +49,9 @@
 
   // clicks only touch the address bar, so a fast run of them can't race a navigation
   function writeUrl() {
+    draft = Object.keys(values).length ? vector : '';
     const url = new URL(location.href);
-    if (Object.keys(values).length) url.searchParams.set('vector', vector);
+    if (draft) url.searchParams.set('vector', draft);
     else url.searchParams.delete('vector');
     goto(url, { shallow: true, replace: true });
   }
@@ -86,6 +87,7 @@
   }
 
   function switchTo(next: Version) {
+    if (version === '3.0' && next === '3.1') chosen['3.1'] = { ...values };
     version = next;
     focused = metricsFor[next][0];
     converted = null;
@@ -102,7 +104,6 @@
 
   function clear() {
     reset();
-    draft = '';
     writeUrl();
   }
 
@@ -123,9 +124,9 @@
 
   // a blank or broken vector in the URL means a blank calculator, never the last score
   function follow(fromUrl: string) {
+    draft = fromUrl;
     if (fromUrl === vector) return;
     reset();
-    draft = fromUrl;
     if (fromUrl) load(fromUrl);
   }
 
@@ -204,7 +205,7 @@
     </div>
   {/if}
 
-  <ScorePanel {scores} {vector} {left} />
+  <ScorePanel {scores} {version} {vector} {left} />
 
   <div class="workspace">
     <MetricMatrix

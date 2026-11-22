@@ -1,12 +1,13 @@
 <script lang="ts" module>
   export type Rating = 'None' | 'Low' | 'Medium' | 'High' | 'Critical';
 
-  /** the CVSS qualitative scale, same bands for 3.x and 4.0 */
-  export function rating(score: number): Rating {
-    if (score === 0) return 'None';
+  /** the CVSS qualitative scale, same bands for 3.x and 4.0, while 2.0 tops out at High */
+  export function rating(score: number, version?: string): Rating {
+    const v2 = version === '2.0';
+    if (score === 0 && !v2) return 'None';
     if (score < 4) return 'Low';
     if (score < 7) return 'Medium';
-    if (score < 9) return 'High';
+    if (score < 9 || v2) return 'High';
     return 'Critical';
   }
 
@@ -16,16 +17,19 @@
 <script lang="ts">
   let {
     score,
+    version,
     label,
     size = 'sm'
   }: {
     score: number | null;
+    /** the CVSS version, since 2.0 has its own bands */
+    version?: string;
     /** what the score is, e.g. "CVSS 3.1 base", read out by screen readers */
     label?: string;
     size?: 'sm' | 'lg';
   } = $props();
 
-  const level = $derived(score === null ? null : rating(score));
+  const level = $derived(score === null ? null : rating(score, version));
 </script>
 
 <span

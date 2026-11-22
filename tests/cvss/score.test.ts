@@ -107,9 +107,21 @@ describe('CVSS 2.0', () => {
     ['AV:N/AC:L/Au:N/C:N/I:N/A:C', 7.8],
     ['AV:N/AC:L/Au:N/C:N/I:N/A:C/E:F/RL:OF/RC:C', 6.4],
     ['AV:N/AC:L/Au:N/C:C/I:C/A:C', 10],
-    ['AV:L/AC:H/Au:N/C:C/I:C/A:C/E:POC/RL:OF/RC:C', 4.9]
+    ['AV:L/AC:H/Au:N/C:C/I:C/A:C/E:POC/RL:OF/RC:C', 4.9],
+    ['AV:N/AC:L/Au:N/C:N/I:N/A:C/E:F/RL:OF/RC:C/CDP:H/TD:H/CR:M/IR:M/AR:H', 9.2],
+    ['AV:N/AC:L/Au:N/C:C/I:C/A:C/E:F/RL:OF/RC:C/CDP:H/TD:H/CR:M/IR:M/AR:L', 9.0],
+    ['AV:L/AC:H/Au:N/C:C/I:C/A:C/E:POC/RL:OF/RC:C/CDP:N/TD:N/CR:M/IR:M/AR:M', 0]
   ])('%s scores %d', (vector, expected) => {
     expect(scoreOf(vector)?.overall).toBe(expected);
+  });
+
+  // edges the guide doesn't cover, checked against RedHat's cvss library
+  it('rounds a temporal score sitting on .x5 up, like the spec', () => {
+    expect(scoreOf('AV:N/AC:L/Au:S/C:C/I:C/A:C/E:H/RL:U/RC:UR')?.overall).toBe(8.6);
+  });
+
+  it('never lets a tiny adjusted impact score below zero', () => {
+    expect(scoreOf('AV:L/AC:H/Au:M/C:N/I:P/A:N/E:F/CR:L/IR:L/AR:L')?.overall).toBe(0);
   });
 });
 

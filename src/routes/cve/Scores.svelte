@@ -39,7 +39,11 @@
             {#if score.score === null}
               <span class="unscored">Vector only</span>
             {:else}
-              <Severity score={score.score} label="{column.name} CVSS {score.version}" />
+              <Severity
+                score={score.score}
+                version={score.version}
+                label="{column.name} CVSS {score.version}"
+              />
             {/if}
             <code>{score.vector}</code>
           </a>
