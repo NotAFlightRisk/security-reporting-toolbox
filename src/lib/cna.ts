@@ -38,7 +38,7 @@ const entities: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"'
 const plain = (html: string) =>
   html
     .replace(/(\s*<br\s*\/?>\s*)+/gi, '\n')
-    .replace(/<[^>]*>/g, '')
+    .replace(/<[^>]*>|[<>]/g, '')
     .replace(/&(amp|lt|gt|quot|#39);/g, (_, name: string) => entities[name])
     .trim();
 const links = (items: Raw[]) =>
