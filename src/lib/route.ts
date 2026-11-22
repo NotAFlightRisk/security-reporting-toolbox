@@ -11,7 +11,7 @@ export type Routed = { href: string } | { choices: Choice[] } | null;
 const q = (value: string) => encodeURIComponent(value);
 
 // a scoped npm name or a Maven group:artifact can't really be anything else
-const packageName = /^(@[^/\s]+\/[^/\s]+|[\w-]+(\.[\w-]+)+:[\w.-]+)$/;
+const packageName = /^(@[^/\s]+\/[^/\s]+|[\w-]+(\.[\w-]+)+:[a-z_][\w.-]*)$/i;
 
 export function route(input: string): Routed {
   const many = cveIds(input);

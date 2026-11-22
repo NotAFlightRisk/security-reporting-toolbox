@@ -12,7 +12,8 @@ const oops = sentry ? [new URL(sentry).origin as `${string}.${string}`] : [];
 const uploadMaps = Boolean(process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_URL);
 
 // app.html's inline theme script, hashed so the CSP lets it run before first paint
-const boot = readFileSync('src/app.html', 'utf8').match(/<script>(.*?)<\/script>/s)![1];
+const template = readFileSync(new URL('src/app.html', import.meta.url), 'utf8');
+const boot = template.match(/<script>(.*?)<\/script>/s)![1];
 const bootHash = `sha256-${createHash('sha256').update(boot).digest('base64')}` as const;
 
 // every API the tools call straight from the browser

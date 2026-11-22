@@ -41,10 +41,13 @@ describe('route', () => {
     ]);
   });
 
-  it.each(['log4j', 'sql injection', '79', 'AV:N'])('asks rather than guesses for %j', (input) => {
-    const routed = route(input);
-    expect(routed && 'choices' in routed && routed.choices).toHaveLength(4);
-  });
+  it.each(['log4j', 'sql injection', '79', 'AV:N', 'example.com:8080', '127.0.0.1:3000'])(
+    'asks rather than guesses for %j',
+    (input) => {
+      const routed = route(input);
+      expect(routed && 'choices' in routed && routed.choices).toHaveLength(4);
+    }
+  );
 
   it.each(['', '   ', '​'])('ignores empty input %j', (input) => {
     expect(route(input)).toBeNull();
