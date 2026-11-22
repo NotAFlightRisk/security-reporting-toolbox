@@ -50,4 +50,17 @@ describe('4.0 to 3.1', () => {
     const { values } = convert31('CVSS:4.0/AV:N/AC:L/AT:P/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N');
     expect(values).toMatchObject({ AC: 'H', S: 'U', C: 'H' });
   });
+
+  it.each(['CR:H', 'MAV:L', 'S:P'])('says %s was dropped', (extra) => {
+    const { values, checks } = convert31(
+      `CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N/${extra}`
+    );
+    expect(toVector('3.1', values)).toBe('CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H');
+    expect(checks.join(' ')).toMatch(/Environmental and supplemental metrics weren't carried/);
+  });
+
+  it('only mentions dropped metrics when there were some', () => {
+    const { checks } = convert31('CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:H/VI:H/VA:H/SC:N/SI:N/SA:N');
+    expect(checks).toEqual([]);
+  });
 });

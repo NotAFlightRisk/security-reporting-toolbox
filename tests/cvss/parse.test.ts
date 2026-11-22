@@ -7,8 +7,12 @@ describe('forgiving input', () => {
   it.each([
     ['lowercase', 'cvss:3.1/av:n/ac:l/pr:n/ui:n/s:u/c:h/i:h/a:h'],
     ['spaces and brackets', ' (CVSS:3.1 / AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H) '],
+    ['spaces round the colons', 'CVSS : 3.1 / AV : N / AC : L/PR:N/UI:N/S:U/C:H/I:H/A : H'],
     ['trailing slash', `${full31}/`],
-    ['any metric order', 'CVSS:3.1/A:H/I:H/C:H/S:U/UI:N/PR:N/AC:L/AV:N']
+    ['any metric order', 'CVSS:3.1/A:H/I:H/C:H/S:U/UI:N/PR:N/AC:L/AV:N'],
+    ['our own copy with score', `${full31} (Base 9.8 Critical)`],
+    ['a label, quotes and a full stop', `Vector: "${full31}".`],
+    ['backticks', `\`${full31}\``]
   ])('reads %s', (_, input) => {
     const parsed = parseVector(input);
     expect(parsed.errors).toEqual([]);
@@ -76,6 +80,22 @@ describe('mistakes get named, with the fix', () => {
     ]
   ])('%s', (input, error) => {
     expect(parseVector(input).errors).toContain(error);
+  });
+
+  it('names each mistake once', () => {
+    expect(parseVector(`${full31}/${'AV:N/'.repeat(200)}`).errors).toEqual([
+      'AV appears more than once. Keep one.'
+    ]);
+  });
+
+  it('shows the first few mistakes and counts the rest', () => {
+    const { errors } = parseVector('CVSS:3.1/AA:N/BB:N/CC:N/DD:N/EE:N');
+    expect(errors).toEqual([
+      "AA isn't a CVSS 3.1 metric.",
+      "BB isn't a CVSS 3.1 metric.",
+      "CC isn't a CVSS 3.1 metric.",
+      'Plus 2 more.'
+    ]);
   });
 
   it('lists the base metrics still missing, without calling it an error', () => {
