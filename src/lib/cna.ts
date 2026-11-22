@@ -32,14 +32,14 @@ type Raw = Record<string, unknown>;
 const list = (value: unknown): Raw[] =>
   Array.isArray(value) ? value.filter((item) => item && typeof item === 'object') : [];
 const text = (value: unknown) => (typeof value === 'string' ? value.trim() : '');
-const entities: Record<string, string> = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'" };
+const entities: Record<string, string> = { amp: '&', quot: '"', '#39': "'" };
 
 // a few scopes are written in HTML, but we only want the words
 const plain = (html: string) =>
   html
     .replace(/(\s*<br\s*\/?>\s*)+/gi, '\n')
     .replace(/<[^>]*>|[<>]/g, '')
-    .replace(/&(amp|lt|gt|quot|#39);/g, (_, name: string) => entities[name])
+    .replace(/&(amp|quot|#39);/g, (_, name: string) => entities[name])
     .trim();
 const links = (items: Raw[]) =>
   items
