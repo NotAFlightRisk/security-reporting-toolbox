@@ -6,6 +6,8 @@ describe('osvId', () => {
     ['RUSTSEC-2021-0001', 'RUSTSEC-2021-0001'],
     ['see pysec-2021-19 for details', 'PYSEC-2021-19'],
     ['GO-2022-0969', 'GO-2022-0969'],
+    ['https://osv.dev/vulnerability/PSF-2023-1', 'PSF-2023-1'],
+    ['HSEC-2023-0001', 'HSEC-2023-0001'],
     ['CVE-2021-44228', null],
     ['GOOSE-2022-1', null]
   ])('reads %j as %j', (input, id) => {
