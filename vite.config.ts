@@ -1,6 +1,8 @@
 import { sentryVitePlugin } from '@sentry/vite-plugin';
 import adapter from '@sveltejs/adapter-static';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { defineConfig } from 'vitest/config';
 
 const plausible = process.env.PUBLIC_PLAUSIBLE_SCRIPT ?? '';
@@ -8,6 +10,10 @@ const pulse = plausible ? [new URL(plausible).origin as `${string}.${string}`] :
 const sentry = process.env.PUBLIC_SENTRY_DSN ?? '';
 const oops = sentry ? [new URL(sentry).origin as `${string}.${string}`] : [];
 const uploadMaps = Boolean(process.env.SENTRY_AUTH_TOKEN && process.env.SENTRY_URL);
+
+// app.html's inline theme script, hashed so the CSP lets it run before first paint
+const boot = readFileSync('src/app.html', 'utf8').match(/<script>(.*?)<\/script>/s)![1];
+const bootHash = `sha256-${createHash('sha256').update(boot).digest('base64')}` as const;
 
 // every API the tools call straight from the browser
 const sources = [
@@ -46,7 +52,7 @@ export default defineConfig({
         mode: 'hash',
         directives: {
           'default-src': ['self'],
-          'script-src': ['self', ...pulse],
+          'script-src': ['self', bootHash, ...pulse],
           'connect-src': ['self', ...sources, ...pulse, ...oops],
           'img-src': ['self', 'data:'],
           'style-src': ['self', 'unsafe-inline'],

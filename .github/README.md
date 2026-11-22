@@ -33,7 +33,7 @@ Writing up a vulnerability means a dozen small side quests - which CWE, what's t
 | [Package lookup](https://security-reporting-toolbox.peng.ly/package)    | Find a package across ecosystems, check its name, get versions and its PURL             | deps.dev, registries      |
 | [CNA directory](https://security-reporting-toolbox.peng.ly/cna)         | Who can assign a CVE for a product, and how to ask them                                 | CVE Program               |
 
-Everything works offline, locally in the browser. There's no accounts, ads, tracking and the app is easily self-hostable :)
+Everything runs locally in your browser, which talks straight to the sources above. There's no accounts, ads, tracking and the app is easily self-hostable :)
 
 ---
 

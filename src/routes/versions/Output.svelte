@@ -34,13 +34,21 @@
           <dt>Affected versions</dt>
           <dd class="copyable">
             <code>{githubAffected(range)}</code>
-            <CopyButton text={githubAffected(range)} compact />
+            <CopyButton
+              text={githubAffected(range)}
+              what="affected versions for product {index + 1}"
+              compact
+            />
           </dd>
           <dt>Patched versions</dt>
           <dd class="copyable">
             {#if githubPatched(range)}
               <code>{githubPatched(range)}</code>
-              <CopyButton text={githubPatched(range)} compact />
+              <CopyButton
+                text={githubPatched(range)}
+                what="patched versions for product {index + 1}"
+                compact
+              />
             {:else}
               <span class="empty">Leave blank, there's no known fix in this range</span>
             {/if}
@@ -55,14 +63,14 @@
     <div class="extra panel">
       <div class="extra-head">
         <h3>In plain English</h3>
-        <CopyButton text={summary} compact />
+        <CopyButton text={summary} what="plain English summary" compact />
       </div>
       <p>{summary}</p>
     </div>
     <div class="extra panel">
       <div class="extra-head">
         <h3>OSV <code>affected</code> entry</h3>
-        <CopyButton text={osv} compact />
+        <CopyButton text={osv} what="OSV entry" compact />
       </div>
       <pre><code>{osv}</code></pre>
     </div>

@@ -14,6 +14,11 @@ if (dsn) {
   addEventListener('unhandledrejection', (event) => report(event.reason));
 }
 
+// Chromium, Firefox, Safari, then Vite's CSS preload
+const unloaded = /dynamically imported module|module script failed|unable to preload/i;
+
 export const handleError: HandleClientError = ({ kind, error }) => {
-  if (dsn && kind === 'unknown') report(error);
+  if (kind !== 'unknown') return;
+  if (dsn) report(error);
+  if (error instanceof Error && unloaded.test(error.message)) return { unloaded: true };
 };

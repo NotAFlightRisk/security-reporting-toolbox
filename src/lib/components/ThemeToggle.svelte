@@ -18,6 +18,11 @@
     theme = next;
     if (next === 'system') delete document.documentElement.dataset.theme;
     else document.documentElement.dataset.theme = next;
+    for (const meta of document.querySelectorAll<HTMLMetaElement>('meta[data-scheme]')) {
+      const scheme = meta.dataset.scheme;
+      if (next === 'system') meta.media = `(prefers-color-scheme: ${scheme})`;
+      else meta.media = scheme === next ? 'all' : 'not all';
+    }
   }
 
   function cycle() {
@@ -40,7 +45,12 @@
   });
 </script>
 
-<button type="button" class="button" onclick={cycle} aria-label="Theme: {theme}. Change theme">
+<button
+  type="button"
+  class="button"
+  onclick={cycle}
+  aria-label="Theme: {names[theme]}. Change theme"
+>
   <Icon size={16} />
   <span>{names[theme]}</span>
 </button>

@@ -2,21 +2,40 @@
   import { page } from '$app/state';
   import { tools } from '#lib/tools.ts';
 
-  const lost = $derived(page.status === 404);
+  const logged = import.meta.env.PUBLIC_SENTRY_DSN ? "It's been logged. " : '';
+
+  const copy = {
+    lost: {
+      title: 'Not found',
+      heading: "There's nothing at this address",
+      lede: 'It might have moved, or the link had a typo in it. One of these is probably what you were after:'
+    },
+    unloaded: {
+      title: "Couldn't load",
+      heading: "This page didn't load",
+      lede: 'Its code never arrived, which usually means the connection dropped. Check it and try again, or head to one of the tools:'
+    },
+    broke: {
+      title: 'Something broke',
+      heading: 'Something broke on our end',
+      lede: `${logged}Try again in a moment, or head to one of the tools:`
+    }
+  };
+
+  const shown = $derived.by(() => {
+    if (page.status === 404) return copy.lost;
+    return page.error?.unloaded ? copy.unloaded : copy.broke;
+  });
 </script>
 
 <svelte:head>
-  <title>{lost ? 'Not found' : 'Something broke'} - Security Reporting Toolbox</title>
+  <title>{shown.title} - Security Reporting Toolbox</title>
   <meta name="robots" content="noindex" />
 </svelte:head>
 
 <article class="error">
-  <h1>{lost ? "There's nothing at this address" : 'Something broke on our end'}</h1>
-  <p>
-    {lost
-      ? 'It might have moved, or the link had a typo in it. One of these is probably what you were after:'
-      : "It's been logged. Try again in a moment, or head to one of the tools:"}
-  </p>
+  <h1>{shown.heading}</h1>
+  <p>{shown.lede}</p>
   <nav class="matrix" aria-label="Pick a tool">
     {#each tools as { path, title } (path)}
       <a class="cell" href={path}>{title}</a>

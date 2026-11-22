@@ -57,9 +57,4 @@
       grid-template-columns: repeat(3, 1fr);
     }
   }
-
-  .cell:has(input:focus-visible) {
-    outline: 2px solid var(--focus);
-    outline-offset: -2px;
-  }
 </style>
