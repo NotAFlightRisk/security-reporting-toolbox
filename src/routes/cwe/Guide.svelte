@@ -27,7 +27,8 @@
       'NVD simplified',
       "The shallow list NVD's analysts map CVEs to, so a good shortlist if you want your CVE to sit nicely in NVD"
     ],
-    [1344, 'OWASP Top 10', 'Web apps'],
+    [1450, 'OWASP Top 10 (2025)', "Web apps, mapped from OWASP's 2025 release candidate"],
+    [1344, 'OWASP Top 10 (2021)', 'Web apps, the 2021 list'],
     [699, 'Software development', 'Entries grouped by the area of a project they turn up in'],
     [1194, 'Hardware design', 'The same, for hardware']
   ] as const;
