@@ -35,12 +35,15 @@ const text = (value: unknown) => (typeof value === 'string' ? value.trim() : '')
 const entities: Record<string, string> = { amp: '&', quot: '"', '#39': "'" };
 
 // a few scopes are written in HTML, but we only want the words
-const plain = (html: string) =>
-  html
-    .replace(/(\s*<br\s*\/?>\s*)+/gi, '\n')
-    .replace(/<[^>]*>|[<>]/g, '')
-    .replace(/&(amp|quot|#39);/g, (_, name: string) => entities[name])
-    .trim();
+function plain(html: string) {
+  let text = html.replace(/(\s*<br\s*\/?>\s*)+/gi, '\n');
+  let before;
+  do {
+    before = text;
+    text = text.replace(/<[^>]*>/g, '');
+  } while (text !== before);
+  return text.replace(/&(amp|quot|#39);/g, (_, name: string) => entities[name]).trim();
+}
 const links = (items: Raw[]) =>
   items
     .map((item) => ({ label: text(item.label) || 'Link', url: text(item.url) }))
