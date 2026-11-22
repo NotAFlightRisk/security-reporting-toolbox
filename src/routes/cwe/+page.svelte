@@ -80,7 +80,7 @@
     {problem}
     button="Search"
     onsubmit={submit}
-    oninput={submit}
+    oninput={(text) => keep({ q: text || null })}
   />
 
   <Toolbar label="Browse and filter">
