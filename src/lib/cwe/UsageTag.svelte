@@ -19,6 +19,7 @@
     border: var(--hairline) solid var(--tone);
     border-radius: var(--radius);
     color: var(--tone);
+    font-family: var(--font-ui);
     font-size: var(--text-xs);
     font-weight: 650;
     line-height: 1.5;

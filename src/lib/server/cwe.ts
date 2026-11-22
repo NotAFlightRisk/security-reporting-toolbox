@@ -59,6 +59,7 @@ export function cweEntry(id: number) {
   );
   if (isWeakness(entry)) entry.children.forEach((child) => mentioned.add(child));
   else entry.members.forEach((member) => mentioned.add(member));
+  memberOf.forEach((category) => mentioned.add(category.id));
   const names: Record<number, string> = {};
   for (const ref of mentioned) {
     const found = byId().get(ref);

@@ -15,7 +15,10 @@
       "Usable, but it's high level or easy to misuse, so check a more specific entry doesn't fit better."
     ],
     ['Discouraged', 'Usually too vague. Only use one if nothing else fits after a proper look.'],
-    ['Prohibited', 'Never map to these. Categories, views and deprecated entries.']
+    [
+      'Prohibited',
+      'Never map to these. Categories, views, deprecated entries, and weaknesses that are only code quality issues, like CWE-1041.'
+    ]
   ];
   const views = [
     [1435, 'Top 25', "MITRE's yearly ranking, worked out from recently published CVEs"],

@@ -88,6 +88,7 @@ describe('the shipped catalogue', () => {
     const xss = cweEntry(79)!;
     expect(xss.names[74]).toMatch(/Downstream Component/);
     expect(xss.views.map((view) => view.id)).toContain(1435);
+    expect(cweEntry(89)!.names[137]).toBe('Data Neutralization Issues');
   });
 
   it('has no page for views or unknown IDs', () => {

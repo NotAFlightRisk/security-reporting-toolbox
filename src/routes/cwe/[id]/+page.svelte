@@ -222,10 +222,12 @@
         <h2>About this category</h2>
         <Prose blocks={data.category.summary} names={data.names} />
       </section>
-      <section>
-        <h2>Members</h2>
-        {@render links(data.category.members)}
-      </section>
+      {#if data.category.members.length}
+        <section>
+          <h2>Members</h2>
+          {@render links(data.category.members)}
+        </section>
+      {/if}
     {/if}
   </div>
 
