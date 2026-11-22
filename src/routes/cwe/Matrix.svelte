@@ -1,6 +1,7 @@
 <script lang="ts">
   import { passes, type Filters } from '#lib/cwe/search.ts';
   import type { IndexEntry, View } from '#lib/cwe/types.ts';
+  import UsageTag from '#lib/cwe/UsageTag.svelte';
 
   type Cell = Pick<IndexEntry, 'id' | 'name' | 'kind' | 'usage' | 'status'>;
 
@@ -25,6 +26,11 @@
     const shown = cell ? passes(cell, filters) : true;
     return shown && (hits === null || hits.has(id));
   };
+
+  const warning = (id: number) => {
+    const usage = cells[id]?.usage;
+    return usage === 'Discouraged' || usage === 'Prohibited' ? usage : '';
+  };
 </script>
 
 <div class="matrix" class:packed style:--column="11rem">
@@ -44,7 +50,7 @@
       </h3>
       {#each column.members as id (id)}
         <a class="cell" class:hit={hits && lit(id)} class:dim={!lit(id)} href="/cwe/{id}">
-          <span class="mono">CWE-{id}</span>
+          <span class="mono">CWE-{id} <UsageTag usage={warning(id)} /></span>
           {cells[id]?.name ?? ''}
         </a>
       {/each}

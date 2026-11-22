@@ -19,6 +19,7 @@ RESEARCH = "1000"
 
 VIEWS = {
     "1435": ("Top 25 (2025)", "pillar"),
+    "1450": ("OWASP Top 10 (2025 RC1)", "categories"),
     "1344": ("OWASP Top 10 (2021)", "categories"),
     "1003": ("NVD simplified (1003)", "children"),
     "699": ("Software development", "categories"),
@@ -200,7 +201,7 @@ def build_view(el, weaknesses, categories):
     if layout == "categories":
         for cat_id in members:
             cat = categories[cat_id]
-            name = re.sub(r"^OWASP Top Ten 2021 Category ", "", cat["name"])
+            name = re.sub(r"^OWASP Top Ten \d{4} Category ", "", cat["name"])
             cells = [m for m, v in cat["_members"] if v == view_id]
             columns.append({"id": cat_id, "name": name, "members": cells})
     elif layout == "children":

@@ -65,8 +65,9 @@ describe('scripts/cwe.py on a real excerpt of CWE 5.0', () => {
 });
 
 describe('the shipped catalogue', () => {
-  it('has all 25 Top 25 entries and ten OWASP categories', () => {
-    const [top25, owasp] = cweViews();
+  it.each([1450, 1344])('has all 25 Top 25 entries and ten OWASP categories in %i', (id) => {
+    const [top25] = cweViews();
+    const owasp = cweViews().find((view) => view.id === id)!;
     expect(top25.columns.flatMap((column) => column.members)).toHaveLength(25);
     expect(owasp.columns.map((column) => column.name.slice(0, 3))).toEqual([
       'A01',
@@ -88,6 +89,7 @@ describe('the shipped catalogue', () => {
     const xss = cweEntry(79)!;
     expect(xss.names[74]).toMatch(/Downstream Component/);
     expect(xss.views.map((view) => view.id)).toContain(1435);
+    expect(cweEntry(89)!.names[137]).toBe('Data Neutralization Issues');
   });
 
   it('has no page for views or unknown IDs', () => {

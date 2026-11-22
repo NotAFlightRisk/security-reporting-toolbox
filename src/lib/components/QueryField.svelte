@@ -8,7 +8,8 @@
     mono = true,
     multiline = false,
     button = 'Look up',
-    onsubmit
+    onsubmit,
+    oninput
   }: {
     value?: string;
     label: string;
@@ -21,6 +22,8 @@
     multiline?: boolean;
     button?: string;
     onsubmit: (value: string) => void;
+    /** every keystroke, for tools that search as you type */
+    oninput?: (value: string) => void;
   } = $props();
 
   const id = $props.id();
@@ -51,6 +54,7 @@
         spellcheck="false"
         aria-invalid={problem ? 'true' : undefined}
         aria-describedby="{id}-note"
+        oninput={(event) => oninput?.(event.currentTarget.value)}
         onkeydown={keydown}></textarea>
     {:else}
       <input
@@ -63,6 +67,7 @@
         autocomplete="off"
         aria-invalid={problem ? 'true' : undefined}
         aria-describedby="{id}-note"
+        oninput={(event) => oninput?.(event.currentTarget.value)}
       />
     {/if}
     <button class="button primary" type="submit">{button}</button>

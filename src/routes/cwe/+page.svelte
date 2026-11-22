@@ -5,7 +5,7 @@
   import ToolGroup from '#lib/components/ToolGroup.svelte';
   import Toolbar from '#lib/components/Toolbar.svelte';
   import ToolPage from '#lib/components/ToolPage.svelte';
-  import { passes, search, type Filters } from '#lib/cwe/search.ts';
+  import { noFilters, passes, search, type Filters } from '#lib/cwe/search.ts';
   import type { IndexEntry } from '#lib/cwe/types.ts';
   import { formatDate, plural } from '#lib/format.ts';
   import { cweId } from '#lib/ids.ts';
@@ -22,10 +22,14 @@
   const usages = ['any', 'Allowed', 'Allowed-with-Review', 'Discouraged', 'Prohibited'] as const;
 
   let value = $state('');
-  let filters = $state<Filters>({ kind: 'all', usage: 'any', hideRetired: true });
   let index = $state<Outcome<IndexEntry[]>>();
 
   const query = $derived(param('q'));
+  const filters = $derived<Filters>({
+    kind: kinds.find((kind) => kind === param('kind')) ?? noFilters.kind,
+    usage: usages.find((usage) => usage === param('usage')) ?? noFilters.usage,
+    hideRetired: param('deprecated') !== '1'
+  });
   const view = $derived(
     data.views.find((option) => String(option.id) === param('view')) ?? data.views[0]
   );
@@ -40,7 +44,8 @@
 
   const entries = $derived(index?.status === 'ok' ? index.data : []);
   const live = $derived(value.trim());
-  const results = $derived(search(entries, live).filter((entry) => passes(entry, filters)));
+  const matched = $derived(search(entries, live));
+  const results = $derived(matched.filter((entry) => passes(entry, filters)));
   const hits = $derived(
     live && index?.status === 'ok' ? new Set(results.map((entry) => entry.id)) : null
   );
@@ -58,7 +63,11 @@
     return `There's no CWE-${id} in CWE ${data.version}. Check the number, or search by keyword.`;
   });
 
-  const submit = (text: string) => setParams({ q: text });
+  // typing and filtering swap the history entry rather than piling them up
+  const keep = (values: Record<string, string | null>) => setParams(values, { replace: true });
+  const submit = (text: string) => keep({ q: text.trim() || null });
+  const filter = (name: 'kind' | 'usage', choice: string) =>
+    keep({ [name]: choice === noFilters[name] ? null : choice });
   const pickView = (id: number) => setParams({ view: id === data.views[0].id ? null : String(id) });
 </script>
 
@@ -71,6 +80,7 @@
     {problem}
     button="Search"
     onsubmit={submit}
+    oninput={(text) => keep({ q: text || null })}
   />
 
   <Toolbar label="Browse and filter">
@@ -87,13 +97,21 @@
       </div>
     </ToolGroup>
     <ToolGroup caption="Abstraction">
-      <select bind:value={filters.kind} aria-label="Abstraction">
+      <select
+        value={filters.kind}
+        aria-label="Abstraction"
+        onchange={(event) => filter('kind', event.currentTarget.value)}
+      >
         {#each kinds as kind (kind)}<option value={kind}>{kind === 'all' ? 'Any' : kind}</option
           >{/each}
       </select>
     </ToolGroup>
     <ToolGroup caption="Mapping usage">
-      <select bind:value={filters.usage} aria-label="Mapping usage">
+      <select
+        value={filters.usage}
+        aria-label="Mapping usage"
+        onchange={(event) => filter('usage', event.currentTarget.value)}
+      >
         {#each usages as usage (usage)}
           <option value={usage}>{usage === 'any' ? 'Any' : usage.replaceAll('-', ' ')}</option>
         {/each}
@@ -101,7 +119,11 @@
     </ToolGroup>
     <ToolGroup caption="Status">
       <label class="check">
-        <input type="checkbox" bind:checked={filters.hideRetired} /> Hide deprecated
+        <input
+          type="checkbox"
+          checked={filters.hideRetired}
+          onchange={(event) => keep({ deprecated: event.currentTarget.checked ? null : '1' })}
+        /> Hide deprecated
       </label>
     </ToolGroup>
     <ToolGroup caption="Catalogue">
@@ -114,8 +136,12 @@
   {/if}
 
   <p class="count" aria-live="polite">
-    {#if hits && results.length}
+    {#if live && !index}
+      Loading the search index...
+    {:else if hits && results.length}
       {plural(results.length, 'match', 'matches')}, {inView} in {view.label}.
+    {:else if hits && !problem && matched.length}
+      {plural(matched.length, 'match', 'matches')}, all hidden by the filters.
     {:else if hits && !problem}
       Nothing matches that. Try fewer words, or a common term like XSS, SQLi or SSRF.
     {/if}
