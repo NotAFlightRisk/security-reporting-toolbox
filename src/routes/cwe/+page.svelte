@@ -91,8 +91,10 @@
             type="button"
             class="cell"
             aria-pressed={option.id === view.id}
-            onclick={() => pickView(option.id)}>{option.label}</button
+            onclick={() => pickView(option.id)}
           >
+            {option.label}
+          </button>
         {/each}
       </div>
     </ToolGroup>
@@ -102,8 +104,9 @@
         aria-label="Abstraction"
         onchange={(event) => filter('kind', event.currentTarget.value)}
       >
-        {#each kinds as kind (kind)}<option value={kind}>{kind === 'all' ? 'Any' : kind}</option
-          >{/each}
+        {#each kinds as kind (kind)}<option value={kind}>
+            {kind === 'all' ? 'Any' : kind}
+          </option>{/each}
       </select>
     </ToolGroup>
     <ToolGroup caption="Mapping usage">

@@ -116,9 +116,9 @@
         </tr>
         <tr>
           <td>A GitHub repo</td>
-          <td
-            >Nowhere yet: it could be a Go module, a Swift package or an Action, so you'll get asked</td
-          >
+          <td>
+            Nowhere yet: it could be a Go module, a Swift package or an Action, so you'll get asked
+          </td>
         </tr>
       </tbody>
     </table>
@@ -136,20 +136,23 @@
   <h2>Further reading</h2>
   <ul>
     <li>
-      <a href="https://github.com/package-url/purl-spec" target="_blank" rel="external"
-        >The purl spec</a
-      >
+      <a href="https://github.com/package-url/purl-spec" target="_blank" rel="external">
+        The purl spec
+      </a>
     </li>
     <li>
       <a
         href="https://packaging.python.org/en/latest/specifications/name-normalization/"
         target="_blank"
-        rel="external">Python package name normalisation</a
+        rel="external"
       >
+        Python package name normalisation
+      </a>
     </li>
     <li>
-      <a href="https://go.dev/ref/mod#module-path" target="_blank" rel="external">Go module paths</a
-      >
+      <a href="https://go.dev/ref/mod#module-path" target="_blank" rel="external">
+        Go module paths
+      </a>
     </li>
   </ul>
 </section>

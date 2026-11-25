@@ -79,8 +79,10 @@
           class="button remove"
           aria-label="Remove range {index + 1}"
           disabled={ranges.length === 1}
-          onclick={() => (ranges = ranges.filter((_, other) => other !== index))}>Remove</button
+          onclick={() => (ranges = ranges.filter((_, other) => other !== index))}
         >
+          Remove
+        </button>
         {#if own.length}
           <ul class="problems">
             {#each own as problem (problem.message)}
@@ -93,9 +95,9 @@
   </ol>
 
   <div class="actions">
-    <button type="button" class="button" onclick={() => (ranges = [...ranges, make()])}
-      >Add a range</button
-    >
+    <button type="button" class="button" onclick={() => (ranges = [...ranges, make()])}>
+      Add a range
+    </button>
     <form class="paste" onsubmit={addPasted}>
       <label for="{id}-paste" class="visually-hidden">Paste ranges you already have</label>
       <input

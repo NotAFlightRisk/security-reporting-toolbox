@@ -61,10 +61,9 @@
     <summary>Daily values</summary>
     <div class="scroll">
       <table>
-        <thead
-          ><tr><th scope="col">Date</th><th scope="col">EPSS</th><th scope="col">Percentile</th></tr
-          ></thead
-        >
+        <thead>
+          <tr><th scope="col">Date</th><th scope="col">EPSS</th><th scope="col">Percentile</th></tr>
+        </thead>
         <tbody>
           {#each [...points].reverse() as point (point.date)}
             <tr>

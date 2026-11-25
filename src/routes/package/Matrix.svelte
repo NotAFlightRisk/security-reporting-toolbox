@@ -62,16 +62,16 @@
             class="cell found"
             onclick={() => onpick(entry.id, entry.normalise(name))}
           >
-            <span aria-hidden="true">✓</span> Found{#if result.data.latest}, <code
-                >{result.data.latest}</code
-              >{/if}
+            <span aria-hidden="true">✓</span> Found{#if result.data.latest}, <code>
+                {result.data.latest}
+              </code>{/if}
           </button>
         {:else if result.status === 'missing'}
           <span class="cell dim"><span aria-hidden="true">○</span> Not found</span>
         {:else if result.status === 'failed'}
-          <span class="cell failed" title={result.message}
-            ><span aria-hidden="true">!</span> Couldn't check</span
-          >
+          <span class="cell failed" title={result.message}>
+            <span aria-hidden="true">!</span> Couldn't check
+          </span>
         {:else}
           <span class="cell dim">Can't check</span>
         {/if}

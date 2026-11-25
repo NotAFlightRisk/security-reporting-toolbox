@@ -19,9 +19,9 @@
 
 <section class="panel tester" aria-labelledby="{id}-title">
   <h2 id="{id}-title" class="label">Test versions</h2>
-  <label for={id} class="visually-hidden"
-    >Versions to test, separated by spaces, commas or new lines</label
-  >
+  <label for={id} class="visually-hidden">
+    Versions to test, separated by spaces, commas or new lines
+  </label>
   <textarea
     {id}
     class="mono"

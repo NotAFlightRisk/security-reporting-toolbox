@@ -69,8 +69,10 @@
       <a
         href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog"
         target="_blank"
-        rel="external">cisa.gov</a
-      >.
+        rel="external"
+      >
+        cisa.gov
+      </a>.
     </figcaption>
   </figure>
 </section>

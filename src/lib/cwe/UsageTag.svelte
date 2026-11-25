@@ -5,9 +5,9 @@
 </script>
 
 {#if usage}
-  <span class="usage {usage.toLowerCase()}" title={usageNote(usage)}
-    >{usage.replaceAll('-', ' ')}</span
-  >
+  <span class="usage {usage.toLowerCase()}" title={usageNote(usage)}>
+    {usage.replaceAll('-', ' ')}
+  </span>
 {/if}
 
 <style>

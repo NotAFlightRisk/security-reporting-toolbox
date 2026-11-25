@@ -280,17 +280,17 @@
       <h3 id="weaknesses">Weaknesses</h3>
       <div class="scroll">
         <table>
-          <thead
-            ><tr><th scope="col">CWE</th><th scope="col">Name</th><th scope="col">Said by</th></tr
-            ></thead
-          >
+          <thead>
+            <tr><th scope="col">CWE</th><th scope="col">Name</th><th scope="col">Said by</th></tr>
+          </thead>
           <tbody>
             {#each weaknesses as item (item.id ?? item.text)}
               <tr>
-                <td
-                  >{#if item.id !== null}<a href="/cwe/{item.id}"><code>CWE-{item.id}</code></a
-                    >{:else}-{/if}</td
-                >
+                <td>
+                  {#if item.id !== null}<a href="/cwe/{item.id}">
+                      <code>CWE-{item.id}</code>
+                    </a>{:else}-{/if}
+                </td>
                 <td>{item.text || 'No name given'}</td>
                 <td>{item.sources.join(', ')}</td>
               </tr>
@@ -307,10 +307,9 @@
       {#each sources.advisories.filter((item) => item.packages.length) as item (item.ghsa)}
         <div class="scroll">
           <table>
-            <caption
-              >Packages, from <a href={item.url} target="_blank" rel="external">{item.ghsa}</a
-              ></caption
-            >
+            <caption>
+              Packages, from <a href={item.url} target="_blank" rel="external">{item.ghsa}</a>
+            </caption>
             <thead>
               <tr>
                 <th scope="col">Ecosystem</th><th scope="col">Package</th>
@@ -322,21 +321,21 @@
                 {@const name = encodeURIComponent(pkg.name)}
                 <tr>
                   <td>{pkg.ecosystem}</td>
-                  <td
-                    ><a href="/package?ecosystem={pkg.ecosystem}&q={name}"
-                      ><code>{pkg.name}</code></a
-                    ></td
-                  >
                   <td>
-                    <a href="/versions?ecosystem={pkg.ecosystem}&package={name}"
-                      ><code>{pkg.range || 'unspecified'}</code></a
-                    >
+                    <a href="/package?ecosystem={pkg.ecosystem}&q={name}">
+                      <code>{pkg.name}</code>
+                    </a>
                   </td>
-                  <td
-                    >{#if pkg.patched}<code>{pkg.patched}</code>{:else}<span class="dim"
-                        >No fix listed</span
-                      >{/if}</td
-                  >
+                  <td>
+                    <a href="/versions?ecosystem={pkg.ecosystem}&package={name}">
+                      <code>{pkg.range || 'unspecified'}</code>
+                    </a>
+                  </td>
+                  <td>
+                    {#if pkg.patched}<code>{pkg.patched}</code>{:else}<span class="dim">
+                        No fix listed
+                      </span>{/if}
+                  </td>
                 </tr>
               {/each}
             </tbody>

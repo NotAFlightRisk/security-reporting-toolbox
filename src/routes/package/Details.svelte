@@ -106,9 +106,9 @@
         <dd>
           <code>{info.latest}</code>{#if latest?.published}, released {formatDate(
               latest.published
-            )}{/if}{#if prerelease}, but that's a pre-release{#if stable}. The newest stable one is <code
-                >{stable.version}</code
-              >{/if}{/if}
+            )}{/if}{#if prerelease}, but that's a pre-release{#if stable}. The newest stable one is <code>
+                {stable.version}
+              </code>{/if}{/if}
         </dd>
       {/if}
       {#if info.licenses}
@@ -118,9 +118,9 @@
       {#if info.repo}
         <dt>Repository</dt>
         <dd>
-          <a href={info.repo} target="_blank" rel="external"
-            >{info.repo.replace(/^https?:\/\//, '')}</a
-          >
+          <a href={info.repo} target="_blank" rel="external">
+            {info.repo.replace(/^https?:\/\//, '')}
+          </a>
         </dd>
       {:else if !gap}
         <dt>Repository</dt>
@@ -129,17 +129,17 @@
       {#if info.homepage && info.homepage !== info.repo}
         <dt>Homepage</dt>
         <dd>
-          <a href={info.homepage} target="_blank" rel="external"
-            >{info.homepage.replace(/^https?:\/\//, '')}</a
-          >
+          <a href={info.homepage} target="_blank" rel="external">
+            {info.homepage.replace(/^https?:\/\//, '')}
+          </a>
         </dd>
       {/if}
     {/if}
     <dt>Registry</dt>
     <dd>
-      <a href={ecosystem.page(canonical)} target="_blank" rel="external"
-        >{ecosystem.page(canonical).replace(/^https?:\/\//, '')}</a
-      >
+      <a href={ecosystem.page(canonical)} target="_blank" rel="external">
+        {ecosystem.page(canonical).replace(/^https?:\/\//, '')}
+      </a>
     </dd>
   </dl>
 
@@ -177,12 +177,11 @@
       <h3 class="label">{plural(info.releases.length, 'release')}, newest first</h3>
       <div class="scroll">
         <table>
-          <thead
-            ><tr
-              ><th scope="col">Version</th><th scope="col">Released</th><th scope="col">Notes</th
-              ></tr
-            ></thead
-          >
+          <thead>
+            <tr>
+              <th scope="col">Version</th><th scope="col">Released</th><th scope="col">Notes</th>
+            </tr>
+          </thead>
           <tbody>
             {#each releases as release (release.version)}
               <tr>

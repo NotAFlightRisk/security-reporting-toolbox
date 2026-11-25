@@ -46,9 +46,9 @@
   <ul class="icons">
     <li>
       <ToolIcon id="versions" />
-      <span
-        >The product, vendor and affected versions. The <a href="/versions">versions builder</a> helps.</span
-      >
+      <span>
+        The product, vendor and affected versions. The <a href="/versions">versions builder</a> helps.
+      </span>
     </li>
     <li>
       <ToolIcon id="cwe" />
@@ -56,16 +56,17 @@
     </li>
     <li>
       <ToolIcon id="cvss" />
-      <span
-        >What an attacker gets out of it, and what they need first. The <a href="/cvss"
-          >CVSS calculator</a
-        > covers both.</span
-      >
+      <span>
+        What an attacker gets out of it, and what they need first. The <a href="/cvss">
+          CVSS calculator
+        </a> covers both.
+      </span>
     </li>
     <li>
       <Link size={20} strokeWidth={1.75} />
-      <span>A public reference once there is one: an advisory, a fix commit or a release note.</span
-      >
+      <span>
+        A public reference once there is one: an advisory, a fix commit or a release note.
+      </span>
     </li>
   </ul>
 </section>
@@ -82,8 +83,8 @@
   </dl>
   <p>
     The data comes straight from the
-    <a href="https://www.cve.org/PartnerInformation/ListofPartners" target="_blank" rel="external"
-      >CVE Program's partner list</a
-    >, fetched fresh every time you open this page.
+    <a href="https://www.cve.org/PartnerInformation/ListofPartners" target="_blank" rel="external">
+      CVE Program's partner list
+    </a>, fetched fresh every time you open this page.
   </p>
 </section>

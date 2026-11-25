@@ -89,9 +89,9 @@
       </p>
     {/if}
     <p class="note">
-      From <a href={result.data.source.url} target="_blank" rel="external"
-        >{result.data.source.name}</a
-      >{#if result.data.latest}, latest
+      From <a href={result.data.source.url} target="_blank" rel="external">
+        {result.data.source.name}
+      </a>{#if result.data.latest}, latest
         <code>{result.data.latest}</code>{/if}.
     </p>
   {/if}

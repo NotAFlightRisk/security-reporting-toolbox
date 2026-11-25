@@ -155,8 +155,10 @@
         <button
           type="button"
           class="link"
-          onclick={() => setParams({ q: null, type: null, role: null })}>Clear</button
+          onclick={() => setParams({ q: null, type: null, role: null })}
         >
+          Clear
+        </button>
       {/if}
     </p>
 
