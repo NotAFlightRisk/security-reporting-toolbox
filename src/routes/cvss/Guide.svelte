@@ -177,9 +177,9 @@
         CVSS 4.0 specification
       </a>
       and its
-      <a href="https://www.first.org/cvss/v4.0/user-guide" target="_blank" rel="external"
-        >user guide</a
-      >
+      <a href="https://www.first.org/cvss/v4.0/user-guide" target="_blank" rel="external">
+        user guide
+      </a>
     </li>
     <li>
       <a
@@ -190,9 +190,9 @@
         CVSS 3.1 specification
       </a>
       and its
-      <a href="https://www.first.org/cvss/v3.1/user-guide" target="_blank" rel="external"
-        >user guide</a
-      >
+      <a href="https://www.first.org/cvss/v3.1/user-guide" target="_blank" rel="external">
+        user guide
+      </a>
     </li>
     <li>
       Worked examples for

@@ -182,9 +182,9 @@
                 <th scope="row"><a href="/cve?id={cve}"><code>{cve}</code></a></th>
                 {#if score}
                   <td>
-                    <span class="meter" style:--level={score.probability}
-                      ><b>{fmt(score.probability)}</b></span
-                    >
+                    <span class="meter" style:--level={score.probability}>
+                      <b>{fmt(score.probability)}</b>
+                    </span>
                   </td>
                   <td class="mono">{percent(score.percentile, 1)}</td>
                   <td>{formatDate(score.date)}</td>

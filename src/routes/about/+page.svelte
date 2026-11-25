@@ -101,16 +101,16 @@
   <div class="scroll">
     <table>
       <thead>
-        <tr
-          ><th scope="col">Source</th><th scope="col">Used by</th><th scope="col">How fresh</th></tr
-        >
+        <tr>
+          <th scope="col">Source</th><th scope="col">Used by</th><th scope="col">How fresh</th>
+        </tr>
       </thead>
       <tbody>
         {#each sources as source (source.name)}
           <tr>
-            <th scope="row"
-              ><a href={source.url} target="_blank" rel="external">{source.name}</a></th
-            >
+            <th scope="row">
+              <a href={source.url} target="_blank" rel="external">{source.name}</a>
+            </th>
             <td>{source.used}</td>
             <td>{source.fresh}</td>
           </tr>
@@ -150,8 +150,10 @@
     It's open source under MIT. <a
       href="{site.repo}/issues/new/choose"
       target="_blank"
-      rel="external">Open an issue</a
+      rel="external"
     >
+      Open an issue
+    </a>
     or send a fix on <a href={site.repo} target="_blank" rel="external">GitHub</a>.
   </p>
 </article>

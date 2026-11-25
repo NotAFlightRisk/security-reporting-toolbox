@@ -159,12 +159,11 @@
           <h2>Common consequences</h2>
           <div class="scroll">
             <table>
-              <thead
-                ><tr
-                  ><th scope="col">Scope</th><th scope="col">Impact</th><th scope="col">Notes</th
-                  ></tr
-                ></thead
-              >
+              <thead>
+                <tr>
+                  <th scope="col">Scope</th><th scope="col">Impact</th><th scope="col">Notes</th>
+                </tr>
+              </thead>
               <tbody>
                 {#each weakness.consequences as { scopes, impacts, note }, index (index)}
                   <tr><td>{scopes.join(', ')}</td><td>{impacts.join(', ')}</td><td>{note}</td></tr>
@@ -199,9 +198,9 @@
           <h2>Observed examples</h2>
           <div class="scroll">
             <table>
-              <thead
-                ><tr><th scope="col">Reference</th><th scope="col">What happened</th></tr></thead
-              >
+              <thead>
+                <tr><th scope="col">Reference</th><th scope="col">What happened</th></tr>
+              </thead>
               <tbody>
                 {#each weakness.examples as { ref, description }, index (index)}
                   {@const cve = cveId(ref)}
@@ -281,9 +280,9 @@
 
     <p class="credit">
       From CWE {data.version}. CWE content is © The MITRE Corporation, reproduced under the
-      <a href="https://cwe.mitre.org/about/termsofuse.html" target="_blank" rel="external"
-        >CWE terms of use</a
-      >.
+      <a href="https://cwe.mitre.org/about/termsofuse.html" target="_blank" rel="external">
+        CWE terms of use
+      </a>.
     </p>
   </aside>
 </div>
