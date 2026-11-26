@@ -78,7 +78,8 @@ describe('working out what was pasted', () => {
     ['https://example.com/some/thing', 'registry page we recognise'],
     ['pkg:conda/numpy', "don't look up"],
     ['pkg:npm', 'type and a name'],
-    ['left pad', "don't have spaces"]
+    ['left pad', "don't have spaces"],
+    ['https://www.npmjs.com/package/%2', 'broken %-escape']
   ])('explains what is wrong with %s', (input, hint) => {
     const result = identify(input);
     expect(result?.kind === 'invalid' && result.message).toContain(hint);

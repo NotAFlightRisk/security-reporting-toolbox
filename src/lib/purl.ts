@@ -17,7 +17,7 @@ const encode = (text: string) =>
     .replaceAll('%3A', ':')
     .replace(/[!'()*]/g, (char) => `%${char.charCodeAt(0).toString(16).toUpperCase()}`);
 
-function decode(text: string) {
+export function decode(text: string) {
   try {
     return decodeURIComponent(text);
   } catch {
