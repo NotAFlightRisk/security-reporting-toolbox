@@ -1,5 +1,5 @@
 import { ecosystem, ecosystems, type Ecosystem, type EcosystemId } from '#lib/ecosystems.ts';
-import { buildPurl, parsePurl, PurlError } from '#lib/purl.ts';
+import { buildPurl, decode, parsePurl, PurlError } from '#lib/purl.ts';
 
 /** the canonical PURL for a package as its ecosystem names it */
 export function purlFor(ecosystem: Ecosystem, name: string, version?: string) {
@@ -119,7 +119,7 @@ function fromUrl(text: string): Identified {
       return {
         kind: 'known',
         ecosystem: by(id),
-        name: decodeURIComponent(name(match)),
+        name: decode(name(match)),
         version: match.groups?.version,
         via: 'registry URL'
       };
@@ -149,7 +149,12 @@ export function identify(input: string, forced?: string | null): Identified | nu
   if (!text) return null;
   if (/^pkg:/i.test(text)) return fromPurl(text);
   if (/^https?:\/\//i.test(text) || pages.some(({ pattern }) => pattern.test(text))) {
-    return fromUrl(text);
+    try {
+      return fromUrl(text);
+    } catch (error) {
+      if (error instanceof PurlError) return { kind: 'invalid', message: error.message };
+      throw error;
+    }
   }
   const chosen = ecosystem(forced);
   if (chosen) return { kind: 'known', ecosystem: chosen, name: chosen.normalise(text), via: '' };
