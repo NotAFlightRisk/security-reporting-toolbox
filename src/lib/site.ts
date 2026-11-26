@@ -8,7 +8,7 @@ export const site = {
 
 const repo = (slug: string) => `https://github.com/NotAFlightRisk/${slug}`;
 
-// the about page's other projects, with their logos in static/apps
+// the about page's other projects
 export const relatedApps = [
   {
     slug: 'fineprint',
