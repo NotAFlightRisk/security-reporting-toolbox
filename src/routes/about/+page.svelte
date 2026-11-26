@@ -1,6 +1,6 @@
 <script lang="ts">
   import Seo from '#lib/components/Seo.svelte';
-  import { site } from '#lib/site.ts';
+  import { relatedApps, site } from '#lib/site.ts';
   import { tool, type ToolId } from '#lib/tools.ts';
 
   const analytics = Boolean(import.meta.env.PUBLIC_PLAUSIBLE_SCRIPT);
@@ -156,6 +156,18 @@
     </a>
     or send a fix on <a href={site.repo} target="_blank" rel="external">GitHub</a>.
   </p>
+
+  <h2>You might also like</h2>
+  <ul class="related">
+    {#each relatedApps as app (app.slug)}
+      <li>
+        <img src="/apps/{app.slug}.svg" alt="" width="20" height="20" loading="lazy" />
+        <span>
+          <a href={app.url} target="_blank" rel="external">{app.name}</a> - {app.about}
+        </span>
+      </li>
+    {/each}
+  </ul>
 </article>
 
 <style>
@@ -184,5 +196,20 @@
 
   table {
     min-width: 36rem;
+  }
+
+  ul.related {
+    padding: 0;
+    list-style: none;
+
+    & li {
+      display: flex;
+      gap: var(--space-2);
+    }
+
+    & img {
+      flex: none;
+      height: 1lh;
+    }
   }
 </style>
